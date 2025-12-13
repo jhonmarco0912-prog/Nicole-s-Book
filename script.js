@@ -29,7 +29,7 @@ const backButton = document.getElementById('back-to-letters');
 const letterCards = document.querySelectorAll('.letter-card');
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
-const searchInput = document.querySelector('.search-input'); // NEW: Select the search input
+const searchInput = document.querySelector('.search-input');
 
 
 // --- PAGE TRANSITION LOGIC ---
@@ -77,7 +77,7 @@ backButton.addEventListener('click', function() {
 });
 
 
-// --- NEW: SEARCH FUNCTION LOGIC ---
+// --- SEARCH FUNCTION LOGIC ---
 
 // Event listener for input changes in the search bar
 searchInput.addEventListener('input', function(e) {
@@ -97,7 +97,7 @@ searchInput.addEventListener('input', function(e) {
 
         // Toggle visibility based on the match result
         if (matches) {
-            // Restore visibility: We use 'flex' because cards are displayed as flex items within their parent.
+            // Restore visibility: Must use 'flex' to match the CSS default
             card.style.display = 'flex'; 
         } else {
             // Hide the card
@@ -129,4 +129,5 @@ themeToggle.addEventListener('click', () => {
         themeToggle.innerHTML = '&#9728;'; // Sun Icon
     }
 });
+    
             

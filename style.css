@@ -1,6 +1,5 @@
 /* --- 1. CSS Variables for Theming (Light/Dark Mode) --- */
 :root {
-    /* Light Mode Defaults */
     --bg-color: #f8f8fb;
     --text-color: #1a1a1a;
     --secondary-text-color: #666;
@@ -68,30 +67,25 @@ body {
 /* --- Search Overlay Positioning (Starts off-screen bottom) --- */
 #search-overlay {
     transform: translateY(100%); 
-    z-index: 4; /* Highest Z-index to cover everything */
-    padding: 0; /* Full control over inner padding */
+    z-index: 4; 
+    padding: 0; 
     justify-content: flex-start;
 }
 
-/* --- Transitions: Start -> Letters --- */
+/* --- Transitions --- */
 #start-page.hidden { transform: translateX(-100%); opacity: 0; z-index: 1; }
-#letters-page.active { transform: translateX(0); z-index: 2; }
-
-/* --- Transitions: Letters -> Reading (Forward/Back) --- */
+#letters-page.active, #letters-page.active-from-right { transform: translateX(0); z-index: 2; }
 #letters-page.slide-left { transform: translateX(-100%); z-index: 1; }
 #reading-page.active { transform: translateX(0); z-index: 2; }
 #reading-page.slide-right { transform: translateX(100%); z-index: 1; }
-#letters-page.active-from-right { transform: translateX(0); z-index: 2; } /* Used when coming back from Reading */
 
-
-/* --- NEW: Search Overlay Transition --- */
 #search-overlay.active {
     transform: translateY(0); /* Slides up into view */
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
 }
 
 
-/* --- 4. Start Page Content (No change) --- */
+/* --- 4. Start Page Content --- */
 #start-page { justify-content: center; text-align: center; }
 .book-section { padding: 20px; border-radius: 20px; background-color: var(--card-bg-light); box-shadow: var(--card-shadow); margin-bottom: 50px; max-width: 350px; width: 100%; animation: fadeIn 1s ease-out; }
 .book-title { color: var(--primary-pink); font-size: 1.8em; margin-bottom: 5px; font-weight: 700; }
@@ -106,7 +100,7 @@ body {
 
 /* Search Bar (Letters Page - Trigger) */
 .search-container { position: relative; margin-bottom: 30px; }
-.search-input-trigger { /* NEW Style for the DIV used as a button */
+.search-input-trigger { 
     width: 100%;
     padding: 15px;
     border: 1px solid var(--input-border);
@@ -116,7 +110,7 @@ body {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     padding-left: 50px;
     box-sizing: border-box;
-    color: var(--secondary-text-color); /* Light gray text for placeholder */
+    color: var(--secondary-text-color); 
     cursor: pointer;
 }
 .search-icon { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--secondary-text-color); font-size: 1.2em; }
@@ -134,11 +128,13 @@ body {
     display: flex; 
     flex-direction: column;
 }
+.letter-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); }
+.card-pink { background-color: var(--card-bg-pink); }
 .card-header { display: flex; align-items: center; margin-bottom: 10px; }
 .card-icon { font-size: 1.5em; color: var(--primary-pink); background-color: var(--icon-bg-pink); border-radius: 12px; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; margin-right: 15px; font-style: normal; }
 
 
-/* --- 6. Search Overlay Styles (NEW) --- */
+/* --- 6. Search Overlay Styles --- */
 .search-header {
     width: 100%;
     max-width: 600px;
@@ -174,7 +170,7 @@ body {
 }
 
 .search-header .search-icon {
-    left: 30px; /* Adjust position inside overlay header */
+    left: 30px; 
 }
 
 .cancel-button {
@@ -198,14 +194,14 @@ body {
     margin-top: 50px;
 }
 
-/* --- 7. Reading Page Styles (No change) --- */
+/* --- 7. Reading Page Styles --- */
 #reading-page > div { width: 100%; max-width: 700px; padding-top: 20px; text-align: left; }
 .back-button { position: absolute; top: 20px; left: 20px; font-size: 1.5em; color: var(--text-color); background: none; border: none; cursor: pointer; z-index: 10; padding: 10px; transition: color 0.3s; }
 .letter-title-main { font-size: 2.5em; color: var(--primary-pink); margin-bottom: 10px; font-weight: 700; }
 .letter-date { font-size: 1em; color: var(--secondary-text-color); margin-bottom: 30px; font-style: italic; border-bottom: 1px solid var(--input-border); padding-bottom: 15px; }
 .letter-content { font-size: 1.1em; line-height: 1.8; white-space: pre-wrap; padding-bottom: 50px; }
 
-/* --- 8. Dark Mode & Animations (No change) --- */
+/* --- 8. Dark Mode & Animations --- */
 .theme-toggle { position: fixed; top: 15px; right: 15px; padding: 8px 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.5); backdrop-filter: blur(5px); cursor: pointer; font-size: 1.2em; z-index: 100; color: var(--text-color); border: 1px solid var(--input-border); transition: background-color 0.3s, border-color 0.3s; }
 body.dark-mode .theme-toggle { background-color: rgba(0, 0, 0, 0.5); border-color: #333; }
 @keyframes pulse { 0% { transform: scale(1) rotate(-10deg); } 100% { transform: scale(1.05) rotate(-10deg); } }
@@ -214,24 +210,17 @@ body.dark-mode .theme-toggle { background-color: rgba(0, 0, 0, 0.5); border-colo
 /* --- 9. MOBILE OPTIMIZATIONS (Media Query) --- */
 @media screen and (max-width: 600px) {
     .page { padding: 15px; min-height: auto; }
+    #search-overlay { padding-top: 0; padding-bottom: 15px; }
+    .search-header { padding: 10px 0; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); }
+    .overlay-search-container { margin: 0 10px 0 15px; }
+    .search-header .search-icon { left: 25px; }
+    .cancel-button { padding-right: 15px; }
     /* ... other mobile styles ... */
-    
-    /* Search Overlay Mobile Adjustments */
-    #search-overlay {
-        padding-top: 0;
-        padding-bottom: 15px;
-    }
-    .search-header {
-        padding: 10px 0;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); /* Lighter shadow on mobile */
-    }
-    .overlay-search-container {
-        margin: 0 10px 0 15px;
-    }
-    .search-header .search-icon {
-        left: 25px; 
-    }
-    .cancel-button {
-        padding-right: 15px;
-    }
-                           }
+    .letter-card { padding: 15px; border-radius: 14px; }
+    .back-button { top: 10px; left: 10px; font-size: 1.3em; padding: 5px; }
+    .letter-title-main { font-size: 1.8em; margin-top: 20px; }
+    .letter-date { font-size: 0.9em; margin-bottom: 20px; }
+    .letter-content { font-size: 1em; line-height: 1.7; }
+    .header-icon { width: 70px; height: 70px; font-size: 2em; }
+               }
+               

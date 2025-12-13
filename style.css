@@ -70,13 +70,21 @@ body {
     z-index: 4; 
     padding: 0; 
     justify-content: flex-start;
-    /* FIX: Ensure the hidden overlay is completely invisible and non-interactive */
+    
+    /* FIX: Initial state ensures absolute invisibility and no interaction */
     opacity: 0; 
     pointer-events: none; 
 }
 
 /* --- Transitions --- */
-#start-page.hidden { transform: translateX(-100%); opacity: 0; z-index: 1; }
+#start-page.hidden { 
+    transform: translateX(-100%); 
+    opacity: 0; 
+    z-index: 1; 
+    /* NEW: Ensures start page can't be interacted with after launch */
+    pointer-events: none; 
+}
+
 #letters-page.active, #letters-page.active-from-right { transform: translateX(0); z-index: 2; }
 #letters-page.slide-left { transform: translateX(-100%); z-index: 1; }
 #reading-page.active { transform: translateX(0); z-index: 2; }
@@ -85,7 +93,8 @@ body {
 #search-overlay.active {
     transform: translateY(0); /* Slides up into view */
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
-    /* FIX: Makes it visible and interactive when active */
+    
+    /* NEW: Makes it visible and interactive when active */
     opacity: 1; 
     pointer-events: auto;
 }
@@ -227,5 +236,5 @@ body.dark-mode .theme-toggle { background-color: rgba(0, 0, 0, 0.5); border-colo
     .letter-date { font-size: 0.9em; margin-bottom: 20px; }
     .letter-content { font-size: 1em; line-height: 1.7; }
     .header-icon { width: 70px; height: 70px; font-size: 2em; }
-               }
-                     
+    }
+    

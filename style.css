@@ -7,9 +7,10 @@
     --primary-pink: #ff69b4;
     
     /* NEW: Gradient Colors */
-    --gradient-start: #ffb8d9; /* Lighter Pink */
-    --gradient-end: #a4c9ff;   /* Lighter Blue/Purple */
-    --main-gradient: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    --gradient-start: #ff85c1; /* Bright Pink */
+    --gradient-middle: #ffb8d9; 
+    --gradient-end: #a4c9ff;   /* Light Blue/Purple */
+    --main-gradient: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
     
     /* Component Colors */
     --card-bg-light: #fff;
@@ -25,8 +26,9 @@ body.dark-mode {
     --bg-color: #121212;
     --text-color: #e0e0e0;
     --secondary-text-color: #b0b0b0;
-    --main-gradient: linear-gradient(135deg, #f762a5, #627bff); 
+    --main-gradient: linear-gradient(90deg, #f762a5, #627bff); 
     --search-bg: #1e1e1e;
+    --input-border: #333;
 }
 
 /* --- 2. General Reset & Styling --- */
@@ -59,7 +61,6 @@ body {
     padding: 30px 20px;
     box-sizing: border-box;
     background-color: var(--bg-color);
-    /* SLOWER, SMOOTHER TRANSITION */
     transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease-out; 
     overflow-y: auto;
 }
@@ -75,7 +76,8 @@ body {
     z-index: 4; 
     padding: 0; 
     justify-content: flex-start;
-    /* FIX: Initial state ensures absolute invisibility and no interaction */
+    
+    /* DECISIVE BUG FIX: Ensure absolute invisibility and no interaction */
     opacity: 0; 
     pointer-events: none; 
 }
@@ -89,6 +91,9 @@ body {
 }
 
 #letters-page.active, #letters-page.active-from-right { transform: translateX(0); z-index: 2; }
+#letters-page.slide-left { transform: translateX(-100%); z-index: 1; }
+#reading-page.active { transform: translateX(0); z-index: 2; }
+#reading-page.slide-right { transform: translateX(100%); z-index: 1; }
 
 #search-overlay.active {
     transform: translateY(0);
@@ -99,11 +104,15 @@ body {
 
 
 /* --- 4. Start Page Content --- */
+#start-page { justify-content: center; text-align: center; }
 #start-button {
     background: linear-gradient(135deg, #ff85c1, #ff338f); /* Pink gradient */
 }
 
 /* --- 5. Letters Page Content --- */
+.search-input-trigger { 
+    border: 1px solid var(--input-border);
+}
 .letter-card {
     background: linear-gradient(135deg, var(--card-bg-light) 70%, rgba(255, 184, 217, 0.1)); 
 }
@@ -111,7 +120,7 @@ body {
     background: linear-gradient(135deg, var(--card-bg-pink) 70%, rgba(255, 105, 180, 0.2)); 
 }
 
-/* --- 6. Search Overlay Styles (Enhanced Styling & Layout) --- */
+/* --- 6. Search Overlay Styles (Aesthetic & Mobile Fixes) --- */
 .search-header {
     width: 100%;
     max-width: 600px;
@@ -131,27 +140,26 @@ body {
     flex-grow: 1;
     margin: 0 10px 0 20px;
     position: relative;
-    height: 50px; /* NEW: Fixed height for alignment */
+    height: 50px; 
 }
 
 /* Gradient Border Effect Input */
 .gradient-border-input {
     width: 100%;
-    height: 100%; /* Fill overlay container height */
+    height: 100%; 
     padding: 15px 15px 15px 55px;
     border: none;
-    border-radius: 25px; /* More rounded */
+    border-radius: 25px; 
     font-size: 1em;
     background-color: var(--search-bg);
     box-sizing: border-box;
     color: var(--text-color);
     
-    /* Gradient Border using a pseudo-border technique */
-    /* Inner white shadow for the gap, gradient border for the color */
-    box-shadow: 0 0 0 3px var(--search-bg), 0 0 0 4px transparent;
+    /* AESTHETIC FIX: Gradient Border */
+    box-shadow: 0 0 0 2px var(--search-bg), 0 0 0 4px transparent; /* Inner white/bg border */
     border-image-slice: 1;
     border-width: 2px;
-    border-image-source: var(--main-gradient);
+    border-image-source: var(--main-gradient); /* Pink-Blue Gradient */
     border-style: solid; 
     transition: all 0.3s ease;
 }
@@ -160,11 +168,11 @@ body {
     left: 35px; 
     top: 50%;
     transform: translateY(-50%);
-    color: #a4c9ff; /* Blue tint for the icon */
+    color: var(--gradient-end); /* Match icon color to blue side of gradient */
     z-index: 6; 
 }
 .large-icon {
-    font-size: 1.5em; /* Larger magnifying glass icon */
+    font-size: 1.5em; 
 }
 
 /* Cancel Button Styling */
@@ -175,35 +183,23 @@ body {
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
-    padding: 10px 20px 10px 0; /* Adjusted padding */
+    padding: 10px 20px 10px 0; 
     height: 50px; 
     display: flex;
     align-items: center;
 }
 
-/* --- 8. Dark Mode & Animations --- */
-.theme-toggle { 
-    background: var(--main-gradient);
-    color: var(--text-color);
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); 
-}
-body.dark-mode .theme-toggle { 
-    background: var(--main-gradient);
-    color: var(--text-color);
-    box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
-}
-
-/* --- 9. MOBILE OPTIMIZATIONS (Media Query) --- */
+/* --- 9. MOBILE OPTIMIZATIONS (Focus on Search Bar) --- */
 @media screen and (max-width: 600px) {
     .page { padding: 15px; min-height: auto; }
     #search-overlay { padding-top: 0; padding-bottom: 15px; }
     
     /* Search Header Mobile Adjustments */
     .search-header { padding: 8px 0; }
-    .overlay-search-container { margin: 0 5px 0 10px; height: 45px; } /* Slightly smaller container on mobile */
+    .overlay-search-container { margin: 0 5px 0 10px; height: 45px; } 
     
     .gradient-border-input {
-        padding: 10px 10px 10px 45px; /* Smaller mobile padding */
+        padding: 10px 10px 10px 45px; 
         font-size: 0.9em;
     }
     .search-header .search-icon { 
@@ -216,8 +212,8 @@ body.dark-mode .theme-toggle {
         height: 45px;
     }
     
-    /* Ensure other text sizes are mobile-friendly */
+    /* Ensure other elements are scaled down correctly */
     .letter-title-main { font-size: 1.8em; margin-top: 20px; }
     .letter-date { font-size: 0.9em; margin-bottom: 20px; }
-    }
-                                            
+                                                       }
+    

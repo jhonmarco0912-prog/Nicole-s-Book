@@ -129,5 +129,4 @@ themeToggle.addEventListener('click', () => {
         themeToggle.innerHTML = '&#9728;'; // Sun Icon
     }
 });
-    
-            
+                            

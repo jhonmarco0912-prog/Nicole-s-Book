@@ -204,4 +204,3 @@ themeToggle.addEventListener('click', () => {
     }
     updateTheme();
 });
-        

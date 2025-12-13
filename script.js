@@ -156,7 +156,7 @@ function runSearch(searchTerm) {
     for (const id in lettersData) {
         const data = lettersData[id];
         
-        // --- KEY CHANGE HERE: Only search Title and Excerpt ---
+        // --- Search scope limited to Title and Excerpt (summary) ---
         const searchableText = `${data.title} ${data.excerpt}`.toLowerCase();
         
         if (searchableText.includes(term)) {
@@ -171,12 +171,8 @@ function runSearch(searchTerm) {
     } else if (term.length > 0) {
         searchResultsContainer.innerHTML = `<p class="search-tip">No letters found matching titles or excerpts for "${searchTerm}".</p>`;
     } else {
-        // Show all cards if the search term is empty
+        // Show initial hint text if the search term is empty
         searchResultsContainer.innerHTML = `<p class="search-tip">Start typing to search titles or content summaries.</p>`;
-        for (const id in lettersData) {
-            resultsHTML += renderCardHTML(id, lettersData[id]);
-        }
-        searchResultsContainer.innerHTML = resultsHTML;
     }
 }
 

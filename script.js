@@ -29,6 +29,7 @@ const backButton = document.getElementById('back-to-letters');
 const letterCards = document.querySelectorAll('.letter-card');
 const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
+const searchInput = document.querySelector('.search-input'); // NEW: Select the search input
 
 
 // --- PAGE TRANSITION LOGIC ---
@@ -59,7 +60,7 @@ letterCards.forEach(card => {
 
         // 2. Animate the transition
         lettersPage.classList.remove('active'); 
-        lettersPage.classList.remove('slide-right'); // Clean up reverse classes
+        lettersPage.classList.remove('slide-right'); 
         lettersPage.classList.add('slide-left');
         readingPage.classList.add('active');
         readingPage.classList.remove('slide-right');
@@ -73,6 +74,36 @@ backButton.addEventListener('click', function() {
     lettersPage.classList.add('active');
     readingPage.classList.remove('active');
     readingPage.classList.add('slide-right');
+});
+
+
+// --- NEW: SEARCH FUNCTION LOGIC ---
+
+// Event listener for input changes in the search bar
+searchInput.addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase().trim();
+    
+    letterCards.forEach(card => {
+        const id = card.getAttribute('data-id');
+        const title = card.getAttribute('data-title').toLowerCase();
+        const excerpt = card.querySelector('.card-excerpt').textContent.toLowerCase();
+        // Look up the full body content from the data store
+        const fullBody = lettersData[id].body.toLowerCase(); 
+
+        // Check if the search term exists in the title, excerpt, or full body content
+        const matches = title.includes(searchTerm) || 
+                        excerpt.includes(searchTerm) ||
+                        fullBody.includes(searchTerm);
+
+        // Toggle visibility based on the match result
+        if (matches) {
+            // Restore visibility: We use 'flex' because cards are displayed as flex items within their parent.
+            card.style.display = 'flex'; 
+        } else {
+            // Hide the card
+            card.style.display = 'none';
+        }
+    });
 });
 
 
@@ -98,3 +129,4 @@ themeToggle.addEventListener('click', () => {
         themeToggle.innerHTML = '&#9728;'; // Sun Icon
     }
 });
+            

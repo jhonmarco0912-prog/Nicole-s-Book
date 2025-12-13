@@ -12,7 +12,8 @@
     <div id="app-container">
         
         <button class="theme-toggle" id="theme-toggle">
-            &#9728; </button>
+            &#9728;
+        </button>
 
         <div id="start-page" class="page">
             <h1 style="color: var(--primary-pink); font-size: 3em; margin-bottom: 20px;">The Archives</h1>
@@ -37,7 +38,7 @@
 
             <div class="search-container">
                 <span class="search-icon">&#x1F50D;</span>
-                <input type="text" class="search-input" placeholder="Search letters...">
+                <div class="search-input-trigger" id="search-trigger" placeholder="Search letters...">Search letters...</div>
             </div>
 
             <div class="letter-card card-pink" data-id="1" data-title="When You First Receive This" data-icon="&#x1F381;" data-date="December 14, 2025" style="animation: fadeIn 0.5s ease-out 0.8s backwards;">
@@ -75,6 +76,20 @@
 
         </div>
         
+        <div id="search-overlay" class="page">
+            <div class="search-header">
+                <div class="search-container overlay-search-container">
+                    <span class="search-icon">&#x1F50D;</span>
+                    <input type="text" class="search-input" id="search-input-actual" placeholder="Search all letters and content...">
+                </div>
+                <button class="cancel-button" id="cancel-search">Cancel</button>
+            </div>
+            
+            <div id="search-results-container">
+                <p class="search-tip">Type to search titles or content...</p>
+            </div>
+        </div>
+
         <div id="reading-page" class="page">
             <button class="back-button" id="back-to-letters">&#x2190; Back</button>
             <div id="letter-content-container">
@@ -89,5 +104,4 @@
     <script src="script.js"></script>
 
 </body>
-    </html>
-    
+</html>

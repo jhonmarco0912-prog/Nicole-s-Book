@@ -41,7 +41,7 @@ Your Nicole.`,
 // --- ELEMENT SELECTION ---
 const startPage = document.getElementById('start-page');
 const lettersPage = document.getElementById('letters-page');
-const searchOverlay = document.getElementById('search-overlay'); // NEW
+const searchOverlay = document.getElementById('search-overlay');
 const readingPage = document.getElementById('reading-page');
 const startButton = document.getElementById('start-button');
 const backButton = document.getElementById('back-to-letters');
@@ -50,9 +50,9 @@ const themeToggle = document.getElementById('theme-toggle');
 const body = document.body;
 
 // Search elements
-const searchTrigger = document.getElementById('search-trigger'); // The clickable DIV on letters page
-const searchInput = document.getElementById('search-input-actual'); // The actual input inside the overlay
-const cancelSearchButton = document.getElementById('cancel-search'); // The cancel button
+const searchTrigger = document.getElementById('search-trigger');
+const searchInput = document.getElementById('search-input-actual');
+const cancelSearchButton = document.getElementById('cancel-search');
 const searchResultsContainer = document.getElementById('search-results-container');
 
 
@@ -89,11 +89,10 @@ startButton.addEventListener('click', function() {
 // B. Letters Index -> Search Overlay (Triggered by tapping the search bar)
 searchTrigger.addEventListener('click', function() {
     searchOverlay.classList.add('active');
-    // Give focus to the input field for immediate typing
     setTimeout(() => {
         searchInput.focus();
-        // Run initial search to show all letters
-        runSearch('');
+        // Run initial search to show all letters (by searching for an empty string)
+        runSearch(''); 
     }, 500); 
 });
 
@@ -122,7 +121,7 @@ function handleLetterClick(e) {
 
     // 2. Animate the transition
     lettersPage.classList.remove('active');
-    searchOverlay.classList.remove('active'); // Hide search overlay if transitioning from search
+    searchOverlay.classList.remove('active'); 
     
     // Animate transition (Index/Search -> Reading)
     lettersPage.classList.remove('active-from-right');
@@ -140,7 +139,7 @@ searchOverlay.addEventListener('click', handleLetterClick);
 // E. Reading Page -> Letters Page (Back)
 backButton.addEventListener('click', function() {
     lettersPage.classList.remove('slide-left');
-    lettersPage.classList.add('active-from-right'); // Use a special class to keep it active
+    lettersPage.classList.add('active-from-right');
     readingPage.classList.remove('active');
     readingPage.classList.add('slide-right');
 });
@@ -157,8 +156,8 @@ function runSearch(searchTerm) {
     for (const id in lettersData) {
         const data = lettersData[id];
         
-        // Combine all searchable fields
-        const searchableText = `${data.title} ${data.excerpt} ${data.body}`.toLowerCase();
+        // --- KEY CHANGE HERE: Only search Title and Excerpt ---
+        const searchableText = `${data.title} ${data.excerpt}`.toLowerCase();
         
         if (searchableText.includes(term)) {
             resultsHTML += renderCardHTML(id, data);
@@ -169,8 +168,15 @@ function runSearch(searchTerm) {
     // Display results or a message
     if (matchesFound > 0) {
         searchResultsContainer.innerHTML = resultsHTML;
+    } else if (term.length > 0) {
+        searchResultsContainer.innerHTML = `<p class="search-tip">No letters found matching titles or excerpts for "${searchTerm}".</p>`;
     } else {
-        searchResultsContainer.innerHTML = `<p class="search-tip">No letters found matching "${searchTerm}".</p>`;
+        // Show all cards if the search term is empty
+        searchResultsContainer.innerHTML = `<p class="search-tip">Start typing to search titles or content summaries.</p>`;
+        for (const id in lettersData) {
+            resultsHTML += renderCardHTML(id, lettersData[id]);
+        }
+        searchResultsContainer.innerHTML = resultsHTML;
     }
 }
 
@@ -202,4 +208,4 @@ themeToggle.addEventListener('click', () => {
     }
     updateTheme();
 });
-                                   
+            

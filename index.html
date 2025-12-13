@@ -2,102 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Archives</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nicole's Book</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="app-container">
-        
-        <button class="theme-toggle" id="theme-toggle">
-            &#9728;
-        </button>
+    <section id="landing-page">
+        <div class="book-icon">📖</div>
+        <div class="fade-in">
+            <h1 class="landing-title">Nicole's Book</h1>
+            <p class="landing-subtitle">A collection of heartfelt letters</p>
+            <button class="btn-primary" onclick="app.start()">Start Reading</button>
+        </div>
+    </section>
 
-        <div id="start-page" class="page">
-            <h1 class="main-title">The Archives</h1>
-            
-            <div class="book-section">
-                <p class="book-author">Featured Story</p>
-                <p class="book-title">Nicole's Book</p>
-                <div class="book-desc">
-                    A heartfelt collection of memories, hopes, and dreams. Tap below to begin the journey into the letters.
-                </div>
-            </div>
+    <section id="main-app" class="hidden">
+        <header>
+            <h1>Your Letters</h1>
+            <button class="theme-toggle" onclick="app.toggleTheme()" aria-label="Toggle Dark Mode">
+                <span id="theme-icon">🌙</span>
+            </button>
+        </header>
 
-            <button id="start-button">Start Reading</button>
+        <div class="search-container slide-up">
+            <input type="text" id="search-input" class="search-bar" placeholder="Search letters..." oninput="app.handleSearch(this.value)">
         </div>
 
-        <div id="letters-page" class="page">
-            <div class="main-header">
-                <div class="header-icon">&#x2764;&#xfe0f;</div>
-                <h1>Your Letters</h1>
-                <p class="summary-text">80 heartfelt letters for every moment.</p>
+        <div id="letters-list" class="letters-grid slide-up" style="animation-delay: 0.1s;">
             </div>
 
-            <div class="search-trigger-container">
-                <div class="search-trigger-bar" id="search-trigger">
-                    <span class="search-icon">&#x1F50D;</span>
-                    <span class="placeholder-text">Search letters...</span>
-                </div>
-            </div>
-
-            <div class="card-container">
-                <div class="letter-card card-featured" data-id="1" data-title="When You First Receive This" data-date="December 14, 2025">
-                    <div class="card-icon-box">&#x1F381;</div>
-                    <div class="card-content">
-                        <span class="card-tag">#1 Special</span>
-                        <h3 class="card-title">When You First Receive This</h3>
-                        <p class="card-excerpt">Hello baby! Happy Birthday! I hope you like your gift...</p>
-                    </div>
-                </div>
-
-                <div class="letter-card" data-id="2" data-title="On a Rainy Day" data-date="November 5, 2025">
-                    <div class="card-icon-box" style="background: #e6f0fa; color: #4682b4;">&#x2601;&#xfe0f;</div>
-                    <div class="card-content">
-                        <span class="card-tag" style="color: #4682b4;">#2 Comfort</span>
-                        <h3 class="card-title">On a Rainy Day</h3>
-                        <p class="card-excerpt">It's a cozy day today, and I hope you're snuggled up...</p>
-                    </div>
-                </div>
-                
-                <div class="letter-card" data-id="3" data-title="When You Need Motivation" data-date="October 20, 2025">
-                    <div class="card-icon-box" style="background: #fcf8e3; color: #daa520;">&#x2B50;</div>
-                    <div class="card-content">
-                        <span class="card-tag" style="color: #daa520;">#3 Power</span>
-                        <h3 class="card-title">When You Need Motivation</h3>
-                        <p class="card-excerpt">You are stronger than you think. This challenge is just...</p>
-                    </div>
-                </div>
-            </div>
+        <div id="no-results" class="no-results hidden">
+            <div style="font-size: 40px;">🔍</div>
+            <p>No letters found matching that.</p>
         </div>
-        
-        <div id="search-overlay">
-            <div class="search-header">
-                <div class="real-search-container">
-                    <span class="search-icon-small">&#x1F50D;</span>
-                    <input type="text" id="search-input-actual" placeholder="Search titles...">
-                </div>
-                <button id="cancel-search">Cancel</button>
-            </div>
-            <div id="search-results-container">
-                <p class="search-tip">Type above to find a letter...</p>
-            </div>
-        </div>
+    </section>
 
-        <div id="reading-page" class="page">
-            <button class="back-button" id="back-to-letters">&#x2190;</button>
-            <div id="letter-content-container">
-                <h2 class="letter-title-main" id="letter-title"></h2>
-                <p class="letter-date" id="letter-date"></p>
-                <div class="letter-content" id="letter-body"></div>
-            </div>
+    <div id="reader-view">
+        <div class="reader-nav">
+            <button class="close-btn" onclick="app.closeReader()">✕</button>
+            <span style="font-weight: 600; color: var(--text-secondary);">Reading</span>
+            <div style="width: 40px;"></div> </div>
+        <div class="reader-content">
+            <span id="r-icon" class="reader-icon"></span>
+            <h2 id="r-title" class="reader-title"></h2>
+            <div id="r-body" class="reader-body"></div>
         </div>
-
     </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>

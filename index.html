@@ -4,333 +4,402 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Nicole's Book</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* --- PASTEL PINK & BLUE PALETTE --- */
-            --pink-light: #FFD1DC;
-            --pink-medium: #FFB7C5;
-            --pink-deep: #FF9EAE;
+            /* Exact Palette Match */
+            --bg-body: #FAFAFA;
+            --surface: #FFFFFF;
             
-            --blue-light: #C4E0E5;
-            --blue-medium: #AEC6CF;
-            --blue-deep: #93B3C0;
+            /* Pastel Card Colors */
+            --pastel-pink: #FFF0F3;
+            --pastel-pink-dark: #FFD6E0;
+            --icon-pink: #FF8FA3;
+            
+            --pastel-blue: #E8F4F8;
+            --pastel-blue-dark: #D1E9F6;
+            --icon-blue: #89C2D9;
 
-            --gradient-primary: linear-gradient(135deg, var(--pink-medium), var(--blue-medium));
-            --gradient-glow: linear-gradient(135deg, var(--pink-light), var(--blue-light));
-            
-            /* --- THE ULTIMATE FROSTED GLASS --- */
-            /* Base glass for large areas */
-            --glass-base-bg: rgba(255, 255, 255, 0.25);
-            --glass-base-border: rgba(255, 255, 255, 0.3);
-            --glass-base-blur: blur(30px);
-            
-            /* Premium glass for interactive elements (cards, buttons) */
-            --glass-premium-bg: rgba(255, 255, 255, 0.35);
-            --glass-premium-border: rgba(255, 255, 255, 0.5);
-            --glass-premium-highlight: rgba(255, 255, 255, 0.8);
-            --glass-premium-blur: blur(40px);
-            
-            /* Colored Glass Shadows */
-            --shadow-soft: 0 15px 35px rgba(255, 183, 197, 0.2), 0 5px 15px rgba(174, 198, 207, 0.15);
-            --shadow-hover: 0 20px 40px rgba(255, 183, 197, 0.4), 0 10px 20px rgba(174, 198, 207, 0.3);
+            --pastel-purple: #F3E8FF;
+            --pastel-purple-dark: #E0C3FC;
+            --icon-purple: #C084FC;
 
-            --text-dark: #4A4A4A;
-            --text-muted: #7A7A7A;
-            --font-ui: 'Outfit', sans-serif;
-            --font-read: 'Cormorant Garamond', serif;
+            /* UI Elements */
+            --text-main: #1A1A1A;
+            --text-sub: #8E8E93;
+            --border-light: #F0F0F0;
+            --shadow-soft: 0 8px 24px rgba(149, 157, 165, 0.08);
+            
+            /* Frosted Glass */
+            --glass: rgba(255, 255, 255, 0.85);
+            --blur: blur(20px);
         }
 
         [data-theme="dark"] {
-            /* In dark mode, we switch to deeper, richer pastels for contrast */
-            --pink-light: #FF9EAE;
-            --pink-medium: #FF7F94;
-            --blue-light: #93B3C0;
-            --blue-medium: #7699A8;
-            --glass-base-bg: rgba(30, 30, 45, 0.5);
-            --glass-base-border: rgba(255, 255, 255, 0.1);
-            --glass-premium-bg: rgba(50, 50, 70, 0.5);
-            --glass-premium-border: rgba(255, 255, 255, 0.2);
-             --shadow-soft: 0 15px 35px rgba(0,0,0, 0.3);
-            --text-dark: #EAEAEA;
-            --text-muted: #B0B0B0;
+            --bg-body: #000000;
+            --surface: #1C1C1E;
+            --text-main: #FFFFFF;
+            --text-sub: #98989F;
+            --border-light: #2C2C2E;
+            --glass: rgba(28, 28, 30, 0.85);
+            
+            /* Dark Mode Pastels (Dimmed) */
+            --pastel-pink: #2A1A1F;
+            --pastel-pink-dark: #3D262E;
+            --pastel-blue: #1A2429;
+            --pastel-blue-dark: #23343D;
+            --pastel-purple: #241A29;
+            --pastel-purple-dark: #32233B;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { font-family: var(--font-ui); height: 100vh; overflow: hidden; color: var(--text-dark); }
-
-        /* --- OPTIMIZED SMOOTH BACKGROUND --- */
-        .animated-bg {
-            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(from 0deg at 50% 50%, var(--pink-light), var(--blue-light), var(--pink-medium), var(--blue-medium), var(--pink-light));
-            animation: spinSlow 60s linear infinite;
-            z-index: -2;
-            will-change: transform; /* Hardware Acceleration Hint */
-            transform: translateZ(0);
-        }
-        .bg-overlay {
-            position: fixed; inset: 0; background: rgba(255,255,255,0.3); z-index: -1; backdrop-filter: blur(100px); /* Extreme blur for softness */
-        }
-        [data-theme="dark"] .bg-overlay { background: rgba(0,0,0,0.6); }
-
-        @keyframes spinSlow { 100% { transform: rotate(360deg); } }
-
-        /* --- UTILITIES --- */
-        .hidden { display: none !important; opacity: 0; pointer-events: none; }
-        .fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; opacity: 0; transform: translateY(30px); }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
-        /* --- SHARED GLASS STYLES --- */
-        .glass-panel {
-            background: var(--glass-base-bg);
-            backdrop-filter: var(--glass-base-blur);
-            -webkit-backdrop-filter: var(--glass-base-blur);
-            border: 1px solid var(--glass-base-border);
-            box-shadow: var(--shadow-soft);
-        }
-        .glass-premium {
-            background: var(--glass-premium-bg);
-            backdrop-filter: var(--glass-premium-blur);
-            -webkit-backdrop-filter: var(--glass-premium-blur);
-            border: 1px solid var(--glass-premium-border);
-            border-top-color: var(--glass-premium-highlight); /* Icy top edge */
-            box-shadow: var(--shadow-soft);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        * {
+            box-sizing: border-box; margin: 0; padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
-        /* --- LANDING PAGE --- */
-        #landing {
-            position: fixed; inset: 0; z-index: 100;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 30px; transition: opacity 0.5s ease;
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 40px;
         }
-        .landing-glass-card {
-            padding: 50px 30px; border-radius: 40px;
-            text-align: center;
-            display: flex; flex-direction: column; align-items: center;
+
+        /* --- HEADER --- */
+        .app-bar {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--glass);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-light);
         }
-        .main-icon {
-            width: 100px; height: 100px;
-            background: var(--gradient-primary);
-            border-radius: 30px; box-shadow: var(--shadow-soft);
+
+        .icon-btn {
+            background: none; border: none;
+            width: 40px; height: 40px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 30px; transform: rotate(-10deg);
+            cursor: pointer; color: var(--text-main);
+            transition: background 0.2s;
         }
-        .main-icon svg { width: 50px; height: 50px; stroke: white; stroke-width: 1.5; }
-        h1 { font-size: 3rem; font-weight: 800; margin-bottom: 10px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 50px; }
+        .icon-btn:active { background: rgba(0,0,0,0.05); }
+        .icon-btn svg { width: 24px; height: 24px; stroke-width: 2; }
 
-        .btn-frost {
-            padding: 20px 60px; border-radius: 60px;
-            font-size: 1.3rem; font-weight: 700; color: var(--text-dark);
-            cursor: pointer; will-change: transform;
-            background: var(--glass-premium-bg);
-            border: 2px solid var(--pink-medium);
+        /* --- MAIN CONTENT --- */
+        .container {
+            max-width: 600px; margin: 0 auto;
+            padding: 80px 20px 20px 20px;
+            animation: fadeIn 0.6s ease;
         }
-        .btn-frost:active { transform: scale(0.95); }
 
-        /* --- MAIN APP --- */
-        #app {
-            height: 100%; display: flex; flex-direction: column;
-            max-width: 650px; margin: 0 auto; padding: 20px; padding-top: 60px;
-        }
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .welcome span { display: block; font-size: 0.9rem; color: var(--text-muted); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-        .welcome h2 { font-size: 2.2rem; font-weight: 800; }
+        .hero-section { text-align: center; margin-bottom: 30px; }
         
-        .theme-toggle {
-            width: 50px; height: 50px; border-radius: 18px;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-        }
-        .theme-toggle svg { width: 24px; height: 24px; stroke: var(--text-dark); }
-
-        .search-bar {
-            height: 60px; border-radius: 30px; padding: 0 25px;
-            display: flex; align-items: center; gap: 15px; margin-bottom: 30px;
-        }
-        .search-bar svg { stroke: var(--pink-medium); width: 22px; height: 22px; }
-        .search-bar input {
-            flex: 1; background: transparent; border: none; font-size: 1.1rem;
-            font-family: var(--font-ui); color: var(--text-dark);
-        }
-        .search-bar input::placeholder { color: var(--text-muted); opacity: 0.7; }
-
-        .list-wrapper { flex: 1; overflow-y: auto; padding-bottom: 40px; -ms-overflow-style: none; scrollbar-width: none; }
-        .list-wrapper::-webkit-scrollbar { display: none; }
-
-        .letter-card {
-            border-radius: 28px; padding: 20px; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 20px; cursor: pointer;
-            will-change: transform;
-        }
-        .letter-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
-        .letter-card:active { transform: scale(0.98); }
-
-        .card-icon {
-            width: 55px; height: 55px; border-radius: 18px;
-            background: var(--gradient-glow);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .card-icon svg { width: 28px; height: 28px; stroke: var(--pink-deep); }
-        .card-content { flex: 1; }
-        .card-title { font-weight: 700; font-size: 1.15rem; margin-bottom: 5px; }
-        .card-preview { font-size: 0.95rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px; }
-        .arrow-icon { opacity: 0.4; stroke: var(--pink-medium); }
-
-        /* --- READER OVERLAY (The Ultimate Glass Sheet) --- */
-        #reader {
-            position: fixed; inset: 0; z-index: 200;
-            display: flex; justify-content: center;
-            pointer-events: none;
-            transition: opacity 0.4s ease; opacity: 0;
-        }
-        #reader.active { pointer-events: auto; opacity: 1; }
-        
-        .reader-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.2); }
-
-        .reader-sheet {
-            width: 100%; max-width: 650px; height: 92vh;
-            position: absolute; bottom: 0;
-            border-radius: 40px 40px 0 0;
-            display: flex; flex-direction: column;
-            transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            box-shadow: 0 -20px 50px rgba(0,0,0,0.1);
-        }
-        #reader.active .reader-sheet { transform: translateY(0); }
-
-        .sheet-header { padding: 25px; display: flex; justify-content: flex-end; }
-        .close-btn {
-            width: 45px; height: 45px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            background: rgba(0,0,0,0.05);
-        }
-        .sheet-body { flex: 1; overflow-y: auto; padding: 0 35px 60px 35px; text-align: center; }
         .hero-icon {
-            width: 90px; height: 90px; margin: 10px auto 30px;
-            background: var(--gradient-primary); border-radius: 30px;
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #FFD6E0 0%, #E0C3FC 100%);
+            border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 10px 20px rgba(255, 183, 197, 0.3);
+        }
+        .hero-icon svg { width: 40px; height: 40px; stroke: white; }
+
+        h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
+        .subtitle { color: var(--text-sub); font-size: 15px; line-height: 1.5; max-width: 300px; margin: 0 auto; }
+
+        /* --- SEARCH --- */
+        .search-wrapper {
+            position: relative; margin-bottom: 30px;
+        }
+        .search-input {
+            width: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 16px 20px 16px 50px;
+            font-size: 16px;
+            color: var(--text-main);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+        .search-input:focus { outline: none; border-color: var(--icon-pink); transform: translateY(-2px); }
+        .search-icon {
+            position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+            color: var(--text-sub); width: 20px; height: 20px;
+        }
+
+        /* --- CARD GRID --- */
+        .grid { display: flex; flex-direction: column; gap: 16px; }
+
+        .card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 24px;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.02);
             box-shadow: var(--shadow-soft);
         }
-        .hero-icon svg { width: 45px; height: 45px; stroke: white; }
-        .reader-title { font-family: var(--font-read); font-size: 2.5rem; line-height: 1.1; margin-bottom: 30px; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
-        .reader-text {
-            font-family: var(--font-read); font-size: 1.35rem; line-height: 1.8;
-            text-align: left; color: var(--text-dark); white-space: pre-wrap;
+        .card:active { transform: scale(0.97); }
+
+        /* Specific Colors */
+        .card.pink { background-color: var(--pastel-pink); }
+        .card.pink .icon-box { background-color: var(--surface); color: var(--icon-pink); }
+        .card.pink .tag { background-color: var(--pastel-pink-dark); color: #B05869; }
+
+        .card.blue { background-color: var(--pastel-blue); }
+        .card.blue .icon-box { background-color: var(--surface); color: var(--icon-blue); }
+        .card.blue .tag { background-color: var(--pastel-blue-dark); color: #5B8596; }
+        
+        .card.purple { background-color: var(--pastel-purple); }
+        .card.purple .icon-box { background-color: var(--surface); color: var(--icon-purple); }
+        .card.purple .tag { background-color: var(--pastel-purple-dark); color: #8A5CB8; }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+        
+        .icon-box {
+            width: 48px; height: 48px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-        .signature { margin-top: 50px; font-family: var(--font-read); font-style: italic; font-size: 1.5rem; color: var(--pink-deep); text-align: right; }
+        .icon-box svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+        .tag {
+            padding: 6px 12px; border-radius: 20px;
+            font-size: 12px; font-weight: 700;
+        }
+
+        .card-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+        .card-preview { font-size: 14px; color: var(--text-sub); line-height: 1.5; opacity: 0.8; }
+
+        /* --- READER MODAL --- */
+        .modal {
+            position: fixed; inset: 0; z-index: 2000;
+            background: var(--bg-body);
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            display: flex; flex-direction: column;
+        }
+        .modal.open { transform: translateX(0); }
+
+        .modal-nav {
+            padding: 15px 20px;
+            display: flex; align-items: center;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--glass);
+        }
+        .back-btn {
+            background: none; border: none;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 16px; color: var(--text-main); font-weight: 600;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            flex: 1; overflow-y: auto;
+            padding: 30px 20px 100px 20px;
+            max-width: 600px; margin: 0 auto; width: 100%;
+        }
+
+        .modal-hero { font-size: 60px; text-align: center; margin-bottom: 20px; display: block; }
+        .modal-title { font-size: 32px; font-weight: 800; line-height: 1.2; margin-bottom: 25px; text-align: center; }
+        .modal-body {
+            font-size: 18px; line-height: 1.8; color: var(--text-main);
+            white-space: pre-wrap;
+        }
+
+        /* --- UTILS --- */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .hidden { display: none !important; }
+
     </style>
 </head>
 <body>
 
-    <div class="animated-bg"></div>
-    <div class="bg-overlay"></div>
+    <nav class="app-bar">
+        <button class="icon-btn" onclick="window.scrollTo(0,0)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        </button>
+        <span style="font-weight: 700; font-size: 16px;">Nicole's Book</span>
+        <button class="icon-btn" onclick="app.toggleTheme()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+    </nav>
 
-    <section id="landing" class="glass-panel">
-        <div class="landing-glass-card fade-in-up">
-            <div class="main-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    <main class="container">
+        
+        <div class="hero-section">
+            <div class="hero-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
             </div>
-            <h1>Nicole's Book</h1>
-            <p class="subtitle">A pastel world for our memories.</p>
-            <button class="btn-frost glass-premium" onclick="app.enter()">Open Book</button>
-        </div>
-    </section>
-
-    <section id="app" class="hidden">
-        <header class="fade-in-up" style="animation-delay: 0.1s">
-            <div class="welcome">
-                <span>Welcome Back</span>
-                <h2>Your Letters</h2>
-            </div>
-            <div class="theme-toggle glass-premium" onclick="app.toggleTheme()">
-                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            </div>
-        </header>
-
-        <div class="search-bar glass-premium fade-in-up" style="animation-delay: 0.2s">
-            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" placeholder="Find a memory..." oninput="app.search(this.value)">
+            <h1>Your Letters</h1>
+            <p class="subtitle">80 heartfelt letters for every moment. Click on a letter to read it.</p>
         </div>
 
-        <div id="list" class="list-wrapper fade-in-up" style="animation-delay: 0.3s"></div>
-    </section>
+        <div class="search-wrapper">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-input" placeholder="Search letters..." oninput="app.filter(this.value)">
+        </div>
 
-    <div id="reader">
-        <div class="reader-backdrop" onclick="app.closeReader()"></div>
-        <div class="reader-sheet glass-premium">
-            <div class="sheet-header">
-                <div class="close-btn" onclick="app.closeReader()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-                </div>
+        <div id="list" class="grid">
             </div>
-            <div class="sheet-body">
-                <div id="r-icon" class="hero-icon"></div>
-                <h2 id="r-title" class="reader-title"></h2>
-                <div id="r-body" class="reader-text"></div>
-                <div class="signature">Forever yours</div>
-            </div>
+
+        <div id="empty-state" class="hero-section hidden" style="margin-top: 50px;">
+            <p class="subtitle">No letters found.</p>
+        </div>
+
+    </main>
+
+    <div id="reader" class="modal">
+        <nav class="modal-nav">
+            <button class="back-btn" onclick="app.close()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                Back
+            </button>
+        </nav>
+        <div class="modal-content">
+            <span id="r-icon" class="modal-hero"></span>
+            <h2 id="r-title" class="modal-title"></h2>
+            <div id="r-body" class="modal-body"></div>
         </div>
     </div>
 
     <script>
-        const icons = {
-            gift: `<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`,
-            heart: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
-            star: `<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
-            moon: `<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`
-        };
-
+        /* --- CONFIGURATION --- */
         const letters = [
-            { id: 1, icon: 'gift', title: "Happy Birthday, My Love", content: "I wanted to give you something that wouldn't fade away. This digital book is a space for all the words I sometimes can't find.\n\nI hope your day is as beautiful as the pastel skies we love. You deserve the world." },
-            { id: 2, icon: 'heart', title: "Why You Mean Everything", content: "It's the way your eyes light up when you laugh. It's your endless kindness. It's how you make even the hardest days feel soft.\n\nYou are my favorite color in a grey world." },
-            { id: 3, icon: 'star', title: "To Our Future", content: "I look at the stars and see the moments we haven't even had yet. Traveling, building a home, growing old.\n\nEvery step forward is brighter because I'm taking it with you." },
-            { id: 4, icon: 'moon', title: "For Lonely Nights", content: "If you are reading this and feeling alone, remember that my love for you doesn't sleep. Close your eyes. I am right there with you, always." }
+            { 
+                id: 1, 
+                theme: 'pink', 
+                icon: 'gift', 
+                title: "When You First Receive This", 
+                preview: "Hello baby! Happy Birthday! I hope you like your gift...",
+                content: "Hello baby! Happy Birthday! \n\nI hope you like your gift. It's not that good but I tried my best to make this website just for you. \n\nI wanted to create something that lasts longer than paper. Something you can keep in your pocket and open whenever you need a reminder of how much you are loved." 
+            },
+            { 
+                id: 2, 
+                theme: 'blue', 
+                icon: 'cloud', 
+                title: "When You Feel Sad", 
+                preview: "It's okay to have bad days. Just remember that...",
+                content: "It's okay to have bad days. \n\nJust remember that storms don't last forever. I am here to hold the umbrella for you until the sun comes out again. \n\nTake a deep breath. You are stronger than you think." 
+            },
+            { 
+                id: 3, 
+                theme: 'purple', 
+                icon: 'heart', 
+                title: "Why I Love You", 
+                preview: "There are a million reasons, but here are a few...",
+                content: "There are a million reasons, but here are a few: \n\n1. Your laugh is my favorite sound.\n2. You care so deeply for others.\n3. You never give up.\n\nYou make my world brighter just by being in it." 
+            },
+            { 
+                id: 4, 
+                theme: 'pink', 
+                icon: 'sun', 
+                title: "Good Morning", 
+                preview: "I hope you slept well. Today is going to be great...",
+                content: "Good morning sunshine! \n\nI hope you slept well. Go drink some water, stretch a little, and conquer the day. I believe in you!" 
+            },
+            { 
+                id: 5, 
+                theme: 'blue', 
+                icon: 'moon', 
+                title: "Good Night", 
+                preview: "Rest your head and let go of today's worries...",
+                content: "Good night my love. \n\nRest your head and let go of today's worries. I'll see you in my dreams." 
+            }
         ];
 
+        /* --- ICONS (SVG STRINGS) --- */
+        const icons = {
+            gift: `<svg viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`,
+            cloud: `<svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>`,
+            heart: `<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
+            sun: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
+            moon: `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
+        };
+
+        const emojis = { gift: '🎁', cloud: '🌧️', heart: '❤️', sun: '☀️', moon: '🌙' };
+
+        /* --- APP LOGIC --- */
         const app = {
             init() {
-                if(localStorage.getItem('theme') === 'dark') document.body.setAttribute('data-theme', 'dark');
-                this.renderList(letters);
+                this.render(letters);
+                // Check theme
+                if(localStorage.getItem('theme') === 'dark') {
+                    document.body.setAttribute('data-theme', 'dark');
+                }
             },
-            enter() {
-                document.getElementById('landing').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('landing').classList.add('hidden');
-                    document.getElementById('app').classList.remove('hidden');
-                }, 500);
-            },
-            renderList(data) {
-                document.getElementById('list').innerHTML = data.map((l, i) => `
-                    <div class="letter-card glass-premium fade-in-up" style="animation-delay: ${0.4 + (i * 0.1)}s" onclick="app.openReader(${l.id})">
-                        <div class="card-icon">${icons[l.icon]}</div>
-                        <div class="card-content">
-                            <div class="card-title">${l.title}</div>
-                            <div class="card-preview">${l.content}</div>
+
+            render(data) {
+                const list = document.getElementById('list');
+                const empty = document.getElementById('empty-state');
+                
+                list.innerHTML = '';
+                
+                if(data.length === 0) {
+                    empty.classList.remove('hidden');
+                    return;
+                }
+                empty.classList.add('hidden');
+
+                data.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = `card ${item.theme}`;
+                    div.style.animation = `fadeIn 0.5s ease ${index * 0.1}s forwards`;
+                    div.style.opacity = '0'; // Initial state for animation
+                    div.onclick = () => this.open(item);
+                    
+                    div.innerHTML = `
+                        <div class="card-header">
+                            <div class="icon-box">${icons[item.icon]}</div>
+                            <span class="tag">#${item.id}</span>
                         </div>
-                        <svg class="arrow-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-                    </div>
-                `).join('');
+                        <div class="card-title">${item.title}</div>
+                        <div class="card-preview">${item.preview}</div>
+                    `;
+                    list.appendChild(div);
+                });
             },
-            search(q) {
-                const filtered = letters.filter(l => l.title.toLowerCase().includes(q.toLowerCase()) || l.content.toLowerCase().includes(q.toLowerCase()));
-                this.renderList(filtered);
+
+            filter(query) {
+                const q = query.toLowerCase();
+                const filtered = letters.filter(l => 
+                    l.title.toLowerCase().includes(q) || 
+                    l.content.toLowerCase().includes(q)
+                );
+                this.render(filtered);
             },
-            openReader(id) {
-                const l = letters.find(item => item.id === id);
-                document.getElementById('r-icon').innerHTML = icons[l.icon];
-                document.getElementById('r-title').innerText = l.title;
-                document.getElementById('r-body').innerText = l.content;
-                document.getElementById('reader').classList.add('active');
+
+            open(item) {
+                document.getElementById('r-icon').innerText = emojis[item.icon];
+                document.getElementById('r-title').innerText = item.title;
+                document.getElementById('r-body').innerText = item.content;
+                document.getElementById('reader').classList.add('open');
             },
-            closeReader() { document.getElementById('reader').classList.remove('active'); },
+
+            close() {
+                document.getElementById('reader').classList.remove('open');
+            },
+
             toggleTheme() {
-                const isDark = document.body.getAttribute('data-theme') === 'dark';
-                document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-                localStorage.setItem('theme', isDark ? 'light' : 'dark');
+                const body = document.body;
+                if (body.hasAttribute('data-theme')) {
+                    body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
             }
         };
+
         app.init();
     </script>
 </body>
-                    </html>
-                    
+                </html>
+                

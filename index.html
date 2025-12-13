@@ -4,202 +4,306 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Letters Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- General Reset & Styling --- */
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f8fb;
-            color: #333;
-            overflow-x: hidden; /* Prevent horizontal scroll during transitions */
+        /* --- 1. CSS Variables for Theming (Light/Dark Mode) --- */
+        :root {
+            /* Light Mode Defaults */
+            --bg-color: #f8f8fb;
+            --text-color: #1a1a1a;
+            --secondary-text-color: #666;
+            --primary-pink: #ff69b4;
+            --card-bg-light: #fff;
+            --card-bg-pink: #fff0f5;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --icon-bg-pink: #fce4ec;
+            --search-bg: #fff;
+            --input-border: #eee;
         }
 
-        /* --- Page Container --- */
+        /* Dark Mode Theme */
+        body.dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --secondary-text-color: #b0b0b0;
+            --card-bg-light: #1e1e1e;
+            --card-bg-pink: #2c1a24; /* Darker pink for contrast */
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --icon-bg-pink: #3d1f30;
+            --search-bg: #1e1e1e;
+            --input-border: #333;
+        }
+
+        /* --- 2. General Reset & Styling --- */
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- 3. Page Container & Animation Setup --- */
         #app-container {
             position: relative;
             width: 100vw;
             height: 100vh;
-            overflow: hidden; /* Contain the pages */
+            overflow: hidden;
         }
 
-        /* --- Page Base Styles --- */
         .page {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            min-height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease-out; /* Smooth spring-like transition */
-            padding: 20px;
+            padding: 30px 20px;
             box-sizing: border-box;
-            background-color: #f8f8fb;
+            background-color: var(--bg-color);
+            /* Advanced Transition: Smooth and slightly bouncy */
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease-out;
         }
 
-        /* --- Start Page Specific Styles --- */
-        #start-page {
-            /* Initial state: visible at the start */
-            z-index: 2; 
-        }
-
-        #start-button {
-            padding: 15px 30px;
-            font-size: 1.5em;
-            font-weight: bold;
-            color: white;
-            background-color: #ff69b4; /* Pink */
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.4);
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        #start-button:hover {
-            background-color: #ff85c1;
-            transform: translateY(-3px);
-            box-shadow: 0 12px 20px rgba(255, 105, 180, 0.6);
-        }
-
-        #start-button:active {
-            transform: translateY(1px);
-            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
-        }
-
-        /* --- Letters Page Specific Styles --- */
+        /* Initial state of Letters Page: Off-screen right */
         #letters-page {
-            /* Initial state: hidden off-screen to the right */
             transform: translateX(100%);
             z-index: 1;
-            align-items: flex-start; /* Align content to the left/top */
-            overflow-y: auto; /* Enable scrolling for the content */
             padding-top: 50px;
         }
 
-        /* State after transition: visible */
-        #letters-page.active {
-            transform: translateX(0);
-            z-index: 2;
-        }
-
-        /* Hide Start Page after transition */
+        /* Transition state: Start Page slides left, Letters Page slides in */
         #start-page.hidden {
             transform: translateX(-100%);
             opacity: 0;
             z-index: 1;
         }
+        
+        #letters-page.active {
+            transform: translateX(0);
+            z-index: 2;
+        }
 
-        /* --- Letter Page Content Styling (Based on your image) --- */
-        .header-icon {
-            font-size: 4em;
-            color: white;
-            background-color: #ffc0cb; /* Light Pink for background */
-            border-radius: 50%;
-            width: 100px;
-            height: 100px;
-            display: flex;
+        /* --- 4. Start Page Content --- */
+        #start-page {
             justify-content: center;
-            align-items: center;
+            text-align: center;
+        }
+
+        .book-section {
+            padding: 20px;
+            border-radius: 20px;
+            background-color: var(--card-bg-light);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 50px;
+            max-width: 350px;
+            width: 100%;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .book-title {
+            color: var(--primary-pink);
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .book-author {
+            color: var(--secondary-text-color);
+            font-size: 0.9em;
             margin-bottom: 20px;
         }
 
-        h1 {
-            font-size: 2.5em;
-            margin: 0 0 10px 0;
+        #start-button {
+            padding: 18px 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #ff85c1, var(--primary-pink));
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); /* Spring-like press effect */
+            letter-spacing: 1px;
         }
 
-        .summary-text {
-            font-size: 1.1em;
-            color: #666;
+        #start-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.6);
+        }
+
+        #start-button:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.4);
+        }
+        
+        /* --- 5. Letters Page Content --- */
+        #letters-page > div {
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .main-header {
+            text-align: center;
             margin-bottom: 30px;
         }
 
+        .header-icon {
+            font-size: 2.5em;
+            color: var(--primary-pink);
+            background-color: var(--icon-bg-pink);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 15px auto;
+            transform: rotate(-10deg);
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        .summary-text {
+            color: var(--secondary-text-color);
+            margin-bottom: 40px;
+        }
+
+        /* Search Bar */
         .search-container {
-            width: 100%;
-            max-width: 600px;
+            position: relative;
             margin-bottom: 30px;
         }
 
         .search-input {
             width: 100%;
             padding: 15px;
-            border: none;
-            border-radius: 10px;
+            border: 1px solid var(--input-border);
+            border-radius: 12px;
             font-size: 1em;
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            padding-left: 50px; /* Space for search icon */
+            background-color: var(--search-bg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding-left: 50px;
             box-sizing: border-box;
-            position: relative;
+            color: var(--text-color);
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.2);
         }
 
         .search-icon {
             position: absolute;
-            margin-top: 15px;
-            margin-left: 15px;
-            color: #ccc;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: var(--secondary-text-color);
             font-size: 1.2em;
         }
         
         /* Letter Card Styling */
         .letter-card {
             width: 100%;
-            max-width: 600px;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 18px;
             margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            background-color: #fefefe;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--card-shadow);
+            background-color: var(--card-bg-light);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s;
         }
 
         .letter-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
         .card-pink {
-            background-color: #fff0f5; /* Very light pink background */
+            background-color: var(--card-bg-pink);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
         }
         
         .card-icon {
-            font-size: 2em;
-            color: #ff69b4; /* Pink for icons */
-            background-color: #fce4ec; /* Lighter pink icon background */
-            border-radius: 10px;
-            width: 50px;
-            height: 50px;
+            font-size: 1.5em;
+            color: var(--primary-pink);
+            background-color: var(--icon-bg-pink);
+            border-radius: 12px;
+            width: 45px;
+            height: 45px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 10px;
+            margin-right: 15px;
+            font-style: normal; /* For emojis */
+        }
+        
+        .card-title-group {
+            position: relative;
         }
 
         .card-number {
             position: absolute;
-            top: 5px;
-            left: 5px;
+            top: -15px;
+            left: 0;
             font-size: 0.8em;
-            font-weight: bold;
-            color: #ff69b4;
+            font-weight: 700;
+            color: var(--primary-pink);
         }
 
         .card-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
-            margin-top: 5px;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-color);
         }
 
         .card-excerpt {
             font-size: 0.9em;
-            color: #666;
+            color: var(--secondary-text-color);
             margin-top: 5px;
+        }
+
+        /* --- 6. Dark Mode Toggle --- */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            cursor: pointer;
+            font-size: 1.2em;
+            z-index: 10;
+            transition: background-color 0.3s;
+            color: var(--text-color);
+            border: 1px solid var(--input-border);
+        }
+        
+        body.dark-mode .theme-toggle {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
+        }
+
+        /* --- 7. Keyframe Animations --- */
+        @keyframes pulse {
+            0% { transform: scale(1) rotate(-10deg); }
+            100% { transform: scale(1.05) rotate(-10deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
     </style>
@@ -208,16 +312,26 @@
 
     <div id="app-container">
         
+        <button class="theme-toggle" id="theme-toggle">
+            &#9728; </button>
+
         <div id="start-page" class="page">
-            <h1 style="margin-bottom: 40px; color: #ff69b4;">Welcome</h1>
-            <button id="start-button">Start Your Journey</button>
+            <h1 style="color: var(--primary-pink); font-size: 3em; margin-bottom: 20px;">The Archives</h1>
+            
+            <div class="book-section">
+                <p class="book-author">Featured Story</p>
+                <p class="book-title">Nicole's Book</p>
+                <div style="font-size: 0.9em; color: var(--secondary-text-color);">
+                    A heartfelt collection of memories, hopes, and dreams. Tap below to begin the journey into the letters.
+                </div>
+            </div>
+
+            <button id="start-button">Start Reading</button>
         </div>
 
         <div id="letters-page" class="page">
-            <div style="width: 100%; max-width: 600px; text-align: center;">
-                <div class="header-icon" style="margin-left: auto; margin-right: auto;">
-                    &#x2764;&#xfe0f; </div>
-                <h1>Your Letters</h1>
+            <div class="main-header">
+                <div class="header-icon">&#x2764;&#xfe0f;</div> <h1>Your Letters</h1>
                 <p class="summary-text">80 heartfelt letters for every moment. Click on a letter to read it.</p>
             </div>
 
@@ -225,27 +339,33 @@
                 <span class="search-icon">&#x1F50D;</span> <input type="text" class="search-input" placeholder="Search letters...">
             </div>
 
-            <div class="letter-card card-pink">
-                <div style="position: relative;">
-                    <span class="card-number">#1</span>
-                    <div class="card-icon">&#x1F381;</div> </div>
-                <div class="card-title">When You First Receive This</div>
+            <div class="letter-card card-pink" style="animation: fadeIn 0.5s ease-out 0.8s backwards;">
+                <div class="card-header">
+                    <i class="card-icon">&#x1F381;</i> <div class="card-title-group">
+                        <span class="card-number">#1</span>
+                        <div class="card-title">When You First Receive This</div>
+                    </div>
+                </div>
                 <div class="card-excerpt">Hello baby! Happy Birthday! I hope you like your gift. It's not that good but I ...</div>
             </div>
 
-            <div class="letter-card">
-                <div style="position: relative;">
-                    <span class="card-number" style="color: #4682b4;">#2</span>
-                    <div class="card-icon" style="color: #4682b4; background-color: #e6f0fa;">&#x2601;&#xfe0f;</div> </div>
-                <div class="card-title">On a Rainy Day</div>
+            <div class="letter-card" style="animation: fadeIn 0.5s ease-out 1s backwards;">
+                <div class="card-header">
+                    <i class="card-icon" style="color: #4682b4; background-color: #e6f0fa;">&#x2601;&#xfe0f;</i> <div class="card-title-group">
+                        <span class="card-number" style="color: #4682b4;">#2</span>
+                        <div class="card-title">On a Rainy Day</div>
+                    </div>
+                </div>
                 <div class="card-excerpt">It's a cozy day today, and I hope you're snuggled up somewhere warm. Remember that time we...</div>
             </div>
             
-            <div class="letter-card">
-                <div style="position: relative;">
-                    <span class="card-number" style="color: #daa520;">#3</span>
-                    <div class="card-icon" style="color: #daa520; background-color: #fcf8e3;">&#x2B50;</div> </div>
-                <div class="card-title">When You Need Motivation</div>
+            <div class="letter-card" style="animation: fadeIn 0.5s ease-out 1.2s backwards;">
+                <div class="card-header">
+                    <i class="card-icon" style="color: #daa520; background-color: #fcf8e3;">&#x2B50;</i> <div class="card-title-group">
+                        <span class="card-number" style="color: #daa520;">#3</span>
+                        <div class="card-title">When You Need Motivation</div>
+                    </div>
+                </div>
                 <div class="card-excerpt">You are stronger than you think. This challenge is just a stepping stone. Read this when...</div>
             </div>
 
@@ -254,26 +374,49 @@
     </div>
 
     <script>
+        // --- PAGE TRANSITION SCRIPT ---
         document.getElementById('start-button').addEventListener('click', function() {
-            // 1. Get the page elements
             const startPage = document.getElementById('start-page');
             const lettersPage = document.getElementById('letters-page');
 
-            // 2. Animate the Start Button (Optional extra smooth effect)
-            this.style.transform = 'scale(0.8)';
+            // 1. Shrink and Fade Button
+            this.style.transform = 'scale(0.9)';
             this.style.opacity = '0';
             
-            // 3. Wait a moment for the button animation, then transition pages
+            // 2. Perform page slide after button animation
             setTimeout(() => {
-                // A. Hide the Start Page (slide it left and fade out)
+                // Apply the slide animation classes
                 startPage.classList.add('hidden');
-                
-                // B. Show the Letters Page (slide it into view from the right)
                 lettersPage.classList.add('active');
-            }, 300); // Wait 300ms for the button animation to complete
+            }, 300); 
+        });
+
+        // --- DARK MODE SCRIPT ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Load theme preference from local storage
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '&#9790;'; // Moon Icon
+        } else {
+            themeToggle.innerHTML = '&#9728;'; // Sun Icon
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Update local storage and icon
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                themeToggle.innerHTML = '&#9790;'; // Moon Icon
+            } else {
+                localStorage.setItem('theme', 'light');
+                themeToggle.innerHTML = '&#9728;'; // Sun Icon
+            }
         });
     </script>
 
 </body>
-</html>
-
+    </html>
+                

@@ -1,0 +1,265 @@
+/* --- 1. CSS Variables for Theming (Light/Dark Mode) --- */
+:root {
+    /* Light Mode Defaults */
+    --bg-color: #f8f8fb;
+    --text-color: #1a1a1a;
+    --secondary-text-color: #666;
+    --primary-pink: #ff69b4;
+    --card-bg-light: #fff;
+    --card-bg-pink: #fff0f5;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --icon-bg-pink: #fce4ec;
+    --search-bg: #fff;
+    --input-border: #eee;
+}
+
+/* Dark Mode Theme */
+body.dark-mode {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --secondary-text-color: #b0b0b0;
+    --card-bg-light: #1e1e1e;
+    --card-bg-pink: #2c1a24;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --icon-bg-pink: #3d1f30;
+    --search-bg: #1e1e1e;
+    --input-border: #333;
+}
+
+/* --- 2. General Reset & Styling --- */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* --- 3. Page Container & Animation Setup --- */
+#app-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    background-color: var(--bg-color);
+    /* Bounce Transition for all pages */
+    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease-out;
+    overflow-y: auto;
+}
+
+/* Initial positioning and visibility */
+#start-page { z-index: 3; }
+#letters-page { transform: translateX(100%); z-index: 2; padding-top: 50px; }
+#reading-page { transform: translateX(200%); z-index: 1; padding-top: 50px; }
+
+/* --- Transitions: Start -> Letters --- */
+#start-page.hidden { transform: translateX(-100%); opacity: 0; z-index: 1; }
+#letters-page.active { transform: translateX(0); z-index: 2; }
+
+/* --- Transitions: Letters -> Reading (Forward) --- */
+#letters-page.slide-left { transform: translateX(-100%); z-index: 1; }
+#reading-page.active { transform: translateX(0); z-index: 2; }
+
+/* --- Transitions: Reading -> Letters (Reverse) --- */
+#reading-page.slide-right { transform: translateX(100%); z-index: 1; }
+#letters-page.active { transform: translateX(0); z-index: 2; }
+
+
+/* --- 4. Start Page Content --- */
+#start-page { justify-content: center; text-align: center; }
+
+.book-section {
+    padding: 20px;
+    border-radius: 20px;
+    background-color: var(--card-bg-light);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 50px;
+    max-width: 350px;
+    width: 100%;
+    animation: fadeIn 1s ease-out;
+}
+
+.book-title {
+    color: var(--primary-pink);
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.book-author {
+    color: var(--secondary-text-color);
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+#start-button {
+    padding: 18px 40px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #ff85c1, var(--primary-pink));
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    letter-spacing: 1px;
+}
+
+#start-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(255, 105, 180, 0.6);
+}
+
+#start-button:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 8px 15px rgba(255, 105, 180, 0.4);
+}
+
+/* --- 5. Letters Page Content --- */
+#letters-page > div { width: 100%; max-width: 600px; }
+.main-header { text-align: center; margin-bottom: 30px; }
+.header-icon { font-size: 2.5em; color: var(--primary-pink); background-color: var(--icon-bg-pink); border-radius: 50%; width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; margin: 0 auto 15px auto; transform: rotate(-10deg); animation: pulse 1.5s infinite alternate; }
+.summary-text { color: var(--secondary-text-color); margin-bottom: 40px; }
+.search-container { position: relative; margin-bottom: 30px; }
+.search-input { width: 100%; padding: 15px; border: 1px solid var(--input-border); border-radius: 12px; font-size: 1em; background-color: var(--search-bg); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); padding-left: 50px; box-sizing: border-box; color: var(--text-color); transition: border-color 0.3s; }
+.search-input:focus { outline: none; border-color: var(--primary-pink); box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.2); }
+.search-icon { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--secondary-text-color); font-size: 1.2em; }
+
+/* Letter Card Styling */
+.letter-card {
+    width: 100%;
+    padding: 20px;
+    border-radius: 18px;
+    margin-bottom: 15px;
+    box-shadow: var(--card-shadow);
+    background-color: var(--card-bg-light);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s;
+}
+.letter-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); }
+.card-pink { background-color: var(--card-bg-pink); }
+.card-header { display: flex; align-items: center; margin-bottom: 10px; }
+.card-icon { font-size: 1.5em; color: var(--primary-pink); background-color: var(--icon-bg-pink); border-radius: 12px; width: 45px; height: 45px; display: flex; justify-content: center; align-items: center; margin-right: 15px; font-style: normal; }
+.card-title-group { position: relative; }
+.card-number { position: absolute; top: -15px; left: 0; font-size: 0.8em; font-weight: 700; color: var(--primary-pink); }
+.card-title { font-size: 1.1em; font-weight: 600; margin: 0; color: var(--text-color); }
+.card-excerpt { font-size: 0.9em; color: var(--secondary-text-color); margin-top: 5px; }
+
+
+/* --- 6. Reading Page Styles --- */
+#reading-page > div {
+    width: 100%;
+    max-width: 700px;
+    padding-top: 20px;
+    text-align: left;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 1.5em;
+    color: var(--text-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.back-button:hover {
+    color: var(--primary-pink);
+}
+
+.letter-title-main {
+    font-size: 2.5em;
+    color: var(--primary-pink);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.letter-date {
+    font-size: 1em;
+    color: var(--secondary-text-color);
+    margin-bottom: 30px;
+    font-style: italic;
+    border-bottom: 1px solid var(--input-border);
+    padding-bottom: 15px;
+}
+
+.letter-content {
+    font-size: 1.1em;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    padding-bottom: 50px;
+}
+
+/* --- 7. Dark Mode Toggle (Fixed position) --- */
+.theme-toggle {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    padding: 8px 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+    font-size: 1.2em;
+    z-index: 100;
+    color: var(--text-color);
+    border: 1px solid var(--input-border);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+body.dark-mode .theme-toggle {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: #333;
+}
+
+/* --- 8. Keyframe Animations --- */
+@keyframes pulse {
+    0% { transform: scale(1) rotate(-10deg); }
+    100% { transform: scale(1.05) rotate(-10deg); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 9. MOBILE OPTIMIZATIONS (Media Query) --- */
+@media screen and (max-width: 600px) {
+    .page { padding: 15px; min-height: auto; }
+    #start-page h1 { font-size: 2.5em; margin-top: 50px; }
+    .book-section { padding: 15px; margin-bottom: 40px; }
+    #start-button { padding: 16px 30px; font-size: 1.2em; }
+    .letter-card { padding: 15px; border-radius: 14px; }
+    .back-button { top: 10px; left: 10px; font-size: 1.3em; padding: 5px; }
+
+    /* Reading Page Mobile Optimizations */
+    .letter-title-main { font-size: 1.8em; margin-top: 20px; }
+    .letter-date { font-size: 0.9em; margin-bottom: 20px; }
+    .letter-content { font-size: 1em; line-height: 1.7; }
+    
+    .header-icon { width: 70px; height: 70px; font-size: 2em; }
+    .card-icon { width: 40px; height: 40px; font-size: 1.3em; }
+    .card-title { font-size: 1em; }
+    .card-excerpt { font-size: 0.85em; }
+    .search-input { padding: 12px; padding-left: 45px; }
+    .search-icon { left: 10px; font-size: 1.1em; }
+  }

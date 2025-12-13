@@ -88,7 +88,11 @@ startButton.addEventListener('click', function() {
 
 // B. Letters Index -> Search Overlay (Triggered by tapping the search bar)
 searchTrigger.addEventListener('click', function() {
+    // CRUCIAL FIX: Set display to flex IMMEDIATELY before adding the 'active' class
+    // This allows the transform animation to work from translateY(100%) to translateY(0)
+    searchOverlay.style.display = 'flex';
     searchOverlay.classList.add('active');
+    
     setTimeout(() => {
         searchInput.focus();
         // Run initial search to show all letters (by searching for an empty string)
@@ -101,6 +105,11 @@ cancelSearchButton.addEventListener('click', function() {
     searchOverlay.classList.remove('active');
     searchInput.value = ''; // Clear search input
     searchInput.blur(); // Remove focus
+
+    // CRUCIAL FIX: Wait for the transition to finish (0.5s) then hide the element completely
+    setTimeout(() => {
+        searchOverlay.style.display = 'none';
+    }, 500);
 });
 
 
@@ -121,7 +130,12 @@ function handleLetterClick(e) {
 
     // 2. Animate the transition
     lettersPage.classList.remove('active');
-    searchOverlay.classList.remove('active'); 
+    
+    // If transitioning from search, hide search overlay immediately before transition starts
+    if (searchOverlay.classList.contains('active')) {
+        searchOverlay.classList.remove('active'); 
+        searchOverlay.style.display = 'none';
+    }
     
     // Animate transition (Index/Search -> Reading)
     lettersPage.classList.remove('active-from-right');
@@ -204,4 +218,3 @@ themeToggle.addEventListener('click', () => {
     }
     updateTheme();
 });
-    

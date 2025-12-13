@@ -4,8 +4,205 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Nicole's Book</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF9A9E;
+            --primary-gradient: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%);
+            --bg-gradient: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            --glass-bg: rgba(255, 255, 255, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --card-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            --font-ui: 'Outfit', sans-serif;
+            --font-read: 'Playfair Display', serif;
+        }
+
+        [data-theme="dark"] {
+            --primary: #FF8BA7;
+            --primary-gradient: linear-gradient(135deg, #FF8BA7 0%, #FFC3C3 100%);
+            --bg-gradient: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+            --glass-bg: rgba(30, 30, 46, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-muted: #b2bec3;
+            --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: var(--font-ui);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* BACKGROUND FX */
+        .bg-gradient {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-gradient);
+            z-index: -2;
+            transition: opacity 0.5s;
+        }
+
+        #particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            background-image: radial-gradient(var(--glass-border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+        }
+
+        /* UTILS */
+        .hidden { display: none !important; }
+        .fade-out { animation: fadeOut 0.5s forwards; }
+        @keyframes fadeOut { to { opacity: 0; pointer-events: none; } }
+
+        /* LANDING */
+        #landing-page {
+            position: fixed; inset: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .icon-glow {
+            font-size: 5rem;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+            animation: float 3s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        .landing-title { font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; }
+        .landing-subtitle { font-size: 1.2rem; color: var(--text-main); opacity: 0.8; margin-bottom: 40px; }
+
+        .btn-glass {
+            background: var(--primary-gradient);
+            border: none; padding: 18px 50px; border-radius: 50px;
+            color: white; font-size: 1.2rem; font-weight: 600;
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            position: relative; overflow: hidden; cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .btn-glass:active { transform: scale(0.96); }
+        .shimmer {
+            position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2.5s infinite;
+        }
+        @keyframes shimmer { 100% { left: 100%; } }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* MAIN APP */
+        #main-app {
+            height: 100%; display: flex; flex-direction: column;
+            padding: 20px; max-width: 600px; margin: 0 auto;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .app-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; padding-top: 20px;
+        }
+        .greeting { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
+        .app-header h2 { font-size: 2rem; font-weight: 800; }
+
+        .theme-btn {
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            width: 45px; height: 45px; border-radius: 50%;
+            font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        /* SEARCH */
+        .search-wrapper { position: sticky; top: 0; z-index: 10; padding-bottom: 20px; }
+        .search-glass {
+            background: var(--glass-bg); backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px; padding: 0 20px; height: 55px;
+            display: flex; align-items: center;
+            box-shadow: var(--card-shadow);
+        }
+        .search-icon { font-size: 1.2rem; margin-right: 15px; opacity: 0.6; }
+        #search-input {
+            border: none; background: transparent; width: 100%;
+            font-size: 1.1rem; color: var(--text-main); font-family: var(--font-ui);
+        }
+        #search-input::placeholder { color: var(--text-muted); opacity: 0.7; }
+
+        /* LETTER CARDS */
+        .letters-container {
+            flex: 1; overflow-y: auto; padding-bottom: 40px;
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .letters-container::-webkit-scrollbar { display: none; }
+
+        .card {
+            background: var(--glass-bg); backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; padding: 20px; margin-bottom: 15px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex; align-items: center; gap: 15px;
+            cursor: pointer;
+        }
+        .card:active { transform: scale(0.97); }
+        .card-icon {
+            font-size: 2.5rem; background: rgba(255,255,255,0.2);
+            width: 60px; height: 60px; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-text { flex: 1; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+        .card-preview { font-size: 0.9rem; color: var(--text-muted); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+
+        .highlight { background: var(--primary); color: white; padding: 0 4px; border-radius: 4px; }
+
+        /* READER MODAL */
+        #reader-view {
+            position: fixed; inset: 0; z-index: 200;
+            pointer-events: none; opacity: 0; transition: opacity 0.3s;
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        #reader-view.active { pointer-events: all; opacity: 1; }
+        .reader-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); }
+
+        .reader-card {
+            background: var(--surface-color); width: 100%; max-width: 600px; height: 85vh;
+            background: var(--glass-bg); backdrop-filter: blur(25px);
+            border-top: 1px solid var(--glass-border);
+            border-radius: 30px 30px 0 0;
+            position: relative; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+        }
+        #reader-view.active .reader-card { transform: translateY(0); }
+
+        .reader-header { padding: 20px; display: flex; justify-content: flex-end; }
+        .close-btn {
+            background: rgba(0,0,0,0.05); border: none; width: 40px; height: 40px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-main);
+        }
+        .reader-scroll { overflow-y: auto; padding: 0 30px 50px 30px; }
+        .reader-content { text-align: center; }
+        .hero-emoji { font-size: 4rem; display: block; margin-bottom: 10px; animation: popIn 0.5s back.out; }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+        #r-title { font-family: var(--font-read); font-size: 2rem; margin-bottom: 20px; line-height: 1.2; }
+        .divider { height: 2px; width: 50px; background: var(--primary); margin: 0 auto 30px auto; border-radius: 2px; }
+        #r-body {
+            font-family: var(--font-read); font-size: 1.2rem; line-height: 1.8;
+            text-align: left; white-space: pre-wrap; color: var(--text-main);
+        }
+        .signature { margin-top: 50px; font-family: 'Dancing Script', cursive; font-size: 1.5rem; color: var(--text-muted); text-align: right; }
+    </style>
 </head>
 <body>
 
@@ -73,7 +270,110 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
-</body>
-            </html>
+    <script>
+        const letters = [
+            { id: 1, title: "Open When It's Your Birthday", icon: "🎂", content: "Happy Birthday my love!\n\nI built this digital book because paper fades, but code (and my love) lasts forever. I hope today brings you as much joy as you bring into my life every single day." },
+            { id: 2, title: "Open When You Feel Alone", icon: "🌧️", content: "You are never truly alone. Close your eyes and feel my hand in yours. I am cheering for you, always. This heavy feeling will pass, just like the rain." },
+            { id: 3, title: "Our First Date Memory", icon: "🥂", content: "Do you remember how nervous I was? I couldn't stop smiling. That night changed my life. Thank you for taking a chance on me." },
+            { id: 4, title: "Why You Are Beautiful", icon: "✨", content: "It's not just your face (though that is perfect). It's your mind, your kindness, and the way you try your best even when things are hard. You are art." },
+            { id: 5, title: "A Promise to You", icon: "💍", content: "I promise to listen. I promise to support your dreams. I promise to love you, even when we are old and gray. You are my forever." },
+            { id: 6, title: "Just Because", icon: "💌", content: "I don't need a reason to tell you I love you. So... I love you. Very much. Go drink some water and smile for me!" },
+            { id: 7, title: "Late Night Thoughts", icon: "🌙", content: "The world is quiet, but my mind is loud with thoughts of you. I can't wait to build our future together." }
+        ];
+
+        const app = {
+            isDark: false,
             
+            init() {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') this.toggleTheme(true);
+                this.renderList(letters);
+            },
+
+            start() {
+                const landing = document.getElementById('landing-page');
+                const main = document.getElementById('main-app');
+                
+                landing.classList.add('fade-out');
+                setTimeout(() => {
+                    landing.classList.add('hidden');
+                    main.classList.remove('hidden');
+                    this.animateList();
+                }, 500);
+            },
+
+            toggleTheme(forceDark = null) {
+                this.isDark = forceDark !== null ? forceDark : !this.isDark;
+                document.body.setAttribute('data-theme', this.isDark ? 'dark' : 'light');
+                document.getElementById('theme-icon').innerText = this.isDark ? '☀️' : '🌙';
+                localStorage.setItem('theme', this.isDark ? 'dark' : 'light');
+            },
+
+            handleSearch(query) {
+                const q = query.toLowerCase();
+                const filtered = letters.filter(l => 
+                    l.title.toLowerCase().includes(q) || l.content.toLowerCase().includes(q)
+                );
+                this.renderList(filtered, q);
+            },
+
+            renderList(data, query = "") {
+                const container = document.getElementById('letters-list');
+                const noRes = document.getElementById('no-results');
+                container.innerHTML = '';
+
+                if (data.length === 0) {
+                    noRes.classList.remove('hidden');
+                    return;
+                }
+                noRes.classList.add('hidden');
+
+                data.forEach((l, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'card';
+                    div.style.animationDelay = `${index * 0.05}s`; // Stagger effect
+                    div.onclick = () => this.openReader(l);
+                    
+                    // Highlighting
+                    const hl = (text) => query ? text.replace(new RegExp(`(${query})`, 'gi'), '<span class="highlight">$1</span>') : text;
+
+                    div.innerHTML = `
+                        <div class="card-icon">${l.icon}</div>
+                        <div class="card-text">
+                            <div class="card-title">${hl(l.title)}</div>
+                            <div class="card-preview">${hl(l.content)}</div>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+                
+                // Re-trigger animation if searching
+                if(query) this.animateList();
+            },
+
+            animateList() {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(card => {
+                    card.style.animation = 'none';
+                    card.offsetHeight; /* trigger reflow */
+                    card.style.animation = 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+                });
+            },
+
+            openReader(letter) {
+                document.getElementById('r-icon').innerText = letter.icon;
+                document.getElementById('r-title').innerText = letter.title;
+                document.getElementById('r-body').innerText = letter.content;
+                document.getElementById('reader-view').classList.add('active');
+            },
+
+            closeReader() {
+                document.getElementById('reader-view').classList.remove('active');
+            }
+        };
+
+        window.onload = () => app.init();
+    </script>
+</body>
+                </html>
+                

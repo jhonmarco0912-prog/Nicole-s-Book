@@ -1,18 +1,15 @@
-/* --- 1. CSS Variables for Theming (Light/Dark Mode) --- */
+/* --- 1. Variables (Pink/Blue Theme) --- */
 :root {
-    /* Base Colors */
     --bg-color: #f8f8fb;
     --text-color: #1a1a1a;
     --secondary-text-color: #666;
     --primary-pink: #ff69b4;
     
-    /* NEW: Gradient Colors */
-    --gradient-start: #ff85c1; /* Bright Pink */
-    --gradient-middle: #ffb8d9; 
-    --gradient-end: #a4c9ff;   /* Light Blue/Purple */
+    /* The Pink-to-Blue Gradient */
+    --gradient-start: #ff85c1; 
+    --gradient-end: #a4c9ff;
     --main-gradient: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
     
-    /* Component Colors */
     --card-bg-light: #fff;
     --card-bg-pink: #fff0f5;
     --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -21,17 +18,18 @@
     --input-border: #eee;
 }
 
-/* Dark Mode Theme */
 body.dark-mode {
     --bg-color: #121212;
     --text-color: #e0e0e0;
     --secondary-text-color: #b0b0b0;
     --main-gradient: linear-gradient(90deg, #f762a5, #627bff); 
     --search-bg: #1e1e1e;
+    --card-bg-light: #1e1e1e;
+    --card-bg-pink: #2c1a24;
     --input-border: #333;
 }
 
-/* --- 2. General Reset & Styling --- */
+/* --- 2. General Styling --- */
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -41,7 +39,6 @@ body {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* --- 3. Page Container & Animation Setup --- */
 #app-container {
     position: relative;
     width: 100vw;
@@ -65,31 +62,22 @@ body {
     overflow-y: auto;
 }
 
-/* Initial positioning and visibility */
+/* --- 3. Page Positioning --- */
 #start-page { z-index: 3; }
 #letters-page { transform: translateX(100%); z-index: 2; padding-top: 50px; }
 #reading-page { transform: translateX(200%); z-index: 1; padding-top: 50px; }
 
-/* --- Search Overlay Positioning (Starts off-screen bottom) --- */
+/* Overlay starts hidden via CSS to support transitions */
 #search-overlay {
     transform: translateY(100%); 
-    z-index: 4; 
+    z-index: 10; 
     padding: 0; 
     justify-content: flex-start;
-    
-    /* Clean CSS: Display handled by JS/inline style on load */
-    opacity: 0; 
-    pointer-events: none; 
+    opacity: 0;
 }
 
-/* --- Transitions --- */
-#start-page.hidden { 
-    transform: translateX(-100%); 
-    opacity: 0; 
-    z-index: 1; 
-    pointer-events: none; 
-}
-
+/* Transitions */
+#start-page.hidden { transform: translateX(-100%); opacity: 0; z-index: 1; pointer-events: none; }
 #letters-page.active, #letters-page.active-from-right { transform: translateX(0); z-index: 2; }
 #letters-page.slide-left { transform: translateX(-100%); z-index: 1; }
 #reading-page.active { transform: translateX(0); z-index: 2; }
@@ -97,125 +85,98 @@ body {
 
 #search-overlay.active {
     transform: translateY(0);
-    /* NEW: We must re-enable flex/display via JS when toggling active,
-       but CSS handles the final visual state and interaction */
     opacity: 1; 
-    pointer-events: auto;
     transition: transform 0.5s cubic-bezier(0.2, 0, 0, 1), opacity 0.4s ease-out;
 }
 
-
-/* --- 4. Start Page Content --- */
+/* --- 4. Component Styles --- */
 #start-page { justify-content: center; text-align: center; }
 #start-button {
-    background: linear-gradient(135deg, #ff85c1, #ff338f); /* Pink gradient */
+    background: linear-gradient(135deg, #ff85c1, #ff338f);
+    padding: 18px 40px; border-radius: 40px; color: white; border: none; font-size: 1.3em; cursor: pointer;
+    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
 }
 
-/* --- 5. Letters Page Content --- */
-.search-input-trigger { 
-    border: 1px solid var(--input-border);
+.book-section { padding: 20px; border-radius: 20px; background-color: var(--card-bg-light); box-shadow: var(--card-shadow); margin-bottom: 50px; width: 100%; max-width: 350px; }
+.book-title { color: var(--primary-pink); font-size: 1.8em; font-weight: 700; margin: 5px 0; }
+.book-author { color: var(--secondary-text-color); }
+
+.header-icon { font-size: 2.5em; width: 80px; height: 80px; border-radius: 50%; background: var(--icon-bg-pink); display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; animation: pulse 1.5s infinite alternate; }
+
+/* Search Trigger (Letters Page) */
+.search-container { position: relative; margin-bottom: 30px; width: 100%; max-width: 600px; }
+.search-input-trigger {
+    width: 100%; padding: 15px 15px 15px 50px;
+    border: 1px solid var(--input-border); border-radius: 12px;
+    background-color: var(--search-bg); color: var(--secondary-text-color);
+    box-sizing: border-box; cursor: pointer;
 }
+.search-icon { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--secondary-text-color); font-size: 1.2em; }
+
+/* Cards */
 .letter-card {
-    background: linear-gradient(135deg, var(--card-bg-light) 70%, rgba(255, 184, 217, 0.1)); 
+    width: 100%; max-width: 600px; padding: 20px; border-radius: 18px; margin-bottom: 15px;
+    box-shadow: var(--card-shadow); cursor: pointer; display: flex; flex-direction: column;
+    background: linear-gradient(135deg, var(--card-bg-light) 70%, rgba(255, 184, 217, 0.1));
 }
-.card-pink { 
-    background: linear-gradient(135deg, var(--card-bg-pink) 70%, rgba(255, 105, 180, 0.2)); 
-}
+.card-pink { background: linear-gradient(135deg, var(--card-bg-pink) 70%, rgba(255, 105, 180, 0.2)); }
+.card-header { display: flex; align-items: center; margin-bottom: 10px; }
+.card-icon { font-size: 1.5em; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; background: var(--icon-bg-pink); border-radius: 12px; margin-right: 15px; font-style: normal; }
+.card-title { font-weight: 600; color: var(--text-color); }
+.card-excerpt { font-size: 0.9em; color: var(--secondary-text-color); }
 
-/* --- 6. Search Overlay Styles (Aesthetic & Mobile Fixes) --- */
+/* --- 5. SEARCH OVERLAY STYLES (Aesthetic Update) --- */
 .search-header {
-    width: 100%;
-    max-width: 600px;
-    padding: 15px 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--bg-color);
-    box-shadow: none; 
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    margin-bottom: 0;
+    width: 100%; max-width: 600px; padding: 15px 0;
+    display: flex; align-items: center; justify-content: space-between;
+    background-color: var(--bg-color); position: sticky; top: 0; z-index: 20;
 }
 
 .overlay-search-container {
-    flex-grow: 1;
-    margin: 0 10px 0 20px;
-    position: relative;
-    height: 50px; 
+    flex-grow: 1; margin: 0 10px 0 10px; position: relative; height: 50px;
 }
 
-/* Gradient Border Effect Input */
+/* Gradient Border Input */
 .gradient-border-input {
-    width: 100%;
-    height: 100%; 
-    padding: 15px 15px 15px 55px;
-    border: none;
-    border-radius: 25px; 
-    font-size: 1em;
-    background-color: var(--search-bg);
-    box-sizing: border-box;
-    color: var(--text-color);
-    
-    /* AESTHETIC FIX: Gradient Border */
-    box-shadow: 0 0 0 2px var(--search-bg), 0 0 0 4px transparent;
-    border-image-slice: 1;
-    border-width: 2px;
-    border-image-source: var(--main-gradient); /* Pink-Blue Gradient */
-    border-style: solid; 
-    transition: all 0.3s ease;
+    width: 100%; height: 100%; padding: 0 15px 0 50px;
+    border: 2px solid transparent; /* Transparent border for background-clip */
+    border-radius: 25px; /* Rounded pill shape */
+    background: linear-gradient(var(--search-bg), var(--search-bg)) padding-box,
+                var(--main-gradient) border-box;
+    font-size: 1em; color: var(--text-color); outline: none; box-sizing: border-box;
 }
 
-.search-header .search-icon {
-    left: 35px; 
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--gradient-end);
-    z-index: 6; 
-}
-.large-icon {
-    font-size: 1.5em; 
-}
+.large-icon { font-size: 1.4em; left: 15px; color: #a4c9ff; z-index: 21; }
 
-/* Cancel Button Styling */
 .cancel-button {
-    background: none;
-    border: none;
-    color: var(--primary-pink);
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 10px 20px 10px 0; 
-    height: 50px; 
-    display: flex;
-    align-items: center;
+    background: none; border: none; color: var(--primary-pink);
+    font-weight: 600; cursor: pointer; padding: 0 10px;
 }
 
-/* --- 9. MOBILE OPTIMIZATIONS (Focus on Search Bar) --- */
+#search-results-container { width: 100%; max-width: 600px; padding-bottom: 50px; }
+.search-tip { text-align: center; color: var(--secondary-text-color); margin-top: 50px; }
+
+/* --- 6. Reading Page --- */
+#reading-page > div { width: 100%; max-width: 700px; text-align: left; }
+.back-button { position: absolute; top: 20px; left: 20px; font-size: 1.5em; color: var(--text-color); background: none; border: none; cursor: pointer; z-index: 10; }
+.letter-title-main { font-size: 2em; color: var(--primary-pink); font-weight: 700; margin-top: 20px; }
+.letter-content { line-height: 1.8; white-space: pre-wrap; padding-bottom: 50px; }
+
+/* Theme Toggle */
+.theme-toggle { 
+    position: fixed; top: 15px; right: 15px; padding: 8px 12px; border-radius: 50%;
+    background: var(--main-gradient); color: white; border: none; z-index: 100; cursor: pointer;
+}
+
+/* Animations */
+@keyframes pulse { 0% { transform: scale(1) rotate(-10deg); } 100% { transform: scale(1.05) rotate(-10deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Mobile Tweaks */
 @media screen and (max-width: 600px) {
-    .page { padding: 15px; min-height: auto; }
-    #search-overlay { padding-top: 0; padding-bottom: 15px; }
-    
-    /* Search Header Mobile Adjustments */
-    .search-header { padding: 8px 0; }
-    .overlay-search-container { margin: 0 5px 0 10px; height: 45px; } 
-    
-    .gradient-border-input {
-        padding: 10px 10px 10px 45px; 
-        font-size: 0.9em;
-    }
-    .search-header .search-icon { 
-        left: 20px; 
-        font-size: 1.3em;
-    }
-    .cancel-button { 
-        padding: 10px 10px 10px 0;
-        font-size: 0.9em;
-        height: 45px;
-    }
-    
-    /* Ensure other elements are scaled down correctly */
-    .letter-title-main { font-size: 1.8em; margin-top: 20px; }
-    .letter-date { font-size: 0.9em; margin-bottom: 20px; }
-    }
-    
+    .page { padding: 15px; }
+    .search-header { padding: 10px 0; }
+    .gradient-border-input { font-size: 0.9em; padding-left: 45px; }
+    .large-icon { left: 12px; font-size: 1.2em; }
+    .cancel-button { font-size: 0.9em; }
+}

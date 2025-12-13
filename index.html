@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Letters Project</title>
+    <style>
+        /* --- General Reset & Styling --- */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f8fb;
+            color: #333;
+            overflow-x: hidden; /* Prevent horizontal scroll during transitions */
+        }
+
+        /* --- Page Container --- */
+        #app-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; /* Contain the pages */
+        }
+
+        /* --- Page Base Styles --- */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.6s ease-out; /* Smooth spring-like transition */
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f8f8fb;
+        }
+
+        /* --- Start Page Specific Styles --- */
+        #start-page {
+            /* Initial state: visible at the start */
+            z-index: 2; 
+        }
+
+        #start-button {
+            padding: 15px 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white;
+            background-color: #ff69b4; /* Pink */
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #start-button:hover {
+            background-color: #ff85c1;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(255, 105, 180, 0.6);
+        }
+
+        #start-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 4px 10px rgba(255, 105, 180, 0.4);
+        }
+
+        /* --- Letters Page Specific Styles --- */
+        #letters-page {
+            /* Initial state: hidden off-screen to the right */
+            transform: translateX(100%);
+            z-index: 1;
+            align-items: flex-start; /* Align content to the left/top */
+            overflow-y: auto; /* Enable scrolling for the content */
+            padding-top: 50px;
+        }
+
+        /* State after transition: visible */
+        #letters-page.active {
+            transform: translateX(0);
+            z-index: 2;
+        }
+
+        /* Hide Start Page after transition */
+        #start-page.hidden {
+            transform: translateX(-100%);
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* --- Letter Page Content Styling (Based on your image) --- */
+        .header-icon {
+            font-size: 4em;
+            color: white;
+            background-color: #ffc0cb; /* Light Pink for background */
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0 0 10px 0;
+        }
+
+        .summary-text {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding-left: 50px; /* Space for search icon */
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            margin-top: 15px;
+            margin-left: 15px;
+            color: #ccc;
+            font-size: 1.2em;
+        }
+        
+        /* Letter Card Styling */
+        .letter-card {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            background-color: #fefefe;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-pink {
+            background-color: #fff0f5; /* Very light pink background */
+        }
+        
+        .card-icon {
+            font-size: 2em;
+            color: #ff69b4; /* Pink for icons */
+            background-color: #fce4ec; /* Lighter pink icon background */
+            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #ff69b4;
+        }
+
+        .card-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-top: 5px;
+        }
+
+        .card-excerpt {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        
+        <div id="start-page" class="page">
+            <h1 style="margin-bottom: 40px; color: #ff69b4;">Welcome</h1>
+            <button id="start-button">Start Your Journey</button>
+        </div>
+
+        <div id="letters-page" class="page">
+            <div style="width: 100%; max-width: 600px; text-align: center;">
+                <div class="header-icon" style="margin-left: auto; margin-right: auto;">
+                    &#x2764;&#xfe0f; </div>
+                <h1>Your Letters</h1>
+                <p class="summary-text">80 heartfelt letters for every moment. Click on a letter to read it.</p>
+            </div>
+
+            <div class="search-container">
+                <span class="search-icon">&#x1F50D;</span> <input type="text" class="search-input" placeholder="Search letters...">
+            </div>
+
+            <div class="letter-card card-pink">
+                <div style="position: relative;">
+                    <span class="card-number">#1</span>
+                    <div class="card-icon">&#x1F381;</div> </div>
+                <div class="card-title">When You First Receive This</div>
+                <div class="card-excerpt">Hello baby! Happy Birthday! I hope you like your gift. It's not that good but I ...</div>
+            </div>
+
+            <div class="letter-card">
+                <div style="position: relative;">
+                    <span class="card-number" style="color: #4682b4;">#2</span>
+                    <div class="card-icon" style="color: #4682b4; background-color: #e6f0fa;">&#x2601;&#xfe0f;</div> </div>
+                <div class="card-title">On a Rainy Day</div>
+                <div class="card-excerpt">It's a cozy day today, and I hope you're snuggled up somewhere warm. Remember that time we...</div>
+            </div>
+            
+            <div class="letter-card">
+                <div style="position: relative;">
+                    <span class="card-number" style="color: #daa520;">#3</span>
+                    <div class="card-icon" style="color: #daa520; background-color: #fcf8e3;">&#x2B50;</div> </div>
+                <div class="card-title">When You Need Motivation</div>
+                <div class="card-excerpt">You are stronger than you think. This challenge is just a stepping stone. Read this when...</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('start-button').addEventListener('click', function() {
+            // 1. Get the page elements
+            const startPage = document.getElementById('start-page');
+            const lettersPage = document.getElementById('letters-page');
+
+            // 2. Animate the Start Button (Optional extra smooth effect)
+            this.style.transform = 'scale(0.8)';
+            this.style.opacity = '0';
+            
+            // 3. Wait a moment for the button animation, then transition pages
+            setTimeout(() => {
+                // A. Hide the Start Page (slide it left and fade out)
+                startPage.classList.add('hidden');
+                
+                // B. Show the Letters Page (slide it into view from the right)
+                lettersPage.classList.add('active');
+            }, 300); // Wait 300ms for the button animation to complete
+        });
+    </script>
+
+</body>
+</html>
+

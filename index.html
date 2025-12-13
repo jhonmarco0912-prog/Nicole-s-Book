@@ -2,54 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Nicole's Book</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <div class="bg-gradient"></div>
+    <div id="particles"></div>
+
     <section id="landing-page">
-        <div class="book-icon">📖</div>
-        <div class="fade-in">
+        <div class="landing-content">
+            <div class="icon-glow">📖</div>
             <h1 class="landing-title">Nicole's Book</h1>
-            <p class="landing-subtitle">A collection of heartfelt letters</p>
-            <button class="btn-primary" onclick="app.start()">Start Reading</button>
+            <p class="landing-subtitle">Every memory, kept safe for you.</p>
+            <button class="btn-glass" onclick="app.start()">
+                <span>Open Book</span>
+                <div class="shimmer"></div>
+            </button>
         </div>
     </section>
 
     <section id="main-app" class="hidden">
-        <header>
-            <h1>Your Letters</h1>
-            <button class="theme-toggle" onclick="app.toggleTheme()" aria-label="Toggle Dark Mode">
+        <header class="app-header">
+            <div class="header-text">
+                <span class="greeting">Hello, Love</span>
+                <h2>Your Letters</h2>
+            </div>
+            <button class="theme-btn" onclick="app.toggleTheme()">
                 <span id="theme-icon">🌙</span>
             </button>
         </header>
 
-        <div class="search-container slide-up">
-            <input type="text" id="search-input" class="search-bar" placeholder="Search letters..." oninput="app.handleSearch(this.value)">
+        <div class="search-wrapper">
+            <div class="search-glass">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" placeholder="Find a memory..." oninput="app.handleSearch(this.value)">
+            </div>
         </div>
 
-        <div id="letters-list" class="letters-grid slide-up" style="animation-delay: 0.1s;">
+        <div id="letters-list" class="letters-container">
             </div>
 
-        <div id="no-results" class="no-results hidden">
-            <div style="font-size: 40px;">🔍</div>
-            <p>No letters found matching that.</p>
+        <div id="no-results" class="hidden state-empty">
+            <div class="empty-icon">🍂</div>
+            <p>Nothing found here.</p>
         </div>
     </section>
 
     <div id="reader-view">
-        <div class="reader-nav">
-            <button class="close-btn" onclick="app.closeReader()">✕</button>
-            <span style="font-weight: 600; color: var(--text-secondary);">Reading</span>
-            <div style="width: 40px;"></div> </div>
-        <div class="reader-content">
-            <span id="r-icon" class="reader-icon"></span>
-            <h2 id="r-title" class="reader-title"></h2>
-            <div id="r-body" class="reader-body"></div>
+        <div class="reader-backdrop" onclick="app.closeReader()"></div>
+        <div class="reader-card">
+            <div class="reader-header">
+                <button class="close-btn" onclick="app.closeReader()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="reader-scroll">
+                <div class="reader-content">
+                    <div class="reader-hero">
+                        <span id="r-icon" class="hero-emoji"></span>
+                    </div>
+                    <h2 id="r-title"></h2>
+                    <div class="divider"></div>
+                    <div id="r-body"></div>
+                    <div class="signature">With love,<br>Always.</div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-</html>
+            </html>
+            

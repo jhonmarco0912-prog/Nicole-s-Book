@@ -1,64 +1,43 @@
-// --- DATA STORE (Simulated Letter Content) ---
+// Data
 const lettersData = {
     1: {
         title: "When You First Receive This",
         date: "December 14, 2025",
-        excerpt: "Hello baby! Happy Birthday! I hope you like your gift. It's not that good but I ...",
-        icon: '&#x1F381;',
-        class: 'card-pink',
-        style: '',
-        body: `Hello my love! Happy Birthday! I hope you like your gift. It's not that good but I put all my heart into picking it out for you.
-\nI remember last year's birthday, we were laughing about the cake disaster. It's these small, silly moments that I treasure the most. Please take a moment today to just relax and know how deeply you are loved.
-\nThis letter is meant to be read only on the day you receive it, so put it away now and let's make some new memories!
-\nForever and always,
-Your Nicole.`,
+        excerpt: "Hello baby! Happy Birthday! I hope you like your gift...",
+        icon: '&#x1F381;', class: 'card-pink', style: '',
+        body: `Hello my love! Happy Birthday!\n\nI hope you like your gift. It's not that good but I put all my heart into picking it out for you.\n\nForever and always,\nYour Nicole.`
     },
     2: {
         title: "On a Rainy Day",
         date: "November 5, 2025",
-        excerpt: "It's a cozy day today, and I hope you're snuggled up somewhere warm. Remember that time we...",
-        icon: '&#x2601;&#xfe0f;',
-        class: '',
-        style: 'color: #4682b4; background-color: #e6f0fa;',
-        body: `It's a cozy day today, and I hope you're snuggled up somewhere warm. It's absolutely pouring outside right now—the perfect background music for a nap or a good movie.
-\nDo you remember that time we got absolutely soaked walking home from the park? We thought we were going to catch a cold, but we just ended up laughing the whole way. That's what I think of when it rains now.
-\nIf you're feeling down, just remember that the sun always comes out after the storm. Go make some tea, put on your comfiest socks, and let the rain wash away any worries.`,
+        excerpt: "It's a cozy day today, and I hope you're snuggled up...",
+        icon: '&#x2601;&#xfe0f;', class: '', style: 'color: #4682b4; background-color: #e6f0fa;',
+        body: `It's a cozy day today. Do you remember that time we got soaked? Go make some tea and relax.`
     },
     3: {
         title: "When You Need Motivation",
         date: "October 20, 2025",
-        excerpt: "You are stronger than you think. This challenge is just a stepping stone. Read this when...",
-        icon: '&#x2B50;',
-        class: '',
-        style: 'color: #daa520; background-color: #fcf8e3;',
-        body: `You are stronger than you think. This challenge is just a stepping stone, not a wall. Read this when you are feeling the weight of the world on your shoulders.
-\nI see how hard you work, and I know how much you care. Effort never goes unnoticed. I am incredibly proud of your persistence and your spirit.
-\nTake a deep breath. Focus on the next small step. Not the summit, just the next step. I'm right here cheering you on. Go get 'em!`,
+        excerpt: "You are stronger than you think. This challenge is just a...",
+        icon: '&#x2B50;', class: '', style: 'color: #daa520; background-color: #fcf8e3;',
+        body: `You are stronger than you think. This challenge is just a stepping stone. I'm right here cheering you on.`
     }
 };
 
-
-// --- ELEMENT SELECTION ---
+// Elements
 const startPage = document.getElementById('start-page');
 const lettersPage = document.getElementById('letters-page');
 const searchOverlay = document.getElementById('search-overlay');
 const readingPage = document.getElementById('reading-page');
 const startButton = document.getElementById('start-button');
 const backButton = document.getElementById('back-to-letters');
-const letterCards = document.querySelectorAll('.letter-card');
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-
-// Search elements
 const searchTrigger = document.getElementById('search-trigger');
 const searchInput = document.getElementById('search-input-actual');
 const cancelSearchButton = document.getElementById('cancel-search');
 const searchResultsContainer = document.getElementById('search-results-container');
+const themeToggle = document.getElementById('theme-toggle');
 
-
-// --- HELPER FUNCTION: Card Renderer (for Search Results) ---
+// Helper: Render Card
 function renderCardHTML(id, data) {
-    // Generate the HTML for a letter card based on data
     return `
         <div class="letter-card ${data.class}" data-id="${id}" data-title="${data.title}" data-date="${data.date}">
             <div class="card-header">
@@ -73,148 +52,95 @@ function renderCardHTML(id, data) {
     `;
 }
 
-// --- PAGE TRANSITION LOGIC ---
-
-// A. Start Page -> Letters Page
+// 1. Start -> Index
 startButton.addEventListener('click', function() {
     this.style.transform = 'scale(0.9)';
     this.style.opacity = '0';
     setTimeout(() => {
         startPage.classList.add('hidden');
         lettersPage.classList.add('active');
-        lettersPage.classList.remove('slide-right');
     }, 300); 
 });
 
-// B. Letters Index -> Search Overlay (Triggered by tapping the search bar)
+// 2. Index -> Search Overlay
 searchTrigger.addEventListener('click', function() {
-    // CRUCIAL FIX: Set display to flex IMMEDIATELY before adding the 'active' class
-    // This allows the transform animation to work from translateY(100%) to translateY(0)
+    // Reveal element first, then animate
     searchOverlay.style.display = 'flex';
-    searchOverlay.classList.add('active');
-    
+    // Small delay to allow browser to render 'flex' before adding 'active' class for transition
     setTimeout(() => {
+        searchOverlay.classList.add('active');
         searchInput.focus();
-        // Run initial search to show all letters (by searching for an empty string)
-        runSearch(''); 
-    }, 500); 
+        runSearch('');
+    }, 10);
 });
 
-// C. Search Overlay -> Letters Index (Cancel Button)
+// 3. Close Search Overlay
 cancelSearchButton.addEventListener('click', function() {
     searchOverlay.classList.remove('active');
-    searchInput.value = ''; // Clear search input
-    searchInput.blur(); // Remove focus
-
-    // CRUCIAL FIX: Wait for the transition to finish (0.5s) then hide the element completely
+    searchInput.value = '';
+    searchInput.blur();
+    // Wait for animation to finish before hiding
     setTimeout(() => {
         searchOverlay.style.display = 'none';
     }, 500);
 });
 
-
-// D. Letter Card Click Handler (Must be delegated for dynamically added search results)
+// 4. Click Card (Index or Search) -> Reading
 function handleLetterClick(e) {
     let card = e.target.closest('.letter-card');
     if (!card) return;
 
     const id = card.getAttribute('data-id');
-    const title = card.getAttribute('data-title');
-    const date = card.getAttribute('data-date');
-    const bodyText = lettersData[id].body;
+    const data = lettersData[id];
 
-    // 1. Inject content
-    document.getElementById('letter-title').textContent = title;
-    document.getElementById('letter-date').textContent = date;
-    document.getElementById('letter-body').textContent = bodyText;
+    document.getElementById('letter-title').textContent = data.title;
+    document.getElementById('letter-date').textContent = data.date;
+    document.getElementById('letter-body').textContent = data.body;
 
-    // 2. Animate the transition
+    // Transition
     lettersPage.classList.remove('active');
     
-    // If transitioning from search, hide search overlay immediately before transition starts
-    if (searchOverlay.classList.contains('active')) {
-        searchOverlay.classList.remove('active'); 
-        searchOverlay.style.display = 'none';
+    // If coming from search, hide it properly
+    if(searchOverlay.style.display !== 'none') {
+        searchOverlay.classList.remove('active');
+        setTimeout(() => { searchOverlay.style.display = 'none'; }, 500);
     }
-    
-    // Animate transition (Index/Search -> Reading)
-    lettersPage.classList.remove('active-from-right');
-    lettersPage.classList.remove('slide-right');
+
     lettersPage.classList.add('slide-left');
     readingPage.classList.add('active');
     readingPage.classList.remove('slide-right');
 }
 
-// Attach click listener to both pages containing cards
 lettersPage.addEventListener('click', handleLetterClick);
 searchOverlay.addEventListener('click', handleLetterClick);
 
-
-// E. Reading Page -> Letters Page (Back)
+// 5. Reading -> Index
 backButton.addEventListener('click', function() {
     lettersPage.classList.remove('slide-left');
-    lettersPage.classList.add('active-from-right');
+    lettersPage.classList.add('active');
     readingPage.classList.remove('active');
     readingPage.classList.add('slide-right');
 });
 
-
-// --- SEARCH FUNCTION LOGIC ---
-
-function runSearch(searchTerm) {
-    const term = searchTerm.toLowerCase().trim();
+// Search Logic
+function runSearch(term) {
+    term = term.toLowerCase().trim();
     let resultsHTML = '';
-    let matchesFound = 0;
+    let matches = 0;
 
-    // Iterate through the structured data store
     for (const id in lettersData) {
         const data = lettersData[id];
-        
-        // --- Search scope limited to Title and Excerpt (summary) ---
-        const searchableText = `${data.title} ${data.excerpt}`.toLowerCase();
-        
-        if (searchableText.includes(term)) {
+        if ((data.title + ' ' + data.excerpt).toLowerCase().includes(term)) {
             resultsHTML += renderCardHTML(id, data);
-            matchesFound++;
+            matches++;
         }
     }
-    
-    // Display results or a message
-    if (matchesFound > 0) {
-        searchResultsContainer.innerHTML = resultsHTML;
-    } else if (term.length > 0) {
-        searchResultsContainer.innerHTML = `<p class="search-tip">No letters found matching titles or excerpts for "${searchTerm}".</p>`;
-    } else {
-        // Show initial hint text if the search term is empty
-        searchResultsContainer.innerHTML = `<p class="search-tip">Start typing to search titles or content summaries.</p>`;
-    }
+    searchResultsContainer.innerHTML = matches > 0 ? resultsHTML : `<p class="search-tip">No matches found.</p>`;
+    if(term === '' && matches > 0) searchResultsContainer.innerHTML = `<p class="search-tip">Type to search...</p>`;
 }
+searchInput.addEventListener('input', (e) => runSearch(e.target.value));
 
-// Event listener for input changes in the search bar (inside the overlay)
-searchInput.addEventListener('input', function(e) {
-    runSearch(e.target.value);
-});
-
-
-// --- DARK MODE LOGIC ---
-const updateTheme = () => {
-    if (localStorage.getItem('theme') === 'dark') {
-        body.classList.add('dark-mode');
-        themeToggle.innerHTML = '&#9790;'; // Moon Icon
-    } else {
-        body.classList.remove('dark-mode');
-        themeToggle.innerHTML = '&#9728;'; // Sun Icon
-    }
-};
-
-updateTheme();
-
+// Theme Logic
 themeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-    } else {
-        localStorage.setItem('theme', 'light');
-    }
-    updateTheme();
+    document.body.classList.toggle('dark-mode');
 });

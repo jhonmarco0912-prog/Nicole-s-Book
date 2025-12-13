@@ -25,13 +25,8 @@ body.dark-mode {
     --bg-color: #121212;
     --text-color: #e0e0e0;
     --secondary-text-color: #b0b0b0;
-    --card-bg-light: #1e1e1e;
-    --card-bg-pink: #2c1a24;
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    --icon-bg-pink: #3d1f30;
+    --main-gradient: linear-gradient(135deg, #f762a5, #627bff); 
     --search-bg: #1e1e1e;
-    --input-border: #333;
-    --main-gradient: linear-gradient(135deg, #f762a5, #627bff); /* Darker, more saturated gradient */
 }
 
 /* --- 2. General Reset & Styling --- */
@@ -64,7 +59,7 @@ body {
     padding: 30px 20px;
     box-sizing: border-box;
     background-color: var(--bg-color);
-    /* SLIGHTLY SLOWER, SMOOTHER TRANSITION */
+    /* SLOWER, SMOOTHER TRANSITION */
     transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s ease-out; 
     overflow-y: auto;
 }
@@ -80,6 +75,7 @@ body {
     z-index: 4; 
     padding: 0; 
     justify-content: flex-start;
+    /* FIX: Initial state ensures absolute invisibility and no interaction */
     opacity: 0; 
     pointer-events: none; 
 }
@@ -93,57 +89,29 @@ body {
 }
 
 #letters-page.active, #letters-page.active-from-right { transform: translateX(0); z-index: 2; }
-#letters-page.slide-left { transform: translateX(-100%); z-index: 1; }
-#reading-page.active { transform: translateX(0); z-index: 2; }
-#reading-page.slide-right { transform: translateX(100%); z-index: 1; }
 
 #search-overlay.active {
-    transform: translateY(0); 
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(0);
     opacity: 1; 
     pointer-events: auto;
-    /* NEW: Slower animation for a softer pop-up effect */
     transition: transform 0.5s cubic-bezier(0.2, 0, 0, 1), opacity 0.4s ease-out;
 }
 
 
-/* --- 4. Start Page Content (Start Button Gradient Update) --- */
+/* --- 4. Start Page Content --- */
 #start-button {
-    background: linear-gradient(135deg, #ff85c1, #ff338f); /* Pure pink gradient */
-    box-shadow: 0 10px 25px rgba(255, 105, 180, 0.4);
-}
-#start-button:hover {
-    box-shadow: 0 15px 30px rgba(255, 105, 180, 0.6);
+    background: linear-gradient(135deg, #ff85c1, #ff338f); /* Pink gradient */
 }
 
 /* --- 5. Letters Page Content --- */
-.search-input-trigger { 
-    border: 1px solid var(--input-border);
-}
-.search-icon { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--secondary-text-color); font-size: 1.2em; }
-
-/* Letter Card Styling (Apply Gradients) */
 .letter-card {
-    position: relative;
-    padding: 20px;
-    border-radius: 18px;
-    margin-bottom: 15px;
-    box-shadow: var(--card-shadow);
-    background: var(--card-bg-light); 
-    display: flex; 
-    flex-direction: column;
-    /* NEW: Subtle gradient background */
     background: linear-gradient(135deg, var(--card-bg-light) 70%, rgba(255, 184, 217, 0.1)); 
-    overflow: hidden;
 }
-
 .card-pink { 
-    /* NEW: Stronger gradient for featured cards */
     background: linear-gradient(135deg, var(--card-bg-pink) 70%, rgba(255, 105, 180, 0.2)); 
 }
 
-
-/* --- 6. Search Overlay Styles (CRUCIAL FIXES FOR THE IMAGE DESIGN) --- */
+/* --- 6. Search Overlay Styles (Enhanced Styling & Layout) --- */
 .search-header {
     width: 100%;
     max-width: 600px;
@@ -152,23 +120,25 @@ body {
     align-items: center;
     justify-content: space-between;
     background-color: var(--bg-color);
-    box-shadow: none; /* Remove shadow to keep it clean */
+    box-shadow: none; 
     position: sticky;
     top: 0;
     z-index: 5;
-    margin-bottom: 0; /* Tighten up spacing */
+    margin-bottom: 0;
 }
 
 .overlay-search-container {
     flex-grow: 1;
     margin: 0 10px 0 20px;
     position: relative;
+    height: 50px; /* NEW: Fixed height for alignment */
 }
 
-/* New: Gradient Border Effect Container (Applied to the input itself) */
+/* Gradient Border Effect Input */
 .gradient-border-input {
     width: 100%;
-    padding: 15px 15px 15px 55px; /* Adjust padding for larger icon */
+    height: 100%; /* Fill overlay container height */
+    padding: 15px 15px 15px 55px;
     border: none;
     border-radius: 25px; /* More rounded */
     font-size: 1em;
@@ -176,7 +146,8 @@ body {
     box-sizing: border-box;
     color: var(--text-color);
     
-    /* New: Gradient Border using a pseudo-border technique */
+    /* Gradient Border using a pseudo-border technique */
+    /* Inner white shadow for the gap, gradient border for the color */
     box-shadow: 0 0 0 3px var(--search-bg), 0 0 0 4px transparent;
     border-image-slice: 1;
     border-width: 2px;
@@ -186,18 +157,17 @@ body {
 }
 
 .search-header .search-icon {
-    left: 35px; /* Adjusted position for padding */
+    left: 35px; 
     top: 50%;
     transform: translateY(-50%);
-    color: var(--secondary-text-color);
+    color: #a4c9ff; /* Blue tint for the icon */
     z-index: 6; 
 }
 .large-icon {
     font-size: 1.5em; /* Larger magnifying glass icon */
-    color: #a4c9ff; /* Blue tint for the icon */
 }
 
-/* Cancel Button Styling (Matches the image) */
+/* Cancel Button Styling */
 .cancel-button {
     background: none;
     border: none;
@@ -205,33 +175,16 @@ body {
     font-size: 1em;
     font-weight: 600;
     cursor: pointer;
-    padding-right: 20px;
-    /* FIX: Ensure it aligns properly with the search bar */
+    padding: 10px 20px 10px 0; /* Adjusted padding */
     height: 50px; 
     display: flex;
     align-items: center;
 }
 
-.search-tip {
-    text-align: center;
-    color: var(--secondary-text-color);
-    margin-top: 50px;
-}
-
-
-/* --- 7. Reading Page Styles (No change) --- */
-#reading-page > div { width: 100%; max-width: 700px; padding-top: 20px; text-align: left; }
-.back-button { position: absolute; top: 20px; left: 20px; font-size: 1.5em; color: var(--text-color); background: none; border: none; cursor: pointer; z-index: 10; padding: 10px; transition: color 0.3s; }
-.letter-title-main { font-size: 2.5em; color: var(--primary-pink); margin-bottom: 10px; font-weight: 700; }
-.letter-date { font-size: 1em; color: var(--secondary-text-color); margin-bottom: 30px; font-style: italic; border-bottom: 1px solid var(--input-border); padding-bottom: 15px; }
-.letter-content { font-size: 1.1em; line-height: 1.8; white-space: pre-wrap; padding-bottom: 50px; }
-
-
-/* --- 8. Dark Mode & Animations (Theme Toggle Gradient Update) --- */
+/* --- 8. Dark Mode & Animations --- */
 .theme-toggle { 
     background: var(--main-gradient);
     color: var(--text-color);
-    /* NEW: Inner shadow to simulate the sun/moon icon */
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1); 
 }
 body.dark-mode .theme-toggle { 
@@ -239,8 +192,6 @@ body.dark-mode .theme-toggle {
     color: var(--text-color);
     box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
 }
-@keyframes pulse { 0% { transform: scale(1) rotate(-10deg); } 100% { transform: scale(1.05) rotate(-10deg); } }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 /* --- 9. MOBILE OPTIMIZATIONS (Media Query) --- */
 @media screen and (max-width: 600px) {
@@ -248,22 +199,25 @@ body.dark-mode .theme-toggle {
     #search-overlay { padding-top: 0; padding-bottom: 15px; }
     
     /* Search Header Mobile Adjustments */
-    .search-header { padding: 10px 0; }
-    .overlay-search-container { margin: 0 5px 0 10px; }
+    .search-header { padding: 8px 0; }
+    .overlay-search-container { margin: 0 5px 0 10px; height: 45px; } /* Slightly smaller container on mobile */
     
     .gradient-border-input {
-        padding: 12px 12px 12px 45px; /* Smaller mobile padding */
-        border-radius: 20px;
+        padding: 10px 10px 10px 45px; /* Smaller mobile padding */
+        font-size: 0.9em;
     }
     .search-header .search-icon { 
         left: 20px; 
         font-size: 1.3em;
     }
     .cancel-button { 
-        padding-right: 10px; 
+        padding: 10px 10px 10px 0;
         font-size: 0.9em;
+        height: 45px;
     }
     
-    /* ... other mobile styles ... */
+    /* Ensure other text sizes are mobile-friendly */
+    .letter-title-main { font-size: 1.8em; margin-top: 20px; }
+    .letter-date { font-size: 0.9em; margin-bottom: 20px; }
     }
-    
+                                            

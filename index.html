@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Letters Project</title>
+    <title>The Archives</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -16,12 +16,12 @@
         </button>
 
         <div id="start-page" class="page">
-            <h1 style="color: var(--primary-pink); font-size: 3em; margin-bottom: 20px;">The Archives</h1>
+            <h1 class="main-title">The Archives</h1>
             
             <div class="book-section">
                 <p class="book-author">Featured Story</p>
                 <p class="book-title">Nicole's Book</p>
-                <div style="font-size: 0.9em; color: var(--secondary-text-color);">
+                <div class="book-desc">
                     A heartfelt collection of memories, hopes, and dreams. Tap below to begin the journey into the letters.
                 </div>
             </div>
@@ -33,65 +33,61 @@
             <div class="main-header">
                 <div class="header-icon">&#x2764;&#xfe0f;</div>
                 <h1>Your Letters</h1>
-                <p class="summary-text">80 heartfelt letters for every moment. Click on a letter to read it.</p>
+                <p class="summary-text">80 heartfelt letters for every moment.</p>
             </div>
 
-            <div class="search-container">
-                <span class="search-icon">&#x1F50D;</span>
-                <div class="search-input-trigger" id="search-trigger" placeholder="Search letters...">Search letters...</div>
+            <div class="search-trigger-container">
+                <div class="search-trigger-bar" id="search-trigger">
+                    <span class="search-icon">&#x1F50D;</span>
+                    <span class="placeholder-text">Search letters...</span>
+                </div>
             </div>
 
-            <div class="letter-card card-pink" data-id="1" data-title="When You First Receive This" data-icon="&#x1F381;" data-date="December 14, 2025" style="animation: fadeIn 0.5s ease-out 0.8s backwards;">
-                <div class="card-header">
-                    <i class="card-icon">&#x1F381;</i>
-                    <div class="card-title-group">
-                        <span class="card-number">#1</span>
-                        <div class="card-title">When You First Receive This</div>
+            <div class="card-container">
+                <div class="letter-card card-featured" data-id="1" data-title="When You First Receive This" data-date="December 14, 2025">
+                    <div class="card-icon-box">&#x1F381;</div>
+                    <div class="card-content">
+                        <span class="card-tag">#1 Special</span>
+                        <h3 class="card-title">When You First Receive This</h3>
+                        <p class="card-excerpt">Hello baby! Happy Birthday! I hope you like your gift...</p>
                     </div>
                 </div>
-                <div class="card-excerpt">Hello baby! Happy Birthday! I hope you like your gift. It's not that good but I ...</div>
-            </div>
 
-            <div class="letter-card" data-id="2" data-title="On a Rainy Day" data-icon="&#x2601;&#xfe0f;" data-date="November 5, 2025" style="animation: fadeIn 0.5s ease-out 1s backwards;">
-                <div class="card-header">
-                    <i class="card-icon" style="color: #4682b4; background-color: #e6f0fa;">&#x2601;&#xfe0f;</i>
-                    <div class="card-title-group">
-                        <span class="card-number" style="color: #4682b4;">#2</span>
-                        <div class="card-title">On a Rainy Day</div>
+                <div class="letter-card" data-id="2" data-title="On a Rainy Day" data-date="November 5, 2025">
+                    <div class="card-icon-box" style="background: #e6f0fa; color: #4682b4;">&#x2601;&#xfe0f;</div>
+                    <div class="card-content">
+                        <span class="card-tag" style="color: #4682b4;">#2 Comfort</span>
+                        <h3 class="card-title">On a Rainy Day</h3>
+                        <p class="card-excerpt">It's a cozy day today, and I hope you're snuggled up...</p>
                     </div>
                 </div>
-                <div class="card-excerpt">It's a cozy day today, and I hope you're snuggled up somewhere warm. Remember that time we...</div>
-            </div>
-            
-            <div class="letter-card" data-id="3" data-title="When You Need Motivation" data-icon="&#x2B50;" data-date="October 20, 2025" style="animation: fadeIn 0.5s ease-out 1.2s backwards;">
-                <div class="card-header">
-                    <i class="card-icon" style="color: #daa520; background-color: #fcf8e3;">&#x2B50;</i>
-                    <div class="card-title-group">
-                        <span class="card-number" style="color: #daa520;">#3</span>
-                        <div class="card-title">When You Need Motivation</div>
+                
+                <div class="letter-card" data-id="3" data-title="When You Need Motivation" data-date="October 20, 2025">
+                    <div class="card-icon-box" style="background: #fcf8e3; color: #daa520;">&#x2B50;</div>
+                    <div class="card-content">
+                        <span class="card-tag" style="color: #daa520;">#3 Power</span>
+                        <h3 class="card-title">When You Need Motivation</h3>
+                        <p class="card-excerpt">You are stronger than you think. This challenge is just...</p>
                     </div>
                 </div>
-                <div class="card-excerpt">You are stronger than you think. This challenge is just a stepping stone. Read this when...</div>
             </div>
-
         </div>
         
-        <div id="search-overlay" class="page" style="display: none;">
+        <div id="search-overlay">
             <div class="search-header">
-                <div class="search-container overlay-search-container">
-                    <span class="search-icon large-icon">&#x1F50D;</span>
-                    <input type="text" class="search-input gradient-border-input" id="search-input-actual" placeholder="Search titles and summaries...">
+                <div class="real-search-container">
+                    <span class="search-icon-small">&#x1F50D;</span>
+                    <input type="text" id="search-input-actual" placeholder="Search titles...">
                 </div>
-                <button class="cancel-button" id="cancel-search">Cancel</button>
+                <button id="cancel-search">Cancel</button>
             </div>
-            
             <div id="search-results-container">
-                <p class="search-tip">Type to search titles or content summaries...</p>
-                </div>
+                <p class="search-tip">Type above to find a letter...</p>
+            </div>
         </div>
 
         <div id="reading-page" class="page">
-            <button class="back-button" id="back-to-letters">&#x2190; Back</button>
+            <button class="back-button" id="back-to-letters">&#x2190;</button>
             <div id="letter-content-container">
                 <h2 class="letter-title-main" id="letter-title"></h2>
                 <p class="letter-date" id="letter-date"></p>
@@ -104,5 +100,4 @@
     <script src="script.js"></script>
 
 </body>
-    </html>
-    
+</html>

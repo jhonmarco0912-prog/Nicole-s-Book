@@ -151,7 +151,7 @@ body {
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s;
     
-    /* ADDED FOR SEARCH SUPPORT */
+    /* CRITICAL FOR SEARCH: Sets default display to flex */
     display: flex; 
     flex-direction: column;
 }
@@ -266,4 +266,4 @@ body.dark-mode .theme-toggle {
     .card-excerpt { font-size: 0.85em; }
     .search-input { padding: 12px; padding-left: 45px; }
     .search-icon { left: 10px; font-size: 1.1em; }
-}
+                  }

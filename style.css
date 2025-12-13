@@ -150,6 +150,10 @@ body {
     background-color: var(--card-bg-light);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s;
+    
+    /* ADDED FOR SEARCH SUPPORT */
+    display: flex; 
+    flex-direction: column;
 }
 .letter-card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15); }
 .card-pink { background-color: var(--card-bg-pink); }
@@ -262,4 +266,4 @@ body.dark-mode .theme-toggle {
     .card-excerpt { font-size: 0.85em; }
     .search-input { padding: 12px; padding-left: 45px; }
     .search-icon { left: 10px; font-size: 1.1em; }
-  }
+}

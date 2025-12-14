@@ -16,14 +16,13 @@
         :root {
             /* LIGHT THEME */
             --bg-body: #FFF0F5;
-            --bg-gradient: linear-gradient(180deg, #FFF0F5 0%, #F8E1EE 100%);
             --surface: #FFFFFF;
             --surface-glass: rgba(255, 255, 255, 0.85);
             --primary: #E91E63;
             --primary-soft: #FCE4EC;
             --text-main: #2D2D2D;
             --text-sub: #757575;
-            --border: #F0F0F0;
+            --border: rgba(0, 0, 0, 0.05);
             --shadow: 0 8px 30px rgba(0,0,0,0.06);
             --shadow-card: 0 15px 35px rgba(233, 30, 99, 0.1);
             --dot-active: #E91E63;
@@ -33,129 +32,83 @@
         [data-theme="dark"] {
             /* DARK THEME */
             --bg-body: #121212;
-            --bg-gradient: linear-gradient(180deg, #121212 0%, #1A1015 100%);
             --surface: #1E1E1E;
-            --surface-glass: rgba(30, 30, 30, 0.9);
+            --surface-glass: rgba(30, 30, 30, 0.85);
             --primary: #FF80AB;
             --primary-soft: #2D1F25;
             --text-main: #FFFFFF;
             --text-sub: #A0A0A0;
-            --border: #333333;
+            --border: rgba(255, 255, 255, 0.1);
             --shadow: 0 8px 30px rgba(0,0,0,0.5);
             --shadow-card: 0 15px 35px rgba(0,0,0,0.4);
             --dot-active: #FF80AB;
             --dot-inactive: #444444;
         }
 
-        /* OPTIMIZED TRANSITIONS (No lag) */
-        body, .card, .login-card, .search-bar, .reader-header, .reader-controls, .app-nav {
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; touch-action: manipulation; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
         
         body { 
-            background: var(--bg-gradient); 
+            background: var(--bg-body); 
             min-height: 100vh; overflow-x: hidden; color: var(--text-main); 
-            /* Fix for sticky hover on mobile */
-            -webkit-overflow-scrolling: touch;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* --- ANIMATIONS (GPU Optimized) --- */
-        .hidden { display: none !important; }
-        .fade-out { animation: fadeOut 0.3s forwards; }
-        .fade-in { animation: fadeIn 0.4s forwards; }
-        .slide-up { animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        .shake { animation: shake 0.3s ease-in-out; border-color: #ff4d4d !important; }
-        .pulse { animation: pulse 2s infinite; }
+        /* --- LAVA LAMP BACKGROUND --- */
+        .lava-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: var(--bg-body); transition: background 0.5s; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.6; animation: float 10s infinite alternate; will-change: transform; }
+        .blob-1 { background: #ff9a9e; width: 300px; height: 300px; top: -10%; left: -10%; animation-duration: 12s; }
+        .blob-2 { background: #a18cd1; width: 250px; height: 250px; bottom: -10%; right: -10%; animation-duration: 15s; }
+        [data-theme="dark"] .blob-1 { background: #5c182e; opacity: 0.4; }
+        [data-theme="dark"] .blob-2 { background: #2e185c; opacity: 0.4; }
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 60px); } }
 
-        @keyframes fadeOut { to { opacity: 0; transform: scale(0.98); pointer-events: none; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* UTILS */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.5s forwards; }
+        .slide-up { animation: slideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* THEME TOGGLE */
-        .theme-toggle-btn {
-            background: transparent; border: none;
-            width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 1.2rem; color: var(--text-main);
-            transition: transform 0.2s;
+        /* GENERIC BUTTON STYLES */
+        .icon-btn { 
+            background: transparent; border: none; width: 44px; height: 44px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; color: var(--text-main); font-size: 1.2rem;
+            transition: background 0.2s;
         }
-        .theme-toggle-btn:active { transform: scale(0.9); background: rgba(0,0,0,0.05); }
-        .login-theme-pos { position: absolute; top: 20px; right: 20px; z-index: 1000; }
+        .icon-btn:active { background: rgba(0,0,0,0.05); }
 
-        /* --- LOGIN UI --- */
+        /* --- LOGIN --- */
         #login-view { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
-        .login-card { 
-            background: var(--surface-glass); padding: 40px 30px; border-radius: 32px; 
-            width: 100%; max-width: 360px; box-shadow: var(--shadow); 
-            text-align: center; border: 1px solid var(--border); 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-        }
-        .logo-circle { width: 75px; height: 75px; background: var(--primary-soft); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--primary); }
-        .logo-circle svg { width: 35px; height: 35px; stroke-width: 2.5; }
-        .login-title { font-size: 24px; font-weight: 800; margin-bottom: 5px; color: var(--text-main); }
-        .login-subtitle { color: var(--text-sub); font-size: 14px; margin-bottom: 30px; }
-        .styled-input { 
-            width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 14px; 
-            border: 1px solid var(--border); background: rgba(255,255,255,0.5); 
-            font-size: 16px; color: var(--text-main);
-        }
-        [data-theme="dark"] .styled-input { background: rgba(0,0,0,0.2); }
+        .login-card { background: var(--surface-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 40px 30px; border-radius: 32px; width: 100%; max-width: 360px; box-shadow: var(--shadow); text-align: center; border: 1px solid var(--border); }
+        .logo-circle { width: 80px; height: 80px; background: var(--primary-soft); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--primary); }
+        .logo-circle svg { width: 40px; height: 40px; stroke-width: 2.5; }
+        .styled-input { width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 14px; border: 1px solid var(--border); background: rgba(255,255,255,0.5); font-size: 16px; color: var(--text-main); outline: none;}
+        [data-theme="dark"] .styled-input { background: rgba(0,0,0,0.3); }
         .styled-input:focus { border-color: var(--primary); background: var(--surface); }
-        .btn-primary { 
-            width: 100%; padding: 16px; background: var(--primary); color: white; 
-            border: none; border-radius: 50px; font-size: 16px; font-weight: 700; 
-            cursor: pointer; box-shadow: 0 8px 20px rgba(233, 30, 99, 0.25); 
-            margin-top: 10px;
-        }
-        .btn-primary:active { transform: scale(0.96); }
-        
-        .exclusive-badge { 
-            margin-top: 25px; background: rgba(125,125,125,0.1); 
-            border: 1px dashed var(--primary); color: var(--primary); 
-            padding: 10px; border-radius: 10px; font-size: 10px; 
-            font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
+        .btn-primary { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 50px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; }
+        .exclusive-badge { margin-top: 25px; background: rgba(125,125,125,0.1); border: 1px dashed var(--primary); color: var(--primary); padding: 10px; border-radius: 10px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 
-        /* --- APP UI --- */
+        /* --- MAIN APP --- */
         #app-view { min-height: 100vh; display: none; padding-bottom: 40px; }
         .app-nav { 
             background: var(--surface-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border); 
+            position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border);
+            padding-top: calc(15px + env(safe-area-inset-top));
         }
-        .nav-actions { display: flex; align-items: center; gap: 5px; }
-        
+        .nav-actions { display: flex; gap: 8px; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .hero-section { margin: 20px 0 30px; animation: slideUp 0.6s ease; }
+        .hero-section { margin: 20px 0 30px; }
         .hero-title { font-size: 28px; font-weight: 800; margin-bottom: 5px; }
-        .hero-sub { color: var(--text-sub); font-size: 15px; }
+        .search-bar { background: var(--surface-glass); backdrop-filter: blur(10px); border-radius: 18px; padding: 14px 20px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow); margin-bottom: 25px; border: 1px solid var(--border); }
+        .search-bar input { border: none; width: 100%; font-size: 16px; background: transparent; color: var(--text-main); outline: none; }
+        .card { background: var(--surface-glass); border-radius: 22px; padding: 20px; margin-bottom: 15px; box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; backdrop-filter: blur(10px); }
+        .list-icon { width: 50px; height: 50px; border-radius: 16px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 
-        .search-bar { 
-            background: var(--surface); border-radius: 18px; 
-            padding: 14px 20px; display: flex; align-items: center; gap: 12px; 
-            box-shadow: var(--shadow); margin-bottom: 25px; border: 1px solid var(--border); 
-        }
-        .search-bar input { border: none; width: 100%; font-size: 16px; background: transparent; color: var(--text-main); }
-        
-        .card { 
-            background: var(--surface); border-radius: 22px; padding: 20px; margin-bottom: 15px; 
-            box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); 
-            display: flex; align-items: center; gap: 15px; transform: translateZ(0);
-        }
-        .card:active { transform: scale(0.98); }
-        .list-icon { 
-            width: 50px; height: 50px; border-radius: 16px; 
-            background: var(--primary-soft); color: var(--primary); 
-            display: flex; align-items: center; justify-content: center; 
-            font-size: 1.2rem; flex-shrink: 0; 
-        }
-
-        /* --- READER UI --- */
+        /* --- READER (FIXED) --- */
         #reader-view { 
             position: fixed; inset: 0; background: var(--bg-body); z-index: 2000; 
             transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); 
@@ -163,34 +116,51 @@
         }
         #reader-view.open { transform: translateX(0); }
         
-        .reader-header { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-body); }
-        .reader-scroll-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        .reader-header { 
+            position: absolute; top: 0; left: 0; right: 0;
+            padding: 10px 20px; 
+            /* Fix for overlapping with notch */
+            padding-top: calc(15px + env(safe-area-inset-top));
+            display: flex; justify-content: space-between; align-items: center; 
+            background: var(--surface-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); z-index: 10;
+            height: calc(70px + env(safe-area-inset-top)); /* Ensure header has height */
+        }
+        
+        .reader-scroll-area { 
+            flex: 1; overflow-y: auto; 
+            /* Massive padding to push content down */
+            padding-top: calc(90px + env(safe-area-inset-top)); 
+            padding-bottom: 40px; padding-left: 20px; padding-right: 20px;
+            display: flex; flex-direction: column; align-items: center;
+        }
         
         .letter-card-display { 
             background: var(--surface); border-radius: 36px; padding: 40px 30px; 
-            width: 100%; max-width: 450px; box-shadow: var(--shadow-card); 
-            text-align: center; position: relative; border: 1px solid var(--border); 
-            transform: translateZ(0);
+            width: 100%; max-width: 450px; box-shadow: var(--shadow); 
+            text-align: center; border: 1px solid var(--border); 
+            margin-bottom: 20px; transform: translateZ(0);
         }
         
         .card-icon-large { 
             width: 80px; height: 80px; background: var(--primary-soft); 
             color: var(--primary); border-radius: 50%; display: flex; 
             align-items: center; justify-content: center; margin: 0 auto 25px; 
-            /* FORCE VISIBILITY */
-            display: flex !important; opacity: 1 !important; visibility: visible !important;
         }
         .card-icon-large svg { width: 40px; height: 40px; stroke-width: 2.5; stroke: currentColor; }
         
         .letter-tag { display: inline-block; background: var(--primary-soft); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         .letter-title-large { font-size: 24px; font-weight: 800; margin-bottom: 20px; line-height: 1.3; color: var(--text-main); }
-        .letter-body-text { font-family: 'Lora', serif; font-size: 17px; line-height: 1.8; color: var(--text-sub); margin-bottom: 30px; text-align: left; }
-        .letter-divider { height: 1px; background: var(--border); margin: 20px 0; width: 100%; }
-        .letter-footer { font-size: 13px; font-weight: 600; color: var(--text-sub); opacity: 0.7; }
+        .letter-body-text { font-family: 'Lora', serif; font-size: 18px; line-height: 1.8; color: var(--text-sub); margin-bottom: 30px; text-align: left; white-space: pre-wrap; }
+        .letter-footer { font-size: 13px; font-weight: 600; color: var(--text-sub); opacity: 0.7; border-top: 1px solid var(--border); padding-top: 20px; }
         
-        .reader-controls { padding: 20px 30px 40px; display: flex; align-items: center; justify-content: space-between; background: var(--bg-body); border-top: 1px solid var(--border); }
-        .control-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 12px 24px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 8px; min-width: 100px; justify-content: center; }
-        .control-btn:active { transform: scale(0.95); }
+        .reader-controls { 
+            padding: 20px 30px; padding-bottom: calc(20px + env(safe-area-inset-bottom));
+            display: flex; align-items: center; justify-content: space-between; 
+            background: var(--surface-glass); border-top: 1px solid var(--border); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        }
+        .control-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 12px 24px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: var(--shadow); display: flex; align-items: center; gap: 8px; min-width: 90px; justify-content: center; }
+        .control-btn:disabled { opacity: 0.5; }
         .pagination-dots { display: flex; gap: 8px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot-inactive); transition: 0.3s; }
         .dot.active { background: var(--dot-active); transform: scale(1.3); }
@@ -198,10 +168,17 @@
 </head>
 <body>
 
+    <div class="lava-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
     <div id="login-view">
-        <button class="theme-toggle-btn login-theme-pos" onclick="app.toggleTheme()"><span>🌙</span></button>
+        <div style="position:absolute; top:20px; right:20px; z-index:100; padding-top:env(safe-area-inset-top);">
+            <button class="icon-btn js-theme-toggle">🌙</button>
+        </div>
         <div class="login-card slide-up">
-            <div class="logo-circle pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
+            <div class="logo-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
             <h2 class="login-title">Welcome Back</h2>
             <p class="login-subtitle">Sign in to read your letters</p>
             <form onsubmit="app.login(event)">
@@ -220,8 +197,10 @@
         <nav class="app-nav">
             <span style="font-weight: 800; font-size: 18px; letter-spacing: -0.5px;">Nicole's Book</span>
             <div class="nav-actions">
-                <button class="theme-toggle-btn" onclick="app.toggleTheme()"><span>🌙</span></button>
-                <button class="theme-toggle-btn" onclick="app.logout()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                <button class="icon-btn js-theme-toggle">🌙</button>
+                <button class="icon-btn" onclick="app.logout()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </button>
             </div>
         </nav>
         <main class="container">
@@ -239,20 +218,28 @@
 
     <div id="reader-view">
         <div class="reader-header">
-            <button class="theme-toggle-btn" onclick="app.closeReader()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
-            <div style="text-align:center;"><span id="header-title" style="font-weight:700; font-size:14px;">Letter #1</span><br><span id="header-counter" style="font-size:11px; color:var(--text-sub); opacity: 0.8;">1 of 80</span></div>
-            <button class="theme-toggle-btn" onclick="app.toggleTheme()"><span>🌙</span></button>
+            <button class="icon-btn" onclick="app.closeReader()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            
+            <div style="text-align:center;">
+                <span id="header-title" style="font-weight:700; font-size:14px;">Letter #1</span><br>
+                <span id="header-counter" style="font-size:11px; color:var(--text-sub); opacity: 0.8;">1 of 80</span>
+            </div>
+            
+            <button class="icon-btn js-theme-toggle">🌙</button>
         </div>
+        
         <div class="reader-scroll-area">
             <div id="reader-card-content" class="letter-card-display">
                 <div class="card-icon-large" id="r-icon"></div>
                 <div class="letter-tag" id="r-tag">Letter #1</div>
                 <h2 class="letter-title-large" id="r-title">Title</h2>
                 <div class="letter-body-text" id="r-body">Body</div>
-                <div class="letter-divider"></div>
                 <div class="letter-footer">Made with <span style="color:var(--primary); margin:0 4px;">❤</span> for you</div>
             </div>
         </div>
+        
         <div class="reader-controls">
             <button class="control-btn" id="btn-prev" onclick="app.prevLetter()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg> Prev</button>
             <div class="pagination-dots" id="dots-container"></div>
@@ -768,6 +755,12 @@
                 const isDark = localStorage.getItem('theme') === 'dark';
                 if (isDark) document.body.setAttribute('data-theme', 'dark');
                 this.updateThemeIcons(isDark);
+                
+                // Add Listeners to theme buttons ONLY
+                document.querySelectorAll('.js-theme-toggle').forEach(btn => {
+                    btn.addEventListener('click', () => this.toggleTheme());
+                });
+
                 if (sessionStorage.getItem('isLoggedIn') === 'true') this.showApp();
             },
             login(e) {
@@ -782,10 +775,8 @@
                 const l = document.getElementById('login-view');
                 if(l){ l.classList.add('fade-out'); setTimeout(() => { l.classList.add('hidden'); const a = document.getElementById('app-view'); if(a){ a.style.display = 'block'; a.classList.add('fade-in'); this.renderList(letters); } }, 400); }
             },
-            // FIX: Robust Icon Getter (fixes typos/smart quotes)
             getIcon(item) { 
                 const raw = item.icon || item.type || 'heart'; 
-                // Remove smart quotes or extra spaces
                 const clean = raw.replace(/['"“”]/g, '').trim().toLowerCase();
                 return icons[clean] || icons['heart']; 
             },
@@ -804,6 +795,7 @@
             updateReader() {
                 const item = letters[this.currentIndex];
                 const card = document.getElementById('reader-card-content');
+                card.style.opacity = '0'; setTimeout(() => card.style.opacity = '1', 50);
                 
                 const set = (id, txt) => { const e = document.getElementById(id); if(e) e.innerText = txt; };
                 set('header-title', `Letter #${item.id}`);
@@ -822,7 +814,6 @@
             },
             nextLetter() { if (this.currentIndex < letters.length - 1) { this.currentIndex++; this.updateReader(); } },
             prevLetter() { if (this.currentIndex > 0) { this.currentIndex--; this.updateReader(); } },
-            
             toggleTheme() {
                 const isDark = document.body.getAttribute('data-theme') === 'dark';
                 const newMode = !isDark;
@@ -832,12 +823,7 @@
             },
             updateThemeIcons(isDark) {
                 const iconChar = isDark ? '☀️' : '🌙';
-                // Update all 3 buttons
-                document.querySelectorAll('.theme-toggle-btn span').forEach(el => el.innerText = iconChar);
-                // Also update buttons that might not have span
-                document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-                    if(!btn.querySelector('span')) btn.innerText = iconChar;
-                });
+                document.querySelectorAll('.js-theme-toggle').forEach(btn => btn.innerText = iconChar);
             }
         };
         app.init();

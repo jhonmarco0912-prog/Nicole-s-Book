@@ -353,95 +353,501 @@
         const icons = {
             gift: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`,
             cloud: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>`,
-            heart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
+            heart: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 .5 0 0 0 0-7.78z"></path></svg>`,
             sun: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`,
             moon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`
         };
 
         // --- DATA ---
-        const letters = [
-  { id: 1, type: 'gift', title: "When you first receive this", content: "Hello baby! Happy Birthday! I hope you like ur gift. it's not that good but hope you like it." },
-  { id: 2, type: 'cloud', title: "When you have a bad day", content: "this letter is for when you have a bad day. I want you to breathe for a moment and let this message hold you. You don't have to pretend to be strong or perfect right now. I'm here, always. Whatever you're feeling, whatever you're facing, you're not alone. You're softer and stronger than you think, and I'm always proud of you. Take things slowly. Be gentle with yourself. Let this remind you that you're loved, you're seen, and you matter more than you know. I'm with you, baby-always." },
-  { id: 3, type: 'heart', title: "When you miss me", content: "Hello babyy, I know you're thinking of me right now, and I bet you miss me. Guess what? I miss you too, every single moment. Don't let yourself feel down, okay? Just know this I am always here for you. You don't have to worry, I won't leave. We have a day coming up that we can look forward to. We will meet again. And when that day finally arrives, we're going to make sure it's the best one. Let's really enjoy every second when we're back together." },
-  { id: 4, type: 'sun', title: "When you need to laugh", content: "HAHHAHAHANANAHHANNAN AHAHAHAHAAHAHHAHAHAHAHA HHAHAAHAHAHAHAGAHAGAGA GAGAGAHAAHAHAHAHANHAHA AHHAANAHAAHAHAHAHAHAHA HAHAHAHHANHAHAANHAHA HAHAHAHAHHAHAHAHHAHAHAA HHAHAHAHAHHAHHAHAHAH HAHHAHAHAHHAANHAHAHAHA HAHAHA. does that make you laugh? i hope that make u laugh ;)" },
-  { id: 5, type: 'moon', title: "When you can't sleep", content: "Aw, is my baby having trouble sleeping tonight? My poor, precious baby. It must be very late now, and you really need to get some sleep. I know sometimes your mind starts overthinking, but we need to let those thoughts go for tonight. Let's take a deep breath, clear our minds of everything that's worrying us, and just rest. It is definitely time for you to lie down and sleep. You have to stop overthinking things, okay? All those thoughts can wait until the morning. I want you to feel completely safe and relaxed right where you are. Remember: you are safe here. No one can hurt you, so please, stop worrying about anything right now. I'm sending you all my love and warm hugs. Goodnighttt, my baby! Sleep peacefully, have the sweetest dreams, and I'll be thinking of you. I love you so much! Goodnight my baby! Sleepwell! I Love You!" },
-  { id: 6, type: 'sun', title: "When you're feeling cute", content: "So you opened this page because you're feeling a little extra adorable today, huh? Well, you are completely right! You are genuinely the cutest person, and I love that you know it and feel good about it right now. I hope you're smiling wide rn. That smile you have is honestly the best thing ever. I love the happy, shining feeling you have when you feel cute it makes my entire day better, just thinking about you being that happy. Keep that cute feeling going all day long. I am so lucky to have someone as sweet and lovely as you. You're simply the best, inside and out. I love you!" },
-  { id: 7, type: 'sun', title: "When you're happy", content: "YAAY, my baby is feeling happy! good to hear it baby. Why you happy kaya? Siguro may na achieve kaa or nabili or may nangyaring maganda, okay na yan, atleast you're happy! Hope that happiness you have righ now last long. Hope every dayy maging happy ikaw. I love you so much." },
-  { id: 8, type: 'cloud', title: "When you're lonely", content: "Hello baby, I guess you opened this page because you're feeling lonely? My poor baby, please don't worry, I am right here with you, always. You never have to feel like you don't have anyone to talk to or anyone to rant to about things I'm always here for you, baby. Just reach out to me you can call me up or send me a text whenever you need. Don't be sad, because knowing you're hurting makes me sad too. Please remember you don't have to carry this burden all by yourself, okay? Take a deep breath I'm here to listen. I LOVE YOU so much." },
-  { id: 9, type: 'cloud', title: "When you're worried about something", content: "Hey. If you're reading this, I know you might be feeling worried or anxious right now. That's totally okay it's a normal feeling. Please remember that you don't have to deal with this alone. I'm right here to support you and listen to whatever is causing your concern. If you need to talk, rant, or just need a distraction, please reach out. You can text or call me anytime. Take a moment, breathe deeply, and be kind to yourself. I'm here for you." },
-  { id: 10, type: 'sun', title: "When you need a pep talk", content: "Listen up baby! If you need a pep talk right now, here it is: You are incredible, seriously. You have faced challenges before and you absolutely crushed them, and you have the strength, the skills, and the drive to handle whatever you're facing right now. Don't let doubt creep in you've got this, and I mean that. Believe in yourself like I believe in you. Go out there and make it happen. You are stronger than you think! I'm cheering you on, always." },
-  { id: 11, type: 'gift', title: "When it's your birthday", content: "OMG! YAAY! It's your BIRTHDAYY! HAPPPYYY BIRTHDAYYY BABY! Good to hear it's your special dayy! Hope you're feeling super happy! Maybe you're planning something fun or maybe you got some gifts! Hope that happiness you have righ now lasts long. You deserve this day to be all about YOU! Hope every dayy you will be happy, but especially today! Enjoy your special dayy! I LOVE YOU!" },
-  { id: 12, type: 'gift', title: "When it's Christmas Day", content: "YAYAY YAAY! It's CHRISTMAS DAAAYY! Merry, Merry Christmas Baby! it's Christmas day bro! Hope you're feeling super happy and just good right now! Maybe you opened some gifts or maybe you're eating good food. I hope you are having the best time with your loved ones! Hope that happiness you have righ now lasts long, like all the way through the new year! Hope every dayy you will be happy, but especially today. Enjoy your holydayy! ILOVEYOU!" },
-  { id: 13, type: 'heart', title: "When it's Valentine's Day", content: "My dearest baby. It is Valentine's DAAAYY. This is the day of love, and I hope you are feeling truly cherished and adored. I always wish you nothing but happiness, but especially today. Maybe you received beautiful flowers or maybe you are having a romantic evening planned. I hope you are having a wonderful time celebrating the love in your life. That happiness you have right now, I hope it lasts long, always. You deserve every kind of good love there is. Hope every dayy you will be happy, but especially this one. Enjoy your beautiful dayy. I LOVE YOU SO MUCH." },
-  { id: 14, type: 'sun', title: "When it's the start of a New Year", content: "My dearest baby. It is the start of a brand NEW YEAR. Happy New Year, my love. I hope you are feeling truly refreshed and ready for all the wonderful things this year will bring us. I wish you nothing but success, peace, and deep happiness in these coming months. May this year be easier and kinder to you than the last one, and please always remember that I am right here by your side for every single step of the journey. That happiness you have right now, I hope it lasts long, all year through. Hope every dayy you will be happy, starting today. Cheers to us, my beautiful love. I LOVE YOU SO MUCH." },
-  { id: 15, type: 'cloud', title: "When you feel like giving up", content: "My dearest baby. If you are reading this, I know you are feeling tired, and maybe like the fight is too hard right now. But please listen to me: You are so much stronger than you think you are. You have made it this far, and you have faced things before that felt impossible, but you handled them. Don't let this tough moment win. Take a deep breath, close your eyes, and remember why you started. I am right here with you, always on your side, and we will face this together. Don't give up, my love. Just keep fighting for one more minute, okay? Hope every dayy you will be happy, and you will be happy again soon. You are the bravest person I know. I LOVE YOU SO MUCH." },
-  { id: 16, type: 'cloud', title: "When you're frustrated with work", content: "My dearest baby. I know you are frustrated and tired from work right now. Please don't let those unfair things get to you too much. It hurts me to know you are struggling with something that should not be so difficult. Your hard work and efforts are important, but your peace is even more important. Take a deep breath, and please step away from it for a little while, okay? Don't take all that stress just on yourself. I am here to listen to every single detail of your rant, whenever you need me. Hope every dayy you will be happy, and work won't ruin your happiness anymore. You deserve to rest now, my love. I LOVE YOU SO MUCH." },
-  { id: 17, type: 'cloud', title: "When you're sick", content: "My dearest baby. I know you are feeling sick and miserable right now, and it breaks my heart that I cannot make it go away instantly for you. Please focus only on resting, okay? Don't worry about anything else in the world, just focus on getting better and cozy. I am sending you all my energy and strength so you can feel better faster. Please remember to take your medicine and drink lots of fluids. Just know I am thinking of you constantly and wishing you were well. Hope every dayy you will be happy, and you will feel completely healthy again very soon. Rest well, my sweet love. I LOVE YOU SO MUCH." },
-  { id: 18, type: 'cloud', title: "When our plans get cancelled", content: "My dearest baby. I know you were looking forward to our plans, and I am so disappointed that they had to be cancelled. It really hurts when something we planned gets taken away like that. Please don't be too sad about it, okay? We will absolutely reschedule, and I promise whatever we do next will be even better because we waited for it. Think of this as just a small delay, not a permanent change. We still have each other, and that's the most important thing. I love spending time with you no matter what we are doing. Hope every dayy you will be happy, and we will make new, wonderful memories very soon. I can't wait to see you. I LOVE YOU SO MUCH." },
-  { id: 19, type: 'cloud', title: "When you're doubting yourself", content: "My dearest baby. If you are reading this, stop doubting yourself right now, okay? You are a brilliant, capable, and amazing person, and I know your potential better than anyone. Don't let those unfair thoughts creep in and tell you otherwise. Every single thing you have achieved proves that you are strong enough for whatever is next. I need you to remember how much I believe in you, even when you temporarily forget. Look at all the beautiful things you bring into the world. You are absolutely worthy of everything good. Don't let this tough moment shake your confidence. Hope every dayy you will be happy, and you will see yourself through my eyes soon. You have everything you need to succeed, my love. I LOVE YOU SO MUCH." },
-  { id: 20, type: 'heart', title: "When you need a hug", content: "My babyy If you need a hug right now, please know that I am wishing I could reach out immediately and pull you into the biggest, longest, warmest hug you have ever felt. I wish I could hold you tight always and make the world stop for a minute. Close your eyes, and feel my arms wrapped around you, keeping everything safe and cozy. You are the only thing that matters to me, and you deserve all the comfort in the world. Mahal na mahal kita, baby. Always know I'm thinking of you and sending my love." },
-  { id: 21, type: 'sun', title: "When you need a compliment", content: "Hello babyy If you need a compliment right now, listen up I want you to know the truth. You are genuinely the most beautiful person I have ever known, both inside and out! Your smile is my absolute favorite thing, it lights up my entire day. Plus, the way you handle tough things shows so much strength. Never, ever doubt how truly special and perfect you are to me, baby. Mahal na mahal kita, always have been, always will be. You are perfect." },
-  { id: 22, type: 'cloud', title: "When you made a mistake", content: "My babyy. If you are reading this, I know you made a mistake, and I know you probably feel bad about it right now. Please do not let it crush you, okay? Everyone messes up sometimes, seriously, even me. That mistake does not change how amazing you are, or how much I love you. The most important thing is that you learn from it and move on. Don't punish yourself anymore, my love. I love you, and I forgive you instantly. Mahal na mahal kita, baby. Just pick yourself up and keep going." },
-  { id: 23, type: 'sun', title: "When you need motivation", content: "Hello babyy! If you need a little push right now, let's go! You are ready for this, and you have every single tool you need to succeed. Don't wait for the perfect moment just start! Think about how amazing you will feel when you finish this and crush your goal. I believe in you 100%, always. Let's make today count! Don't let anything hold you back, you got this! Mahal na mahal kita, baby. Go get 'em!" },
-  { id: 24, type: 'moon', title: "When you need movie/tv recommendations", content: "Hello babyy! Bored and need something awesome to watch? Don't even stress, you know we have the best options already! If you want something super cute that will give you all the feels, you should totally check out Horimiya again. But if you just need to feel cozy and laugh your head off with some crazy humor, then put on Gintama! Those two are seriously the best cure for boredom. love! Mahal na mahal kita, baby. Enjoy the show!" },
-  { id: 25, type: 'sun', title: "When you're excited about something", content: "OMG! YAAY! My babyy is feeling excited! That is seriously the best news I've heard all day! Tell me absolutely everything right now what happened? You deserve all this happiness and good energy coming your way! Don't hold back, I want to hear every single detail, no matter how small! I'm so proud of you for whatever amazing thing you did! Hope that happiness you have right now lasts long. Mahal na mahal kita, baby. Keep shining!" },
-  { id: 26, type: 'moon', title: "When you're bored", content: "Hello babyy! I see you are bored, but that is totally fixable right now! Stop staring at the ceiling, okay? We need to find something fun for you to do immediately! Put on some awesome music, or text me back and we can talk about anything silly until you start smiling! If you need a distraction, I am the best distraction you can get! Your amazing mind needs a break, not more staring! What fun thing can we do together right now?" },
-  { id: 27, type: 'cloud', title: "When you need to make a big decision", content: "My dearest babyy. If you are reading this, I know you have a huge decision on your mind, and I know how stressed that can make you. Please remember that whatever you choose, I will be right here supporting you 100%, no matter the outcome. Don't rush or let anyone push you into anything you aren't ready for. Just take a deep breath, look at your options clearly, and trust your brilliant mind. You know yourself better than anyone, and whatever you decide is the absolute right choice for you. Mahal na mahal kita, baby. I have total faith in you." },
-  { id: 28, type: 'cloud', title: "When you're sick of social media", content: "My dearest babyy. I know you are totally tired of all the noise and drama on social media right now. Please remember that all of that stuff is literally fake and none of it matters as much as you do. Don't compare your wonderful, real life to those perfect highlights on a screen, okay? Put your phone down, turn it off, and look at the actual beautiful world around you. You don't need validation from any of that. I'm right here. ILOVEYOU BABY. Breathe and step away from the phone." },
-  { id: 29, type: 'sun', title: "When you need action", content: "Hello babyy! You need some action right now, huh? I totally love that energy! Whatever big goal you have, whether it's hitting the gym or finally starting that huge project, this is your sign to absolutely go for it. Don't just sit around and wait for things to happen, my love, you have the power to make them happen! You are strong and unstoppable when you decide to be. Get out there and make some moves! MAHAL NA MAHAL KITA BABY." },
-  { id: 30, type: 'cloud', title: "When you're really angry", content: "My dearest babyy. I know you are feeling really angryy right now, and please know that your feelings are totally valid. It is 100% okay to be upset when something unfair happens like this. But please, please take a deep breath before you react, okay? Don't let that anger hurt you or anyone else. Tell me everything I am right here to listen to every single word of your rant until you feel a little lighter. Let it out safely. ILOVEYOUSOMUCH. Let's talk it through, my love." },
-  { id: 31, type: 'heart', title: "When your heart is broken", content: "My dearest babyy. If you are reading this, I know your heart feels completely broken right now, and I am so deeply sorry for the huge pain you are carrying. Please let yourself cry and feel all of those feelings, okay? Don't try to be strong for me or anyone else. I am right here to help hold all the broken pieces of your heart until you are ready to put them back together. Nothing is too big or too much for us to handle together. Just know that you are loved unconditionally and forever. ILOVEYOUMUCHIEE." },
-  { id: 32, type: 'cloud', title: "When we have an argument", content: "Hello babyy. I know things are rough between us right now, and I am sincerely sorry for my part in our argument. Fighting always hurts, but please remember that nothing we say when we are angry changes the way I truly feel about you. You are my most important person in this whole world, always. Let's please talk softly, listen to each other's feelings, and fix this soon. We are a team above everything else, and we always will be. LOVEYOUUUUU." },
-  { id: 33, type: 'heart', title: "When you want to hear about my favourite memory", content: "Hello my babyy! You want to know my favorite memory with you? That is such an amazing question! Right now, my absolute favorite memory is our first time holding hands in that waiting shed. It wasn't anything huge or dramatic, but the way I felt, just sitting there next to you, was the best feeling in the whole world. Those are the simple moments I treasure most, because that's when I knew everything was real. Every time I think of it, I smile. ILOVEYOUSOMUCH." },
-  { id: 34, type: 'cloud', title: "When we haven't spoke in a while", content: "My babyy It feels like forever since we last talked properly, and I really miss hearing your beautiful voice and everything you have to say. I know life gets busy sometimes, but please know that you are always on my mind, no matter how much time passes between calls. There is so much I want to tell you, and I can't wait to catch up on everything and hear how you're doing. Send me a message when you can, okay? I love you!" },
-  { id: 35, type: 'cloud', title: "When I don't pick up my phone", content: "Hello my babyy! I'm so sorry I didn't pick up my phone when you called. I didn't mean to miss my gorgeous wife's call, I promise! There is nothing in the world more important than your call, okay? You are my most important person, always my love. I promise I will call you back right now, just know everything is fine, and I love you. ILOVEYOUUU." },
-  { id: 36, type: 'cloud', title: "When you feel like giving up on your goals", content: "Hello my babyy! You are reading this because you feel like quitting, but you have to stop that thought right now. You are reading this because you are a fighter, and you don't back down just because things get hard! Don't let this one obstacle convince you to give up, because you are absolutely unstoppable when you focus your mind on something. I have seen you crush challenges before, and I know you have the strength to finish this. Don't stop now, my love, you are too close! ILOVEYOUMUCHIEE." },
-  { id: 37, type: 'cloud', title: "When you do something embarrassing", content: "Heloo my babyy! You feel embarrassed? it's normal baby, don't overthink it so much, like who cares babyy. Stop for a second and take a deep breath, it's no big deal, it's okayy. That small moment literally means nothing, people will forget it in few hours, nobody will remember it, okay? All that matters is that you are here, and you are still my beautiful, amazing baby. Now let's forget what happened, and jus go with our day, okay? ILOVEYOYUU." },
-  { id: 38, type: 'cloud', title: "When you lose someone or something precious", content: "Hello my babyy, I feel you, I know it's painful, It hurts so much. Losing someone we loved or cherished is very hard to overcome, and it's okayy babyy to let your emotions come out. I know how painful it is, just show your emotions, I'm right here by your side and I will never leave. Let me hug you tight, we'll go through this together. Iloveyoubbyy." },
-  { id: 39, type: 'heart', title: "When you wish I was there", content: "Hello my babyy. If you are reading this, I know you are wishing I was right next to you, and I am wishing the exact same thing right now. That feeling totally sucks, but please know that even if I can't physically be there, I am sending all my love and strength to you. Close your eyes and imagine the tightest hug ever, because that's what I'm sending. I'm coming home soon, promise. MAHAL NA MAHAL KITA BABY" },
-  { id: 40, type: 'cloud', title: "When you feel like crying", content: "Hello my babyy You probably read this because you feel like crying right now. Please let yourself feel all of that sadness, okay? It is completely okay to cry, you don't have to be strong or feel like there's no solution. I know it feels heavy, but let me tell you there is always a solution, and we will find it together. I wish I could give you a big, warm hug right now just to make you feel better and to remind you that I am right here by your side. ILOVEYOUUU." },
-  { id: 41, type: 'sun', title: "When you do something you're proud of", content: "OMG! YAAY! My gorgeous babyy is feeling proud of herself! That is seriously the best, most amazing news I could ever hear right now, and you should be so happy! You deserve to celebrate this accomplishment because you worked so incredibly hard for it. I am bursting with pride for you, my love, you absolutely crushed it! Tell me absolutely everything I want to hear all the details of what you did. Keep shining that bright, beautiful light! ILOVEYOUSOMUCHIEE." },
-  { id: 42, type: 'heart', title: "When you want to reminisce", content: "Hello my babyy! You opened this because you want to remember some good times, and that is such a wonderful idea! Our memories are seriously the best treasure we have, and I love looking back at them with you. I want you to close your eyes and think of any of our sweet, simple moments like the first time we held hands. Those times are my proof of how real our love is, and we have so many more beautiful memories ahead of us to make. ILOVEYOUUU." },
-  { id: 43, type: 'cloud', title: "When you're filled with dread", content: "Hello my babyy. If you're reading this, I know you are feeling that heavy, awful dread right now, and that feeling is so overwhelming. Please just stop for a second and take a deep breath, okay? You do not have to carry that huge weight all by yourself, my love. Whatever is making you feel this way, we will face it together, and I promise you are safe with me. That feeling is just a thought, it is not your reality. Don't let the anxiety take over. I am right here, and I'm not going anywhere. ILOVEYOUUU." },
-  { id: 44, type: 'cloud', title: "When you're angry at me", content: "Hello my babyy. If you are reading this, I know you are absolutely furious with me right now, and that is okay. Your anger is valid, and I am not going to run from it, okay? I know I messed up, and I am genuinely sorry for whatever I did to make you feel this way. Please take a deep breath, and let me know exactly what you need me to do to make this right. I love you too much to let us stay angry, and I promise to listen without getting defensive. We are a team, always. ILOVEYOUSOMUCH." },
-  { id: 45, type: 'cloud', title: "When I'm angry at you", content: "Hello my babyy. If you are reading this, I need you to know that while I might be feeling frustrated or angry right now, it does not change the fact that I love you deeply and completely. This anger is just a moment, okay? It will pass, and it doesn't define us. I know we can work this out because we always do. Please let's both take a deep breath, and remember that we are on the same team. We will fix this, my love. ILOVEYOUSOMUCH." },
-  { id: 46, type: 'sun', title: "When you're doing something new", content: "Hello my babyy! If you are reading this, it means you are about to step into something new, and I know you might be feeling a mix of excited and nervous right now. Please know that I am so incredibly proud of you for having the courage to try this! You are ready for this new thing, seriously. You are smart, capable, and you have all the tools you need to crush it. Don't let the fear stop you-this is going to be amazing, and I am cheering you on every single step of the way! ILOVEYOUSOMUCH." },
-  { id: 47, type: 'heart', title: "When it's our anniversary", content: "OMG! Happy Anniversary, my beautiful babyy! I can't believe how much time has passed since we started this journey, and every single day has been the greatest gift. You are the best thing that has ever happened to me, seriously. I hope you're feeling celebrated and cherished right now, because you deserve all the happiness in the world. I love looking back at all we've done and knowing that our future together will be even more amazing. Thank you for being you, my love. ILOVEYOUSOMUCHIEE." },
-  { id: 48, type: 'sun', title: "When you are celebrating an achievement", content: "Hello my babyy! Yes! You absolutely smashed it, and I am so incredibly proud of you for this huge achievement! I knew you could do it, but watching you actually reach this goal fills me up with so much happiness. Please stop whatever you are doing and take a minute to celebrate yourself, because you deserve all the praise and recognition in the world. I am sending you a thousand virtual high-fives and a massive hug right now! ILOVEYOUSOMUCHIEE." },
-  { id: 49, type: 'cloud', title: "When you're nervous about an exam/interview", content: "Hello my babyy. If you are reading this, you are probably feeling super nervous right now, but I need you to just stop and breathe. You have prepared for this, and you know exactly what you need to do! You are smart, capable, and you have this completely under control. Whatever the outcome is, I will be so proud of your effort, okay? Just go in there, be yourself, and crush it. I'm thinking of you and sending you all my calmness and focus. ILOVEYOUUU." },
-  { id: 50, type: 'cloud', title: "When it's an important occasion I can't be there for", content: "Hello my babyy. If you are reading this, I know today is a huge day, and my heart is aching that I can't be right there next to you. Even though I'm not physically there, please know that I am celebrating you from afar and thinking about you every second. You are going to crush this, and I am sending you all the confidence and good luck I have. Go make this day amazing! ILOVEYOUUU." },
-  { id: 51, type: 'heart', title: "When you want to learn about the things that remind me of you", content: "My babyy You want to know what reminds me of you? That's so easy! You are everywhere beautiful and bright in my life. The color pink, Twice Group, and every single time I smell coffee those things immediately make me stop and think of you. You are literally everywhere good in my world, my love. ILOVEYOUSOMUCH." },
-  { id: 52, type: 'moon', title: "When you need music recommendations", content: "Hello my babyy! If you are looking for music, I know exactly what you need. Put on \"Happiness\" by Rex Orange County and just let that song sink in. Let the music take over and just enjoy the moment, okay? Remember, every song I recommend is a reminder of a good time we shared or a feeling I want you to have. ILOVEYOUUU." },
-  { id: 53, type: 'sun', title: "When you need a solution", content: "Hello my babyy. If you are reading this, I know you are stuck on a problem right now and it's frustrating. Please remember that you don't have to solve this alone. Take a deep breath, write down the problem on a piece of paper, and call me. Two heads are always better than one, and we will break this down piece by piece until we find the solution together. You've got this, my love. ILOVEYOUSOMUCH." },
-  { id: 54, type: 'sun', title: "When you need fitness motivation", content: "Hello my babyy! I know getting that motivation can be the hardest part, but you need to put this book down and move your body right now! Remember how amazing you feel after you finish? That feeling is waiting for you! You are so strong and capable, and you just need to start. Put on your favorite song, do one small set, and that momentum will take over. I believe in you completely! ILOVEYOUSOMUCH." },
-  { id: 55, type: 'heart', title: "When you need to know I'm not proud of", content: "Hello my babyy. If you are reading this, I think you might be looking for assurance, and I want to give it to you straight: there is absolutely nothing you could do that would make me stop loving you. I am completely devoted to you, and my love doesn't depend on perfection. I love you for who you are, flaws and all. We are human, we make mistakes, but that never changes our bond. Never doubt my love, my gorgeous wife. ILOVEYOUUU." },
-  { id: 56, type: 'cloud', title: "When you do something repetitive", content: "Hello my babyy. If you're reading this, I know you are feeling bored or maybe a little frustrated with doing the same thing over and over. But please remember: sometimes repetition is necessary for a beautiful result! Focus on the amazing outcome you are working toward, not the current moment. You have the focus and discipline to finish this and move on to the next thing! ILOVEYOUUU." },
-  { id: 57, type: 'cloud', title: "When something didn't go how you planned", content: "Hello my babyy. My heart breaks that something didn't go the way you planned. That feeling of disappointment sucks, but I need you to know that this is not a failure, okay? It's just a detour! You learned something important today, and that makes you stronger for the next attempt. Don't waste energy being sad; let's figure out the new plan together. I'm here for you, always. ILOVEYOUSOMUCH." },
-  { id: 58, type: 'cloud', title: "When you feel at the highest peak of stress", content: "Hello my babyy. If you are reading this, I know you are completely overwhelmed right now and at the peak of your stress. I need you to put this book down and do three things: one, take a very slow, deep breath; two, drink some water; and three, text me right now so I can distract you. This stress is temporary, my love. You are stronger than this moment, and we will get through this intense feeling together. ILOVEYOUSOMUCH." },
-  { id: 59, type: 'cloud', title: "When you need a reason to keep going", content: "Hello my babyy. If you're reading this, I know you are feeling that heavy, awful dread right now, and that feeling is so overwhelming. Please just stop for a second and take a deep breath, okay? You do not have to carry that huge weight all by yourself, my love. Whatever is making you feel this way, we will face it together, and I promise you are safe with me. That feeling is just a thought, it is not your reality. Don't let the anxiety take over. I am right here, and I'm not going anywhere. ILOVEYOUUU." },
-  { id: 60, type: 'sun', title: "When you want to hear something weird", content: "Hello my babyy! You want to hear something weird? Okay, here is a secret: sometimes when you are not looking, I'll take a quick picture of you because you look so ridiculously gorgeous and I want to remember exactly how happy you look. And also, you have the weirdest, cutest little snore, and I totally smile every time I hear it. I love all the weird little things that make you, you! ILOVEYOUSOMUCH." },
-  { id: 61, type: 'cloud', title: "When you're waiting for a response", content: "Hello my babyy. If you are waiting for a response right now and feeling anxious, please take a deep breath. I know that feeling of waiting is the worst, but I need you to trust that things are moving along and you will hear back soon! Don't spend one more second stressing over something you can't control. Go get distracted by something fun, and I promise you will get the answer you need soon. ILOVEYOUUU." },
-  { id: 62, type: 'moon', title: "When you want to hear a story", content: "Hello my babyy! You want a random story? Okay, here is a weird one: Once upon a time, there was a tiny, fuzzy squirrel who was convinced he was a world-class opera singer. He would stand on the highest branch of the tallest tree and belt out these ridiculous, squeaky high notes that sounded like a tea kettle screaming. The other squirrels would just roll their eyes, but he never gave up on his dream. Moral of the story? Be the opera squirrel. Never stop being exactly who you are, even when you're a little weird. ILOVEYOUSOMUCH." },
-  { id: 63, type: 'cloud', title: "When you've had a rough week", content: "Hello my babyy. You have made it to the end of a rough week, and you deserve a massive reward right now. You fought through it, you kept going, and I am incredibly proud of your strength. Time to put your feet up, order your favorite food, and don't do anything you don't absolutely want to do. Let me take care of you this weekend, okay? You earned this rest, my love. ILOVEYOUUU." },
-  { id: 64, type: 'sun', title: "When you need some good news", content: "Hello my babyy! You need some good news right now? Here it is: You are loved, you are valued, and your future is brighter than you can possibly imagine. Also, my good news is you are going to get to spend the rest of your life with me, which is a pretty sweet deal! Keep your head up, my love. Good things are coming your way, I promise. ILOVEYOUUU." },
-  { id: 65, type: 'sun', title: "When you get some good news", content: "OMG! My babyy got some good news! That is seriously the best thing I've heard all day, and you totally deserve this amazing win! Please stop what you are doing and celebrate right now! I am so unbelievably proud of you and everything you've accomplished. This is just the beginning of all the wonderful things coming your way, my love. ILOVEYOUSOMUCHIΕΕ." },
-  { id: 66, type: 'cloud', title: "When someone else lets you down", content: "Hello my babyy. If someone has disappointed you or let you down, my heart aches for you. That feeling of betrayal or hurt is awful, but I need you to focus on this their actions have nothing to do with your value, okay? Their lack of effort is their failing, not yours. You are an amazing, loyal person, and you deserve better. Come talk to me, and let's forget about them. I will never let you down. ILOVEYOUSOMUCH." },
-  { id: 67, type: 'heart', title: "When you need me", content: "Hello my babyy. If you are reading this, I need you to know that I am here. Always. No matter what time it is, no matter what you need, you can reach out to me. Don't ever hesitate, don't feel like you are a burden, and don't try to face this alone. You are my most important person, and needing me is why I'm here. Call me right now, and let me help you. ILOVEYOUUU." },
-  { id: 68, type: 'cloud', title: "When all this is too much", content: "Hello my babyy. If you are reading this, I know you feel like the weight of the entire world is on your shoulders right now, and everything feels like it's too much to handle. Please, I need you to stop thinking about tomorrow or next week, and just focus on this one moment. Put this book down, take a deep breath, and let your body relax. We will tackle this one small piece at a time. I am right here to take the pressure off you. ILOVEYOUSOMUCH." },
-  { id: 69, type: 'sun', title: "When you're feeling awkward", content: "Hello my babyy. You feel awkward? That is so sweet and human! I love that about you. Whatever happened, I promise it was probably funny or completely forgettable to everyone else. Don't worry about trying to be cool or perfect you are my beautiful, slightly awkward, amazing wife, and I wouldn't change a single thing about you. Just laugh it off, and let's go get some coffee. ILOVEYOUUU." },
-  { id: 70, type: 'sun', title: "When you're being sarcastic", content: "Hello my babyy. If you opened this because you're feeling a little sassy and sarcastic right now, I have to say I love that side of you! Your witty humor is one of my favorite things. You are so clever and funny. Keep making me laugh with your perfect comebacks and hilarious observations. Just don't forget to use that gorgeous smile when you deliver the sarcasm! ILOVEYOUSOMUCH." }
-  { id: 71, type: 'cloud', title: "When you want to scream", content: "Hello my babyy. If you are reading this because you need to scream, please know that I totally understand that feeling. Take a deep breath, go find a pillow, and scream as loud as you need to, or go outside and yell at the sky I won't judge! Get that frustration out of your system, my love. Let go of the pressure, and then come talk to me. We will fix whatever made you want to yell. ILOVEYOUUU." },
-  { id: 72, type: 'cloud', title: "When you need someone to listen", content: "Hello my babyy. If you are reading this, I want you to know that I am putting everything else on pause right now, and I am here for you. You don't have to talk about solutions or feelings; you can just vent and get it all out. I am not here to fix it or judge youbl am just here to listen. You have my full, undivided attention, my love. Text me or call me, and I will be your sounding board. ILOVEYOUSOMUCH." },
-  { id: 73, type: 'heart', title: "When you need affirmation", content: "Hello my babyy. If you need a reminder of how amazing you are, listen up: you are beautiful, intelligent, hilarious, and the strongest person I know. You deserve all the good things that come your way, and you make my life infinitely better just by being in it. Don't let any little voice in your head tell you otherwise, because I'm right here to tell you the truth. You are perfect to me. ILOVEYOUUU." },
-  { id: 74, type: 'cloud', title: "When you're hungover", content: "Hello my babyy. Ah, you definitely had a little too much fun last night, huh? Don't stress about it! I am sending you all the soft blankets, dark rooms, and giant glasses of water right now. Go get some rest, and please don't forget to eat something greasy! Take it easy, and let me know when you feel like being a human again. I'll make sure to get you your favorite recovery food. ILOVEYOUSOMUCH." },
-  { id: 75, type: 'cloud', title: "When you feel far away", content: "Hello my babyy. If you are reading this, I know your mind feels distant right now, and maybe you feel a little disconnected from everything. Please remember that no matter where your thoughts are, or how far away you feel, you are right here in my heart, and you are not alone. Close your eyes and let me ground you back to the present. Our love is the steady anchor, and I am right here. ILOVEYOUUU." },
-  { id: 76, type: 'moon', title: "When you're procrastinating", content: "Hello my babyy. If you're reading this, I know you are avoiding something right now! Come on, my love, you know you'll feel ten times better once it's done. That thing you are putting off only takes up more mental energy the longer you wait. Just take a deep breath, promise yourself you'll work on it for five minutes, and the momentum will take over. I believe in your focus! Now go crush it! ILOVEYOUSOMUCH." },
-  { id: 77, type: 'cloud', title: "When you feel rushed or for no reason", content: "Hello my babyy. If you are reading this and feeling anxious or rushed, or just anxious for no reason at all, I need you to pause. Put your hand on your heart, and feel your breathing. Everything is fine. You are safe. There is no emergency. You have all the time you need. Don't let your mind race ahead of your body. Stay with me in this moment. You are loved. ILOVEYOUUU." },
-  { id: 78, type: 'cloud', title: "When you're confused", content: "Hello my babyy. If you are reading this, I know you are feeling confused and maybe a little lost right now. That is okay, my love. Just take a step back and stop trying to figure it all out at once. Breathe. Whatever is confusing you, we will break it down together, and I promise to bring you clarity. You have me to help you navigate this. ILOVEYOUSOMUCH." },
-  { id: 79, type: 'heart', title: "When you want to hear my favourite traits about you", content: "My babyy You want to know my favorite traits about you? Where do I even begin! I love your kindness and how generous you are to everyone. I love your sense of humor, especially your laugh. I love how smart and determined you are. But mostly, I love your heart, and how perfectly it fits mine. You are truly the most beautiful person I know, inside and out. ILOVEYOUUU." },
-  { id: 80, type: 'cloud', title: "When you're unsure about the future", content: "Hello my babyy. If you are reading this, I know the future feels like a big question mark right now, and that can be scary. I want you to stop worrying about what might happen. Focus on what is true right now: we are together, we love each other, and we will face everything that comes next as a team. Whatever the future holds, it will be better because you are in it. I promise. ILOVEYOUSOMUCHIEE." },
-  { id: 81, type: 'heart', title: "When you finish reading all dis", content: "Hello my babyy You made it! If you are reading this, it means you have gone through every single message, and that makes me so incredibly happy. I hope that through all of these notes, I was able to make you smile, make you feel loved, and remind you just how much you mean to me. This might be the last page, but it's just the beginning of everything else we are going to experience together. Know that every single day, my love for you grows bigger. I LOVE YOU FOREVER, MY WIFE." }
-  ];
+                const letters = [
+            { 
+                id: 1, 
+                icon: 'gift', 
+                title: "When You First Receive This", 
+                content: "Hello baby! Happy Birthday! I hope you like ur gift. it's not that good but hope you like it." 
+            },
+            { 
+                id: 2, 
+                icon: 'cloud', 
+                title: "When You Have A Bad Day", 
+                content: "This letter is for when you have a bad day. I want you to breathe for a moment and let this message hold you. You don't have to pretend to be strong or perfect right now. I'm here, always. Whatever you're feeling, whatever you're facing, you're not alone. You're softer and stronger than you think, and I'm always proud of you. Take things slowly. Be gentle with yourself. Let this remind you that you're loved, you're seen, and you matter more than you know. I'm with you, baby-always." 
+            },
+            { 
+                id: 3, 
+                icon: 'heart', 
+                title: "When You Miss Me", 
+                content: "Hello babyy, I know you're thinking of me right now, and I bet you miss me. Guess what? I miss you too, every single moment. Don't let yourself feel down, okay? Just know this I am always here for you. You don't have to worry, I won't leave. We have a day coming up that we can look forward to. We will meet again. And when that day finally arrives, we're going to make sure it's the best one. Let's really enjoy every second when we're back together." 
+            },
+            { 
+                id: 4, 
+                icon: 'sun', 
+                title: "When You Need To Laugh", 
+                content: "HAHHAHAHAHAHHANHANHAN AHAHAHAHAHAHAHAAHAHAHA HHAHAAHAHAHAHAHAGAGAGA GAGAGAHAHAHAHAHAHAHAHAH AHHAHAAHAHAHAAHAHAHAHA HAHAHAHAHAHAHAHAHAHAHA HAHAHAHAHAHAHAHAHAHAA HHAHAHAHAHAHHAHAHAHAHA HAHAHAHAHAHAHAHAHAHAHA. HAHAHA. does that make you laugh? i hope that make u laugh ;)" 
+            },
+            { 
+                id: 5, 
+                icon: 'moon', 
+                title: "When You Can't Sleep", 
+                content: "Aw, is my baby having trouble sleeping tonight? My poor, precious baby. It must be very late now, and you really need to get some sleep. I know sometimes your mind starts overthinking, but we need to let those thoughts go for tonight. Let's take a deep breath, clear our minds of everything that's worrying us, and just rest. It is definitely time for you to lie down and sleep. You have to stop overthinking things, okay? All those thoughts can wait until the morning. I want you to feel completely safe and relaxed right where you are. Remember: you are safe here. No one can hurt you, so please, stop worrying about anything right now. I'm sending you all my love and warm hugs. Goodnighttt, my baby! Sleep peacefully, have the sweetest dreams, and I'll be thinking of you. I love you so much! Goodnight my baby! Sleepwell! I Love You!" 
+            },
+            { 
+                id: 6, 
+                icon: 'heart', 
+                title: "When You're Feeling Cute", 
+                content: "So you opened this page because you're feeling a little extra adorable today, huh? Well, you are completely right! You are genuinely the cutest person, and I love that you know it and feel good about it right now. I hope you're smiling wide rn. That smile you have is honestly the best thing ever. I love the happy, shining feeling you have when you feel cute it makes my entire day better, just thinking about you being that happy. Keep that cute feeling going all day long. I am so lucky to have someone as sweet and lovely as you. You're simply the best, inside and out. I love you!" 
+            },
+            { 
+                id: 7, 
+                icon: 'sun', 
+                title: "When You're Happy", 
+                content: "YAAY, my baby is feeling happy! good to hear it baby. Why you happy kaya? Siguro may na achieve kaa or nabili or may nangyaring maganda, okay na yan, atleast you're happy! Hope that happiness you have righ now last long. Hope every dayy maging happy ikaw. I love you so much." 
+            },
+            { 
+                id: 8, 
+                icon: 'cloud', 
+                title: "When You're Lonely", 
+                content: "Hello baby, I guess you opened this page because you're feeling lonely? My poor baby, please don't worry, I am right here with you, always. You never have to feel like you don't have anyone to talk to or anyone to rant to about things I'm always here for you, baby. Just reach out to me you can call me up or send me a text whenever you need. Don't be sad, because knowing you're hurting makes me sad too. Please remember you don't have to carry this burden all by yourself, okay? Take a deep breath I'm here to listen. I LOVE YOU so much." 
+            },
+            { 
+                id: 9, 
+                icon: 'cloud', 
+                title: "When You're Worried About Something", 
+                content: "Hey. If you're reading this, I know you might be feeling worried or anxious right now. That's totally okay it's a normal feeling. Please remember that you don't have to deal with this alone. I'm right here to support you and listen to whatever is causing your concern. If you need to talk, rant, or just need a distraction, please reach out. You can text or call me anytime. Take a moment, breathe deeply, and be kind to yourself. I'm here for you." 
+            },
+            { 
+                id: 10, 
+                icon: 'sun', 
+                title: "When You Need A Pep Talk", 
+                content: "Listen up baby! If you need a pep talk right now, here it is: You are incredible, seriously. You have faced challenges before and you absolutely crushed them, and you have the strength, the skills, and the drive to handle whatever you're facing right now. Don't let doubt creep in you've got this, and I mean that. Believe in yourself like I believe in you. Go out there and make it happen. You are stronger than you think! I'm cheering you on, always." 
+            },
+            { 
+                id: 11, 
+                icon: 'gift', 
+                title: "When It's Your Birthday", 
+                content: "OMG! YAAY! It's your BIRTHDAYY! HAPPPYYY BIRTHDAYYY BABY! Good to hear it's your special dayy! Hope you're feeling super happy! Maybe you're planning something fun or maybe you got some gifts! Hope that happiness you have righ now lasts long. You deserve this day to be all about YOU! Hope every dayy you will be happy, but especially today! Enjoy your special dayy! I LOVE YOU!" 
+            },
+            { 
+                id: 12, 
+                icon: 'gift', 
+                title: "When It's Christmas Day", 
+                content: "YAYAY YAAY! It's CHRISTMAS DAAAYY! Merry, Merry Christmas Baby! it's Christmas day bro! Hope you're feeling super happy and just good right now! Maybe you opened some gifts or maybe you're eating good food. I hope you are having the best time with your loved ones! Hope that happiness you have righ now lasts long, like all the way through the new year! Hope every dayy you will be happy, but especially today. Enjoy your holydayy! ILOVEYOU!" 
+            },
+            { 
+                id: 13, 
+                icon: 'heart', 
+                title: "When It's Valentine's Day", 
+                content: "My dearest baby. It is Valentine's DAAAYY. This is the day of love, and I hope you are feeling truly cherished and adored. I always wish you nothing but happiness, but especially today. Maybe you received beautiful flowers or maybe you are having a romantic evening planned. I hope you are having a wonderful time celebrating the love in your life. That happiness you have right now, I hope it lasts long, always. You deserve every kind of good love there is. Hope every dayy you will be happy, but especially this one. Enjoy your beautiful dayy. I LOVE YOU SO MUCH." 
+            },
+            { 
+                id: 14, 
+                icon: 'sun', 
+                title: "When It's The Start Of A New Year", 
+                content: "My dearest baby. It is the start of a brand NEW YEAR. Happy New Year, my love. I hope you are feeling truly refreshed and ready for all the wonderful things this year will bring us. I wish you nothing but success, peace, and deep happiness in these coming months. May this year be easier and kinder to you than the last one, and please always remember that I am right here by your side for every single step of the journey. That happiness you have right now, I hope it lasts long, all year through. Hope every dayy you will be happy, starting today. Cheers to us, my beautiful love. I LOVE YOU SO MUCH." 
+            },
+            { 
+                id: 15, 
+                icon: 'cloud', 
+                title: "When You Feel Like Giving Up", 
+                content: "My dearest baby. If you are reading this, I know you are feeling tired, and maybe like the fight is too hard right now. But please listen to me: You are so much stronger than you think you are. You have made it this far, and you have faced things before that felt impossible, but you handled them. Don't let this tough moment win. Take a deep breath, close your eyes, and remember why you started. I am right here with you, always on your side, and we will face this together. Don't give up, my love. Just keep fighting for one more minute, okay? Hope every dayy you will be happy, and you will be happy again soon. You are the bravest person I know. I LOVE YOU SO MUCH." 
+            },
+            { 
+                id: 16, 
+                icon: 'cloud', 
+                title: "When You Are Frustrated With Work", 
+                content: "My dearest baby. I know you are frustrated and tired from work right now. Please don't let those unfair things get to you too much. It hurts me to know you are struggling with something that should not be so difficult. Your hard work and efforts are important, but your peace is even more important. Take a deep breath, and please step away from it for a little while, okay? Don't take all that stress just on yourself. I am here to listen to every single detail of your rant, whenever you need me. Hope every dayy you will be happy, and work won't ruin your happiness anymore. You deserve to rest now, my love. I LOVE YOU SO MUCH." 
+            },
+            { 
+                id: 17, 
+                icon: 'cloud', 
+                title: "When You Are Sick", 
+                content: "My dearest baby. I know you are feeling sick and miserable right now, and it breaks my heart that I cannot make it go away instantly for you. Please focus only on resting, okay? Don't worry about anything else in the world, just focus on getting better and cozy. I am sending you all my energy and strength so you can feel better faster. Please remember to take your medicine and drink lots of fluids. Just know I am thinking of you constantly and wishing you were well. Hope every dayy you will be happy, and you will feel completely healthy again very soon. Rest well, my sweet love. I LOVE YOU SO MUCH." 
+            },
+            { 
+                id: 18, 
+                icon: 'cloud', 
+                title: "When Our Plans Get Cancelled", 
+                content: "My dearest baby. I know you were looking forward to our plans, and I am so disappointed that they had to be cancelled. It really hurts when something we planned gets taken away like that. Please don't be too sad about it, okay? We will absolutely reschedule, and I promise whatever we do next will be even better because we waited for it. Think of this as just a small delay, not a permanent change. We still have each other, and that's the most important thing. I love spending time with you no matter what we are doing. Hope every dayy you will be happy, and we will make new, wonderful memories very soon. I can't wait to see you. I LOVE YOU SO MUCH." 
+            },
+            { 
+                id: 19, 
+                icon: 'cloud', 
+                title: "When You Are Doubting Yourself", 
+                content: "My dearest baby. If you are reading this, stop doubting yourself right now, okay? You are a brilliant, capable, and amazing person, and I know your potential better than anyone. Don't let those unfair thoughts creep in and tell you otherwise. Every single thing you have achieved proves that you are strong enough for whatever is next. I need you to remember how much I believe in you, even when you temporarily forget. Look at all the beautiful things you bring into the world. You are absolutely worthy of everything good. Don't let this tough moment shake your confidence. Hope every dayy you will be happy, and you will see yourself through my eyes soon. You have everything you need to succeed, my love. I LOVE YOU SO MUCH." 
+            },
+            { 
+                id: 20, 
+                icon: 'heart', 
+                title: "When You Need A Hug", 
+                content: "My babyy If you need a hug right now, please know that I am wishing I could reach out immediately and pull you into the biggest, longest, warmest hug you have ever felt. I wish I could hold you tight always and make the world stop for a minute. Close your eyes, and feel my arms wrapped around you, keeping everything safe and cozy. You are the only thing that matters to me, and you deserve all the comfort in the world. Mahal na mahal kita, baby. Always know I'm thinking of you and sending my love." 
+            },
+            { 
+                id: 21, 
+                icon: 'heart', 
+                title: "When You Need A Compliment", 
+                content: "Hello babyy If you need a compliment right now, listen up I want you to know the truth. You are genuinely the most beautiful person I have ever known, both inside and out! Your smile is my absolute favorite thing, it lights up my entire day. Plus, the way you handle tough things shows so much strength. Never, ever doubt how truly special and perfect you are to me, baby. Mahal na mahal kita, always have been, always will be. You are perfect." 
+            },
+            { 
+                id: 22, 
+                icon: 'cloud', 
+                title: "When You Made A Mistake", 
+                content: "My babyy. If you are reading this, I know you made a mistake, and I know you probably feel bad about it right now. Please do not let it crush you, okay? Everyone messes up sometimes, seriously, even me. That mistake does not change how amazing you are, or how much I love you. The most important thing is that you learn from it and move on. Don't punish yourself anymore, my love. I love you, and I forgive you instantly. Mahal na mahal kita, baby. Just pick yourself up and keep going." 
+            },
+            { 
+                id: 23, 
+                icon: 'sun', 
+                title: "When You Need Motivation", 
+                content: "Hello babyy! If you need a little push right now, let's go! You are ready for this, and you have every single tool you need to succeed. Don't wait for the perfect moment just start! Think about how amazing you will feel when you finish this and crush your goal. I believe in you 100%, always. Let's make today count! Don't let anything hold you back, you got this! Mahal na mahal kita, baby. Go get 'em!" 
+            },
+            { 
+                id: 24, 
+                icon: 'sun', 
+                title: "When You Need Anime Recommendations", 
+                content: "Hello babyy! Bored and need something awesome to watch? Don't even stress, you know we have the best options already! If you want something super cute that will give you all the feels, you should totally check out Horimiya again. But if you just need to feel cozy and laugh your head off with some crazy humor, then put on Gintama! Those two are seriously the best cure for boredom. love! Mahal na mahal kita, baby. Enjoy the show!" 
+            },
+            { 
+                id: 25, 
+                icon: 'sun', 
+                title: "When You're Excited About Something", 
+                content: "OMG! YAAY! My babyy is feeling excited! That is seriously the best news I've heard all day! Tell me absolutely everything right now what happened? You deserve all this happiness and good energy coming your way! Don't hold back, I want to hear every single detail, no matter how small! I'm so proud of you for whatever amazing thing you did! Hope that happiness you have right now lasts long. Mahal na mahal kita, baby. Keep shining!" 
+            },
+            { 
+                id: 26, 
+                icon: 'moon', 
+                title: "When You're Bored", 
+                content: "Hello babyy! I see you are bored, but that is totally fixable right now! Stop staring at the ceiling, okay? We need to find something fun for you to do immediately! Put on some awesome music, or text me back and we can talk about anything silly until you start smiling! If you need a distraction, I am the best distraction you can get! Your amazing mind needs a break, not more staring! What fun thing can we do together right now?" 
+            },
+            { 
+                id: 27, 
+                icon: 'sun', 
+                title: "When You Need To Make A Big Decision", 
+                content: "My dearest babyy. If you are reading this, I know you have a huge decision on your mind, and I know how stressed that can make you. Please remember that whatever you choose, I will be right here supporting you 100%, no matter the outcome. Don't rush or let anyone push you into anything you aren't ready for. Just take a deep breath, look at your options clearly, and trust your brilliant mind. You know yourself better than anyone, and whatever you decide is the absolute right choice for you. Mahal na mahal kita, baby. I have total faith in you." 
+            },
+            { 
+                id: 28, 
+                icon: 'cloud', 
+                title: "When You're Sick Of Social Media", 
+                content: "My dearest babyy. I know you are totally tired of all the noise and drama on social media right now. Please remember that all of that stuff is literally fake and none of it matters as much as you do. Don't compare your wonderful, real life to those perfect highlights on a screen, okay? Put your phone down, turn it off, and look at the actual beautiful world around you. You don't need validation from any of that. I'm right here. ILOVEYOU BABY. Breathe and step away from the phone." 
+            },
+            { 
+                id: 29, 
+                icon: 'sun', 
+                title: "When You Need Action", 
+                content: "Hello babyy! You need some action right now, huh? I totally love that energy! Whatever big goal you have, whether it's hitting the gym or finally starting that huge project, this is your sign to absolutely go for it. Don't just sit around and wait for things to happen, my love, you have the power to make them happen! You are strong and unstoppable when you decide to be. Get out there and make some moves! MAHAL NA MAHAL KITA BABY." 
+            },
+            { 
+                id: 30, 
+                icon: 'cloud', 
+                title: "When You're Really Angry", 
+                content: "My dearest babyy. I know you are feeling really angryy right now, and please know that your feelings are totally valid. It is 100% okay to be upset when something unfair happens like this. But please, please take a deep breath before you react, okay? Don't let that anger hurt you or anyone else. Tell me everything I am right here to listen to every single word of your rant until you feel a little lighter. Let it out safely. ILOVEYOUSOMUCH. Let's talk it through, my love." 
+            },
+                        { 
+                id: 31, 
+                icon: 'cloud', 
+                title: "When Your Heart Is Broken", 
+                content: "My dearest babyy. If you are reading this, I know your heart feels completely broken right now, and I am so deeply sorry for the huge pain you are carrying. Please let yourself cry and feel all of those feelings, okay? Don't try to be strong for me or anyone else. I am right here to help hold all the broken pieces of your heart until you are ready to put them back together. Nothing is too big or too much for us to handle together. Just know that you are loved unconditionally and forever. ILOVEYOUMUCHIEE." 
+            },
+            { 
+                id: 32, 
+                icon: 'cloud', 
+                title: "When We Have An Argument", 
+                content: "Hello babyy. I know things are rough between us right now, and I am sincerely sorry for my part in our argument. Fighting always hurts, but please remember that nothing we say when we are angry changes the way I truly feel about you. You are my most important person in this whole world, always. Let's please talk softly, listen to each other's feelings, and fix this soon. We are a team above everything else, and we always will be. LOVEYOUUUUU." 
+            },
+            { 
+                id: 33, 
+                icon: 'heart', 
+                title: "When You Want To Hear About My Favourite Memory With You", 
+                content: "Hello my babyy! You want to know my favorite memory with you? That is such an amazing question! Right now, my absolute favorite memory is our first time holding hands in that waiting shed. It wasn't anything huge or dramatic, but the way I felt, just sitting there next to you, was the best feeling in the whole world. Those are the simple moments I treasure most, because that's when I knew everything was real. Every time I think of it, I smile. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 34, 
+                icon: 'moon', 
+                title: "When We Haven't Spoke In A While", 
+                content: "My babyy It feels like forever since we last talked properly, and I really miss hearing your beautiful voice and everything you have to say. I know life gets busy sometimes, but please know that you are always on my mind, no matter how much time passes between calls. There is so much I want to tell you, and I can't wait to catch up on everything and hear how you're doing. Send me a message when you can, okay? I love you!" 
+            },
+            { 
+                id: 35, 
+                icon: 'cloud', 
+                title: "When I Don't Pick Up My Phone", 
+                content: "Hello my babyy! I'm so sorry I didn't pick up my phone when you called. I didn't mean to miss my gorgeous wife's call, I promise! There is nothing in the world more important than your call, okay? You are my most important person, always my love. I promise I will call you back right now, just know everything is fine, and I love you. ILOVEYOUUU." 
+            },
+            { 
+                id: 36, 
+                icon: 'sun', 
+                title: "When You Feel Like Giving Up On Your Goals", 
+                content: "Hello my babyy! You are reading this because you feel like quitting, but you have to stop that thought right now. You are reading this because you are a fighter, and you don't back down just because things get hard! Don't let this one obstacle convince you to give up, because you are absolutely unstoppable when you focus your mind on something. I have seen you crush challenges before, and I know you have the strength to finish this. Don't stop now, my love, you are too close! ILOVEYOUMUCHIEE." 
+            },
+            { 
+                id: 37, 
+                icon: 'moon', 
+                title: "When You Do Something Embarrassing", 
+                content: "Heloo my babyy! You feel embarrassed? it's normal baby, don't overthink it so much, like who cares babyy. Stop for a second and take a deep breath, it's no big deal, it's okayy. That small moment literally means nothing, people will forget it in few hours, nobody will remember it, okay? All that matters is that you are here, and you are still my beautiful, amazing baby. Now let's forget what happened, and jus go with our day, okay? ILOVEYOYUU." 
+            },
+            { 
+                id: 38, 
+                icon: 'cloud', 
+                title: "When You Lose Someone Or Something Precious To You", 
+                content: "Hello my babyy, I feel you, I know it's painful, It hurts so much. Losing someone we loved or cherished is very hard to overcome, and it's okayy babyy to let your emotions come out. I know how painful it is, just show your emotions, I'm right here by your side and I will never leave. Let me hug you tight, we'll go through this together. Iloveyoubbyy." 
+            },
+            { 
+                id: 39, 
+                icon: 'heart', 
+                title: "When You Wish I Was There", 
+                content: "Hello my babyy. If you are reading this, I know you are wishing I was right next to you, and I am wishing the exact same thing right now. That feeling totally sucks, but please know that even if I can't physically be there, I am sending all my love and strength to you. Close your eyes and imagine the tightest hug ever, because that's what I'm sending. I'm coming home soon, promise. MAHAL NA MAHAL KITA BABY" 
+            },
+            { 
+                id: 40, 
+                icon: 'cloud', 
+                title: "When You Feel Like Crying", 
+                content: "Hello my babyy You probably read this because you feel like crying right now. Please let yourself feel all of that sadness, okay? It is completely okay to cry, you don't have to be strong or feel like there's no solution. I know it feels heavy, but let me tell you there is always a solution, and we will find it together. I wish I could give you a big, warm hug right now just to make you feel better and to remind you that I am right here by your side. ILOVEYOUUU." 
+            },
+            { 
+                id: 41, 
+                icon: 'sun', 
+                title: "When You Do Something You're Proud Of", 
+                content: "OMG! YAAY! My gorgeous babyy is feeling proud of herself! That is seriously the best, most amazing news I could ever hear right now, and you should be so happy! You deserve to celebrate this accomplishment because you worked so incredibly hard for it. I am bursting with pride for you, my love, you absolutely crushed it! Tell me absolutely everything I want to hear all the details of what you did. Keep shining that bright, beautiful light! ILOVEYOUSOMUCHIEE." 
+            },
+            { 
+                id: 42, 
+                icon: 'heart', 
+                title: "When You Want To Reminisce", 
+                content: "Hello my babyy! You opened this because you want to remember some good times, and that is such a wonderful idea! Our memories are seriously the best treasure we have, and I love looking back at them with you. I want you to close your eyes and think of any of our sweet, simple moments like the first time we held hands. Those times are my proof of how real our love is, and we have so many more beautiful memories ahead of us to make. ILOVEYOUUU." 
+            },
+            { 
+                id: 43, 
+                icon: 'cloud', 
+                title: "When You're Filled With Dread", 
+                content: "Hello my babyy. If you're reading this, I know you are feeling that heavy, awful dread right now, and that feeling is so overwhelming. Please just stop for a second and take a deep breath, okay? You do not have to carry that huge weight all by yourself, my love. Whatever is making you feel this way, we will face it together, and I promise you are safe with me. That feeling is just a thought, it is not your reality. Don't let the anxiety take over. I am right here, and I'm not going anywhere. ILOVEYOUUU." 
+            },
+            { 
+                id: 44, 
+                icon: 'cloud', 
+                title: "When You're Angry At Me", 
+                content: "Hello my babyy. If you are reading this, I know you are absolutely furious with me right now, and that is okay. Your anger is valid, and I am not going to run from it, okay? I know I messed up, and I am genuinely sorry for whatever I did to make you feel this way. Please take a deep breath, and let me know exactly what you need me to do to make this right. I love you too much to let us stay angry, and I promise to listen without getting defensive. We are a team, always. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 45, 
+                icon: 'cloud', 
+                title: "When I'm Angry At You", 
+                content: "Hello my babyy. If you are reading this, I need you to know that while I might be feeling frustrated or angry right now, it does not change the fact that I love you deeply and completely. This anger is just a moment, okay? It will pass, and it doesn't define us. I know we can work this out because we always do. Please let's both take a deep breath, and remember that we are on the same team. We will fix this, my love. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 46, 
+                icon: 'sun', 
+                title: "When You're Doing Something New", 
+                content: "Hello my babyy! If you are reading this, it means you are about to step into something new, and I know you might be feeling a mix of excited and nervous right now. Please know that I am so incredibly proud of you for having the courage to try this! You are ready for this new thing, seriously. You are smart, capable, and you have all the tools you need to crush it. Don't let the fear stop you-this is going to be amazing, and I am cheering you on every single step of the way! ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 47, 
+                icon: 'heart', 
+                title: "When It's Our Anniversary", 
+                content: "OMG! Happy Anniversary, my beautiful babyy! I can't believe how much time has passed since we started this journey, and every single day has been the greatest gift. You are the best thing that has ever happened to me, seriously. I hope you're feeling celebrated and cherished right now, because you deserve all the happiness in the world. I love looking back at all we've done and knowing that our future together will be even more amazing. Thank you for being you, my love. ILOVEYOUSOMUCHIEE." 
+            },
+            { 
+                id: 48, 
+                icon: 'sun', 
+                title: "When You Are Celebrating An Achievement", 
+                content: "Hello my babyy! Yes! You absolutely smashed it, and I am so incredibly proud of you for this huge achievement! I knew you could do it, but watching you actually reach this goal fills me up with so much happiness. Please stop whatever you are doing and take a minute to celebrate yourself, because you deserve all the praise and recognition in the world. I am sending you a thousand virtual high-fives and a massive hug right now! ILOVEYOUSOMUCHIEE." 
+            },
+            { 
+                id: 49, 
+                icon: 'cloud', 
+                title: "When You're Nervous About An Exam/Interview", 
+                content: "Hello my babyy. If you are reading this, you are probably feeling super nervous right now, but I need you to just stop and breathe. You have prepared for this, and you know exactly what you need to do! You are smart, capable, and you have this completely under control. Whatever the outcome is, I will be so proud of your effort, okay? Just go in there, be yourself, and crush it. I'm thinking of you and sending you all my calmness and focus. ILOVEYOUUU." 
+            },
+            { 
+                id: 50, 
+                icon: 'heart', 
+                title: "When It's An Important Occasion I Can't Be There For", 
+                content: "Hello my babyy. If you are reading this, I know today is a huge day, and my heart is aching that I can't be right there next to you. Even though I'm not physically there, please know that I am celebrating you from afar and thinking about you every second. You are going to crush this, and I am sending you all the confidence and good luck I have. Go make this day amazing! ILOVEYOUUU." 
+            },
+            { 
+                id: 51, 
+                icon: 'heart', 
+                title: "When You Want To Learn About The Things That Remind Me Of You", 
+                content: "My babyy You want to know what reminds me of you? That's so easy! You are everywhere beautiful and bright in my life. The color pink, Twice Group, and every single time I smell coffee those things immediately make me stop and think of you. You are literally everywhere good in my world, my love. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 52, 
+                icon: 'sun', 
+                title: "When You Need Music Recommendations", 
+                content: "Hello my babyy! If you are looking for music, I know exactly what you need. Put on \"Happiness\" by Rex Orange County and just let that song sink in. Let the music take over and just enjoy the moment, okay? Remember, every song I recommend is a reminder of a good time we shared or a feeling I want you to have. ILOVEYOUUU." 
+            },
+            { 
+                id: 53, 
+                icon: 'sun', 
+                title: "When You Need A Solution", 
+                content: "Hello my babyy. If you are reading this, I know you are stuck on a problem right now and it's frustrating. Please remember that you don't have to solve this alone. Take a deep breath, write down the problem on a piece of paper, and call me. Two heads are always better than one, and we will break this down piece by piece until we find the solution together. You've got this, my love. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 54, 
+                icon: 'sun', 
+                title: "When You Need Fitness Motivation", 
+                content: "Hello my babyy! I know getting that motivation can be the hardest part, but you need to put this book down and move your body right now! Remember how amazing you feel after you finish? That feeling is waiting for you! You are so strong and capable, and you just need to start. Put on your favorite song, do one small set, and that momentum will take over. I believe in you completely! ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 55, 
+                icon: 'heart', 
+                title: "When You Need To Know I'm Not Proud Of", 
+                content: "Hello my babyy. If you are reading this, I think you might be looking for assurance, and I want to give it to you straight: there is absolutely nothing you could do that would make me stop loving you. I am completely devoted to you, and my love doesn't depend on perfection. I love you for who you are, flaws and all. We are human, we make mistakes, but that never changes our bond. Never doubt my love, my gorgeous wife. ILOVEYOUUU." 
+            },
+            { 
+                id: 56, 
+                icon: 'moon', 
+                title: "When You Do Something Repetitive", 
+                content: "Hello my babyy. If you're reading this, I know you are feeling bored or maybe a little frustrated with doing the same thing over and over. But please remember: sometimes repetition is necessary for a beautiful result! Focus on the amazing outcome you are working toward, not the current moment. You have the focus and discipline to finish this and move on to the next thing! ILOVEYOUUU." 
+            },
+            { 
+                id: 57, 
+                icon: 'cloud', 
+                title: "When Something Didn't Go How You Planned", 
+                content: "Hello my babyy. My heart breaks that something didn't go the way you planned. That feeling of disappointment sucks, but I need you to know that this is not a failure, okay? It's just a detour! You learned something important today, and that makes you stronger for the next attempt. Don't waste energy being sad; let's figure out the new plan together. I'm here for you, always. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 58, 
+                icon: 'cloud', 
+                title: "When You Feel At The Highest Peak Of Stress", 
+                content: "Hello my babyy. If you are reading this, I know you are completely overwhelmed right now and at the peak of your stress. I need you to put this book down and do three things: one, take a very slow, deep breath; two, drink some water; and three, text me right now so I can distract you. This stress is temporary, my love. You are stronger than this moment, and we will get through this intense feeling together. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 59, 
+                icon: 'sun', 
+                title: "When You Need A Reason To Keep Going", 
+                content: "Hello my babyy. If you're reading this, I know you are feeling that heavy, awful dread right now, and that feeling is so overwhelming. Please just stop for a second and take a deep breath, okay? You do not have to carry that huge weight all by yourself, my love. Whatever is making you feel this way, we will face it together, and I promise you are safe with me. That feeling is just a thought, it is not your reality. Don't let the anxiety take over. I am right here, and I'm not going anywhere. ILOVEYOUUU." 
+            },
+            { 
+                id: 60, 
+                icon: 'moon', 
+                title: "When You Want To Hear Something Weird", 
+                content: "Hello my babyy! You want to hear something weird? Okay, here is a secret: sometimes when you are not looking, I'll take a quick picture of you because you look so ridiculously gorgeous and I want to remember exactly how happy you look. And also, you have the weirdest, cutest little snore, and I totally smile every time I hear it. I love all the weird little things that make you, you! ILOVEYOUSOMUCH." 
+            },
+                        { 
+                id: 61, 
+                icon: 'moon', 
+                title: "When You're Waiting For A Response", 
+                content: "Hello my babyy. If you are waiting for a response right now and feeling anxious, please take a deep breath. I know that feeling of waiting is the worst, but I need you to trust that things are moving along and you will hear back soon! Don't spend one more second stressing over something you can't control. Go get distracted by something fun, and I promise you will get the answer you need soon. ILOVEYOUUU." 
+            },
+            { 
+                id: 62, 
+                icon: 'moon', 
+                title: "When You Want To Hear A Story", 
+                content: "Hello my babyy! You want a random story? Okay, here is a weird one: Once upon a time, there was a tiny, fuzzy squirrel who was convinced he was a world-class opera singer. He would stand on the highest branch of the tallest tree and belt out these ridiculous, squeaky high notes that sounded like a tea kettle screaming. The other squirrels would just roll their eyes, but he never gave up on his dream. Moral of the story? Be the opera squirrel. Never stop being exactly who you are, even when you're a little weird. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 63, 
+                icon: 'cloud', 
+                title: "When You've Had A Rough Week", 
+                content: "Hello my babyy. You have made it to the end of a rough week, and you deserve a massive reward right now. You fought through it, you kept going, and I am incredibly proud of your strength. Time to put your feet up, order your favorite food, and don't do anything you don't absolutely want to do. Let me take care of you this weekend, okay? You earned this rest, my love. ILOVEYOUUU." 
+            },
+            { 
+                id: 64, 
+                icon: 'sun', 
+                title: "When You Need Some Good News", 
+                content: "Hello my babyy! You need some good news right now? Here it is: You are loved, you are valued, and your future is brighter than you can possibly imagine. Also, my good news is you are going to get to spend the rest of your life with me, which is a pretty sweet deal! Keep your head up, my love. Good things are coming your way, I promise. ILOVEYOUUU." 
+            },
+            { 
+                id: 65, 
+                icon: 'sun', 
+                title: "When You Get Some Good News", 
+                content: "OMG! My babyy got some good news! That is seriously the best thing I've heard all day, and you totally deserve this amazing win! Please stop what you are doing and celebrate right now! I am so unbelievably proud of you and everything you've accomplished. This is just the beginning of all the wonderful things coming your way, my love. ILOVEYOUSOMUCHIEE." 
+            },
+            { 
+                id: 66, 
+                icon: 'cloud', 
+                title: "When Someone Else Lets You Down", 
+                content: "Hello my babyy. If someone has disappointed you or let you down, my heart aches for you. That feeling of betrayal or hurt is awful, but I need you to focus on this their actions have nothing to do with your value, okay? Their lack of effort is their failing, not yours. You are an amazing, loyal person, and you deserve better. Come talk to me, and let's forget about them. I will never let you down. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 67, 
+                icon: 'heart', 
+                title: "When You Need Me", 
+                content: "Hello my babyy. If you are reading this, I need you to know that I am here. Always. No matter what time it is, no matter what you need, you can reach out to me. Don't ever hesitate, don't feel like you are a burden, and don't try to face this alone. You are my most important person, and needing me is why I'm here. Call me right now, and let me help you. ILOVEYOUUU." 
+            },
+            { 
+                id: 68, 
+                icon: 'cloud', 
+                title: "When All This Is Too Much", 
+                content: "Hello my babyy. If you are reading this, I know you feel like the weight of the entire world is on your shoulders right now, and everything feels like it's too much to handle. Please, I need you to stop thinking about tomorrow or next week, and just focus on this one moment. Put this book down, take a deep breath, and let your body relax. We will tackle this one small piece at a time. I am right here to take the pressure off you. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 69, 
+                icon: 'moon', 
+                title: "When You're Feeling Awkward", 
+                content: "Hello my babyy. You feel awkward? That is so sweet and human! I love that about you. Whatever happened, I promise it was probably funny or completely forgettable to everyone else. Don't worry about trying to be cool or perfect you are my beautiful, slightly awkward, amazing wife, and I wouldn't change a single thing about you. Just laugh it off, and let's go get some coffee. ILOVEYOUUU." 
+            },
+            { 
+                id: 70, 
+                icon: 'sun', 
+                title: "When You're Being Sarcastic", 
+                content: "Hello my babyy. If you opened this because you're feeling a little sassy and sarcastic right now, I have to say I love that side of you! Your witty humor is one of my favorite things. You are so clever and funny. Keep making me laugh with your perfect comebacks and hilarious observations. Just don't forget to use that gorgeous smile when you deliver the sarcasm! ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 71, 
+                icon: 'cloud', 
+                title: "When You Want To Scream", 
+                content: "Hello my babyy. If you are reading this because you need to scream, please know that I totally understand that feeling. Take a deep breath, go find a pillow, and scream as loud as you need to, or go outside and yell at the sky I won't judge! Get that frustration out of your system, my love. Let go of the pressure, and then come talk to me. We will fix whatever made you want to yell. ILOVEYOUUU." 
+            },
+            { 
+                id: 72, 
+                icon: 'heart', 
+                title: "When You Need Someone To Listen", 
+                content: "Hello my babyy. If you are reading this, I want you to know that I am putting everything else on pause right now, and I am here for you. You don't have to talk about solutions or feelings; you can just vent and get it all out. I am not here to fix it or judge youbl am just here to listen. You have my full, undivided attention, my love. Text me or call me, and I will be your sounding board. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 73, 
+                icon: 'heart', 
+                title: "When You Need Affirmation", 
+                content: "Hello my babyy. If you need a reminder of how amazing you are, listen up: you are beautiful, intelligent, hilarious, and the strongest person I know. You deserve all the good things that come your way, and you make my life infinitely better just by being in it. Don't let any little voice in your head tell you otherwise, because I'm right here to tell you the truth. You are perfect to me. ILOVEYOUUU." 
+            },
+            { 
+                id: 74, 
+                icon: 'cloud', 
+                title: "When You're Hungover", 
+                content: "Hello my babyy. Ah, you definitely had a little too much fun last night, huh? Don't stress about it! I am sending you all the soft blankets, dark rooms, and giant glasses of water right now. Go get some rest, and please don't forget to eat something greasy! Take it easy, and let me know when you feel like being a human again. I'll make sure to get you your favorite recovery food. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 75, 
+                icon: 'moon', 
+                title: "When You Feel Far Away", 
+                content: "Hello my babyy. If you are reading this, I know your mind feels distant right now, and maybe you feel a little disconnected from everything. Please remember that no matter where your thoughts are, or how far away you feel, you are right here in my heart, and you are not alone. Close your eyes and let me ground you back to the present. Our love is the steady anchor, and I am right here. ILOVEYOUUU." 
+            },
+            { 
+                id: 76, 
+                icon: 'sun', 
+                title: "When You're Procrastinating", 
+                content: "Hello my babyy. If you're reading this, I know you are avoiding something right now! Come on, my love, you know you'll feel ten times better once it's done. That thing you are putting off only takes up more mental energy the longer you wait. Just take a deep breath, promise yourself you'll work on it for five minutes, and the momentum will take over. I believe in your focus! Now go crush it! ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 77, 
+                icon: 'cloud', 
+                title: "When You Feel Rushed Or For No Reason", 
+                content: "Hello my babyy. If you are reading this and feeling anxious or rushed, or just anxious for no reason at all, I need you to pause. Put your hand on your heart, and feel your breathing. Everything is fine. You are safe. There is no emergency. You have all the time you need. Don't let your mind race ahead of your body. Stay with me in this moment. You are loved. ILOVEYOUUU." 
+            },
+            { 
+                id: 78, 
+                icon: 'moon', 
+                title: "When You're Confused", 
+                content: "Hello my babyy. If you are reading this, I know you are feeling confused and maybe a little lost right now. That is okay, my love. Just take a step back and stop trying to figure it all out at once. Breathe. Whatever is confusing you, we will break it down together, and I promise to bring you clarity. You have me to help you navigate this. ILOVEYOUSOMUCH." 
+            },
+            { 
+                id: 79, 
+                icon: 'heart', 
+                title: "When You Want To Hear My Favourite Traits About You", 
+                content: "My babyy You want to know my favorite traits about you? Where do I even begin! I love your kindness and how generous you are to everyone. I love your sense of humor, especially your laugh. I love how smart and determined you are. But mostly, I love your heart, and how perfectly it fits mine. You are truly the most beautiful person I know, inside and out. ILOVEYOUUU." 
+            },
+            { 
+                id: 80, 
+                icon: 'moon', 
+                title: "When You're Unsure About The Future", 
+                content: "Hello my babyy. If you are reading this, I know the future feels like a big question mark right now, and that can be scary. I want you to stop worrying about what might happen. Focus on what is true right now: we are together, we love each other, and we will face everything that comes next as a team. Whatever the future holds, it will be better because you are in it. I promise. ILOVEYOUSOMUCHIEE." 
+            },
+            { 
+                id: 81, 
+                icon: 'gift', 
+                title: "When You Finish Reading All Dis", 
+                content: "Hello my babyy You made it! If you are reading this, it means you have gone through every single message, and that makes me so incredibly happy. I hope that through all of these notes, I was able to make you smile, make you feel loved, and remind you just how much you mean to me. This might be the last page, but it's just the beginning of everything else we are going to experience together. Know that every single day, my love for you grows bigger. I LOVE YOU FOREVER, MY WIFE." 
+                  }     
+                ];
+        
         // --- LOGIC ---
         const app = {
             currentIndex: 0,
@@ -590,6 +996,7 @@
     </script>
 </body>
 </html>
+
 
 
 

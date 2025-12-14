@@ -3,87 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FFF0F5">
+    
     <title>Nicole's Book</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             /* LIGHT THEME */
-            --bg-color: #FFF0F5;
+            --bg-body: #FFF0F5;
+            --bg-gradient: linear-gradient(180deg, #FFF0F5 0%, #F8E1EE 100%);
             --surface: #FFFFFF;
-            --surface-glass: rgba(255, 255, 255, 0.55);
+            --surface-glass: rgba(255, 255, 255, 0.85);
             --primary: #E91E63;
             --primary-soft: #FCE4EC;
             --text-main: #2D2D2D;
             --text-sub: #757575;
-            --border: rgba(255, 255, 255, 0.7);
-            --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-            --shadow-card: 0 15px 45px rgba(233, 30, 99, 0.1);
+            --border: #F0F0F0;
+            --shadow: 0 8px 30px rgba(0,0,0,0.06);
+            --shadow-card: 0 15px 35px rgba(233, 30, 99, 0.1);
             --dot-active: #E91E63;
             --dot-inactive: #E0E0E0;
-            --blob-1: #ff9a9e;
-            --blob-2: #a18cd1;
-            --blob-3: #fad0c4;
         }
 
         [data-theme="dark"] {
             /* DARK THEME */
-            --bg-color: #0f0f0f;
-            --surface: #1a1a1a;
-            --surface-glass: rgba(20, 20, 20, 0.65);
+            --bg-body: #121212;
+            --bg-gradient: linear-gradient(180deg, #121212 0%, #1A1015 100%);
+            --surface: #1E1E1E;
+            --surface-glass: rgba(30, 30, 30, 0.9);
             --primary: #FF80AB;
             --primary-soft: #2D1F25;
             --text-main: #FFFFFF;
             --text-sub: #A0A0A0;
-            --border: rgba(255, 255, 255, 0.08);
-            --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            --shadow-card: 0 15px 45px rgba(0, 0, 0, 0.4);
+            --border: #333333;
+            --shadow: 0 8px 30px rgba(0,0,0,0.5);
+            --shadow-card: 0 15px 35px rgba(0,0,0,0.4);
             --dot-active: #FF80AB;
             --dot-inactive: #444444;
-            --blob-1: #59192b;
-            --blob-2: #24124d;
-            --blob-3: #4a1932;
         }
 
-        /* PERFORMANCE OPTIMIZATION: Only animate colors */
+        /* OPTIMIZED TRANSITIONS (No lag) */
         body, .card, .login-card, .search-bar, .reader-header, .reader-controls, .app-nav {
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; touch-action: manipulation; }
         
         body { 
-            background: var(--bg-color); 
+            background: var(--bg-gradient); 
             min-height: 100vh; overflow-x: hidden; color: var(--text-main); 
-            position: relative;
+            /* Fix for sticky hover on mobile */
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* --- GPU ACCELERATED LAVA LAMP --- */
-        .lava-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden; pointer-events: none;
-        }
-
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(60px); /* Reduced blur for mobile performance */
-            opacity: 0.7;
-            will-change: transform; /* Hint to browser for optimization */
-        }
-
-        .blob-1 { background: var(--blob-1); width: 300px; height: 300px; top: -10%; left: -10%; animation: float1 18s infinite alternate ease-in-out; }
-        .blob-2 { background: var(--blob-2); width: 250px; height: 250px; bottom: -10%; right: -10%; animation: float2 20s infinite alternate ease-in-out; }
-        .blob-3 { background: var(--blob-3); width: 200px; height: 200px; top: 40%; left: 40%; animation: float3 22s infinite alternate ease-in-out; }
-
-        @keyframes float1 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(50px, 80px, 0) scale(1.1); } }
-        @keyframes float2 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-40px, -60px, 0) scale(1.2); } }
-        @keyframes float3 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(60px, -40px, 0) scale(0.9); } }
-
-        /* UTILS */
+        /* --- ANIMATIONS (GPU Optimized) --- */
         .hidden { display: none !important; }
-        .fade-out { animation: fadeOut 0.4s forwards; }
-        .fade-in { animation: fadeIn 0.5s forwards; }
-        .slide-up { animation: slideUp 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+        .fade-out { animation: fadeOut 0.3s forwards; }
+        .fade-in { animation: fadeIn 0.4s forwards; }
+        .slide-up { animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
         .shake { animation: shake 0.3s ease-in-out; border-color: #ff4d4d !important; }
         .pulse { animation: pulse 2s infinite; }
 
@@ -95,35 +77,31 @@
 
         /* THEME TOGGLE */
         .theme-toggle-btn {
-            background: var(--surface-glass);
-            border: 1px solid var(--border);
+            background: transparent; border: none;
             width: 40px; height: 40px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; backdrop-filter: blur(12px);
-            font-size: 1.1rem; color: var(--text-main);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            cursor: pointer; font-size: 1.2rem; color: var(--text-main);
             transition: transform 0.2s;
-            -webkit-tap-highlight-color: transparent;
         }
-        .theme-toggle-btn:active { transform: scale(0.9); }
+        .theme-toggle-btn:active { transform: scale(0.9); background: rgba(0,0,0,0.05); }
         .login-theme-pos { position: absolute; top: 20px; right: 20px; z-index: 1000; }
 
-        /* --- LOGIN --- */
+        /* --- LOGIN UI --- */
         #login-view { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .login-card { 
-            background: var(--surface-glass); padding: 45px 30px; border-radius: 32px; 
-            width: 100%; max-width: 360px; box-shadow: var(--shadow-card); 
+            background: var(--surface-glass); padding: 40px 30px; border-radius: 32px; 
+            width: 100%; max-width: 360px; box-shadow: var(--shadow); 
             text-align: center; border: 1px solid var(--border); 
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
         }
-        .logo-circle { width: 70px; height: 70px; background: var(--primary-soft); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--primary); }
-        .logo-circle svg { width: 32px; height: 32px; stroke-width: 2.5; }
+        .logo-circle { width: 75px; height: 75px; background: var(--primary-soft); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--primary); }
+        .logo-circle svg { width: 35px; height: 35px; stroke-width: 2.5; }
         .login-title { font-size: 24px; font-weight: 800; margin-bottom: 5px; color: var(--text-main); }
         .login-subtitle { color: var(--text-sub); font-size: 14px; margin-bottom: 30px; }
         .styled-input { 
             width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 14px; 
-            border: 1px solid var(--border); background: rgba(255,255,255,0.4); 
-            font-size: 16px; color: var(--text-main); transition: 0.2s;
+            border: 1px solid var(--border); background: rgba(255,255,255,0.5); 
+            font-size: 16px; color: var(--text-main);
         }
         [data-theme="dark"] .styled-input { background: rgba(0,0,0,0.2); }
         .styled-input:focus { border-color: var(--primary); background: var(--surface); }
@@ -131,75 +109,87 @@
             width: 100%; padding: 16px; background: var(--primary); color: white; 
             border: none; border-radius: 50px; font-size: 16px; font-weight: 700; 
             cursor: pointer; box-shadow: 0 8px 20px rgba(233, 30, 99, 0.25); 
-            transition: transform 0.2s; margin-top: 10px;
+            margin-top: 10px;
         }
         .btn-primary:active { transform: scale(0.96); }
         
         .exclusive-badge { 
-            margin-top: 25px; background: rgba(255,255,255,0.2); 
+            margin-top: 25px; background: rgba(125,125,125,0.1); 
             border: 1px dashed var(--primary); color: var(--primary); 
             padding: 10px; border-radius: 10px; font-size: 10px; 
             font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
             display: flex; align-items: center; justify-content: center; gap: 6px;
         }
 
-        /* --- APP --- */
+        /* --- APP UI --- */
         #app-view { min-height: 100vh; display: none; padding-bottom: 40px; }
         .app-nav { 
-            background: var(--surface-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            background: var(--surface-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border); 
         }
-        .nav-actions { display: flex; gap: 10px; }
-        .nav-btn { background: none; border: none; padding: 8px; border-radius: 50%; cursor: pointer; color: var(--text-main); display: flex; }
-        .nav-btn:active { background: rgba(0,0,0,0.05); }
+        .nav-actions { display: flex; align-items: center; gap: 5px; }
         
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .hero-section { margin: 20px 0 30px; animation: fadeIn 0.8s ease; }
+        .hero-section { margin: 20px 0 30px; animation: slideUp 0.6s ease; }
         .hero-title { font-size: 28px; font-weight: 800; margin-bottom: 5px; }
         .hero-sub { color: var(--text-sub); font-size: 15px; }
 
         .search-bar { 
-            background: var(--surface-glass); backdrop-filter: blur(10px); border-radius: 18px; 
+            background: var(--surface); border-radius: 18px; 
             padding: 14px 20px; display: flex; align-items: center; gap: 12px; 
-            box-shadow: var(--shadow-soft); margin-bottom: 25px; border: 1px solid var(--border); 
+            box-shadow: var(--shadow); margin-bottom: 25px; border: 1px solid var(--border); 
         }
         .search-bar input { border: none; width: 100%; font-size: 16px; background: transparent; color: var(--text-main); }
         
         .card { 
-            background: var(--surface-glass); border-radius: 22px; padding: 20px; margin-bottom: 15px; 
-            box-shadow: var(--shadow-soft); cursor: pointer; transition: transform 0.2s; 
-            border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; 
-            backdrop-filter: blur(10px);
+            background: var(--surface); border-radius: 22px; padding: 20px; margin-bottom: 15px; 
+            box-shadow: var(--shadow); cursor: pointer; border: 1px solid var(--border); 
+            display: flex; align-items: center; gap: 15px; transform: translateZ(0);
         }
         .card:active { transform: scale(0.98); }
-        .list-icon { width: 50px; height: 50px; border-radius: 16px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .list-icon { 
+            width: 50px; height: 50px; border-radius: 16px; 
+            background: var(--primary-soft); color: var(--primary); 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 1.2rem; flex-shrink: 0; 
+        }
 
-        /* --- READER --- */
-        #reader-view { position: fixed; inset: 0; background: var(--bg-color); z-index: 2000; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; }
+        /* --- READER UI --- */
+        #reader-view { 
+            position: fixed; inset: 0; background: var(--bg-body); z-index: 2000; 
+            transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            display: flex; flex-direction: column; 
+        }
         #reader-view.open { transform: translateX(0); }
-        .reader-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface-glass); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
-        .header-btn { background: none; border: none; cursor: pointer; color: var(--text-main); padding: 8px; border-radius: 50%; }
-        .header-btn:active { background: rgba(0,0,0,0.05); }
         
+        .reader-header { padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-body); }
         .reader-scroll-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; align-items: center; justify-content: center; }
+        
         .letter-card-display { 
             background: var(--surface); border-radius: 36px; padding: 40px 30px; 
             width: 100%; max-width: 450px; box-shadow: var(--shadow-card); 
             text-align: center; position: relative; border: 1px solid var(--border); 
-            opacity: 0; transform: translateY(30px); transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: translateZ(0);
         }
-        .letter-card-display.active { opacity: 1; transform: translateY(0); }
         
-        .card-icon-large { width: 80px; height: 80px; background: var(--primary-soft); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; border: 4px solid var(--surface); box-shadow: 0 10px 25px rgba(233, 30, 99, 0.15); }
+        .card-icon-large { 
+            width: 80px; height: 80px; background: var(--primary-soft); 
+            color: var(--primary); border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; margin: 0 auto 25px; 
+            /* FORCE VISIBILITY */
+            display: flex !important; opacity: 1 !important; visibility: visible !important;
+        }
+        .card-icon-large svg { width: 40px; height: 40px; stroke-width: 2.5; stroke: currentColor; }
+        
         .letter-tag { display: inline-block; background: var(--primary-soft); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         .letter-title-large { font-size: 24px; font-weight: 800; margin-bottom: 20px; line-height: 1.3; color: var(--text-main); }
         .letter-body-text { font-family: 'Lora', serif; font-size: 17px; line-height: 1.8; color: var(--text-sub); margin-bottom: 30px; text-align: left; }
         .letter-divider { height: 1px; background: var(--border); margin: 20px 0; width: 100%; }
         .letter-footer { font-size: 13px; font-weight: 600; color: var(--text-sub); opacity: 0.7; }
         
-        .reader-controls { padding: 20px 30px 40px; display: flex; align-items: center; justify-content: space-between; background: var(--surface-glass); border-top: 1px solid var(--border); backdrop-filter: blur(16px); }
-        .control-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 12px 24px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 8px; min-width: 100px; justify-content: center; transition: 0.2s; }
+        .reader-controls { padding: 20px 30px 40px; display: flex; align-items: center; justify-content: space-between; background: var(--bg-body); border-top: 1px solid var(--border); }
+        .control-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 12px 24px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 8px; min-width: 100px; justify-content: center; }
         .control-btn:active { transform: scale(0.95); }
         .pagination-dots { display: flex; gap: 8px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot-inactive); transition: 0.3s; }
@@ -208,14 +198,8 @@
 </head>
 <body>
 
-    <div class="lava-container">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
-
     <div id="login-view">
-        <button class="theme-toggle-btn login-theme-pos" onclick="app.toggleTheme()"><span class="theme-icon-text">🌙</span></button>
+        <button class="theme-toggle-btn login-theme-pos" onclick="app.toggleTheme()"><span>🌙</span></button>
         <div class="login-card slide-up">
             <div class="logo-circle pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
             <h2 class="login-title">Welcome Back</h2>
@@ -236,8 +220,8 @@
         <nav class="app-nav">
             <span style="font-weight: 800; font-size: 18px; letter-spacing: -0.5px;">Nicole's Book</span>
             <div class="nav-actions">
-                <button class="theme-toggle-btn" style="width:36px;height:36px;" onclick="app.toggleTheme()"><span class="theme-icon-text">🌙</span></button>
-                <button class="nav-btn" onclick="app.logout()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
+                <button class="theme-toggle-btn" onclick="app.toggleTheme()"><span>🌙</span></button>
+                <button class="theme-toggle-btn" onclick="app.logout()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
             </div>
         </nav>
         <main class="container">
@@ -255,9 +239,9 @@
 
     <div id="reader-view">
         <div class="reader-header">
-            <button class="header-btn" onclick="app.closeReader()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
+            <button class="theme-toggle-btn" onclick="app.closeReader()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
             <div style="text-align:center;"><span id="header-title" style="font-weight:700; font-size:14px;">Letter #1</span><br><span id="header-counter" style="font-size:11px; color:var(--text-sub); opacity: 0.8;">1 of 80</span></div>
-            <button class="header-btn theme-toggle-btn" style="width:36px;height:36px;background:transparent;border:none;box-shadow:none;" onclick="app.toggleTheme()"><span class="theme-icon-text">🌙</span></button>
+            <button class="theme-toggle-btn" onclick="app.toggleTheme()"><span>🌙</span></button>
         </div>
         <div class="reader-scroll-area">
             <div id="reader-card-content" class="letter-card-display">
@@ -798,7 +782,13 @@
                 const l = document.getElementById('login-view');
                 if(l){ l.classList.add('fade-out'); setTimeout(() => { l.classList.add('hidden'); const a = document.getElementById('app-view'); if(a){ a.style.display = 'block'; a.classList.add('fade-in'); this.renderList(letters); } }, 400); }
             },
-            getIcon(item) { const key = item.icon || item.type || 'heart'; return icons[key] || icons['heart']; },
+            // FIX: Robust Icon Getter (fixes typos/smart quotes)
+            getIcon(item) { 
+                const raw = item.icon || item.type || 'heart'; 
+                // Remove smart quotes or extra spaces
+                const clean = raw.replace(/['"“”]/g, '').trim().toLowerCase();
+                return icons[clean] || icons['heart']; 
+            },
             renderList(data) {
                 const list = document.getElementById('card-list'); if(!list) return; list.innerHTML = '';
                 data.forEach((item, index) => {
@@ -814,7 +804,6 @@
             updateReader() {
                 const item = letters[this.currentIndex];
                 const card = document.getElementById('reader-card-content');
-                if(card) { card.classList.remove('active'); setTimeout(() => card.classList.add('active'), 50); }
                 
                 const set = (id, txt) => { const e = document.getElementById(id); if(e) e.innerText = txt; };
                 set('header-title', `Letter #${item.id}`);
@@ -833,6 +822,7 @@
             },
             nextLetter() { if (this.currentIndex < letters.length - 1) { this.currentIndex++; this.updateReader(); } },
             prevLetter() { if (this.currentIndex > 0) { this.currentIndex--; this.updateReader(); } },
+            
             toggleTheme() {
                 const isDark = document.body.getAttribute('data-theme') === 'dark';
                 const newMode = !isDark;
@@ -842,10 +832,15 @@
             },
             updateThemeIcons(isDark) {
                 const iconChar = isDark ? '☀️' : '🌙';
-                document.querySelectorAll('.theme-icon-text').forEach(el => el.innerText = iconChar);
+                // Update all 3 buttons
+                document.querySelectorAll('.theme-toggle-btn span').forEach(el => el.innerText = iconChar);
+                // Also update buttons that might not have span
+                document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+                    if(!btn.querySelector('span')) btn.innerText = iconChar;
+                });
             }
         };
         app.init();
     </script>
 </body>
-</html>                
+</html>

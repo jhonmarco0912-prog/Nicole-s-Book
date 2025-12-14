@@ -8,183 +8,202 @@
     <style>
         :root {
             /* LIGHT THEME */
-            --bg-body: #FFF0F5;
+            --bg-color: #FFF0F5;
             --surface: #FFFFFF;
-            --surface-glass: rgba(255, 255, 255, 0.6);
+            --surface-glass: rgba(255, 255, 255, 0.55);
             --primary: #E91E63;
             --primary-soft: #FCE4EC;
             --text-main: #2D2D2D;
             --text-sub: #757575;
-            --border: rgba(255, 255, 255, 0.6);
-            --shadow-soft: 0 10px 40px rgba(0,0,0,0.05);
-            --shadow-card: 0 20px 60px rgba(233, 30, 99, 0.15);
+            --border: rgba(255, 255, 255, 0.7);
+            --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --shadow-card: 0 15px 45px rgba(233, 30, 99, 0.1);
             --dot-active: #E91E63;
             --dot-inactive: #E0E0E0;
+            --blob-1: #ff9a9e;
+            --blob-2: #a18cd1;
+            --blob-3: #fad0c4;
         }
 
         [data-theme="dark"] {
             /* DARK THEME */
-            --bg-body: #121212;
-            --surface: #1E1E1E;
-            --surface-glass: rgba(30, 30, 30, 0.6);
+            --bg-color: #0f0f0f;
+            --surface: #1a1a1a;
+            --surface-glass: rgba(20, 20, 20, 0.65);
             --primary: #FF80AB;
             --primary-soft: #2D1F25;
             --text-main: #FFFFFF;
             --text-sub: #A0A0A0;
-            --border: rgba(255, 255, 255, 0.1);
-            --shadow-soft: 0 10px 40px rgba(0,0,0,0.5);
-            --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
+            --border: rgba(255, 255, 255, 0.08);
+            --shadow-soft: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --shadow-card: 0 15px 45px rgba(0, 0, 0, 0.4);
             --dot-active: #FF80AB;
             --dot-inactive: #444444;
+            --blob-1: #59192b;
+            --blob-2: #24124d;
+            --blob-3: #4a1932;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease; }
+        /* PERFORMANCE OPTIMIZATION: Only animate colors */
+        body, .card, .login-card, .search-bar, .reader-header, .reader-controls, .app-nav {
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
         
         body { 
-            background: var(--bg-body); 
+            background: var(--bg-color); 
             min-height: 100vh; overflow-x: hidden; color: var(--text-main); 
             position: relative;
         }
 
-        /* --- ANIMATED LAVA LAMP BACKGROUND --- */
+        /* --- GPU ACCELERATED LAVA LAMP --- */
         .lava-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; overflow: hidden; background: #FFDEE9;
+            z-index: -1; overflow: hidden; pointer-events: none;
         }
-        [data-theme="dark"] .lava-container { background: #1a0b10; }
 
         .blob {
             position: absolute;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.8;
-            animation: float 10s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            filter: blur(60px); /* Reduced blur for mobile performance */
+            opacity: 0.7;
+            will-change: transform; /* Hint to browser for optimization */
         }
 
-        .blob-1 { background: #ff9a9e; width: 350px; height: 350px; top: -50px; left: -50px; animation-duration: 12s; }
-        .blob-2 { background: #a18cd1; width: 300px; height: 300px; bottom: -50px; right: -50px; animation-duration: 15s; animation-direction: alternate-reverse; }
-        .blob-3 { background: #fad0c4; width: 250px; height: 250px; bottom: 20%; left: 20%; animation-duration: 18s; }
-        
-        [data-theme="dark"] .blob-1 { background: #5c182e; opacity: 0.6; }
-        [data-theme="dark"] .blob-2 { background: #2e185c; opacity: 0.6; }
-        [data-theme="dark"] .blob-3 { background: #5c1840; opacity: 0.5; }
+        .blob-1 { background: var(--blob-1); width: 300px; height: 300px; top: -10%; left: -10%; animation: float1 18s infinite alternate ease-in-out; }
+        .blob-2 { background: var(--blob-2); width: 250px; height: 250px; bottom: -10%; right: -10%; animation: float2 20s infinite alternate ease-in-out; }
+        .blob-3 { background: var(--blob-3); width: 200px; height: 200px; top: 40%; left: 40%; animation: float3 22s infinite alternate ease-in-out; }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 50px) scale(1.1); }
-        }
+        @keyframes float1 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(50px, 80px, 0) scale(1.1); } }
+        @keyframes float2 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-40px, -60px, 0) scale(1.2); } }
+        @keyframes float3 { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(60px, -40px, 0) scale(0.9); } }
 
         /* UTILS */
         .hidden { display: none !important; }
-        .fade-out { animation: fadeOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .fade-in { animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .slide-up { animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fade-out { animation: fadeOut 0.4s forwards; }
+        .fade-in { animation: fadeIn 0.5s forwards; }
+        .slide-up { animation: slideUp 0.5s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         .shake { animation: shake 0.3s ease-in-out; border-color: #ff4d4d !important; }
         .pulse { animation: pulse 2s infinite; }
 
-        @keyframes fadeOut { to { opacity: 0; transform: scale(0.95); pointer-events: none; } }
+        @keyframes fadeOut { to { opacity: 0; transform: scale(0.98); pointer-events: none; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0.4); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(233, 30, 99, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(233, 30, 99, 0); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 
-        /* --- THEME TOGGLE BUTTON (Global) --- */
+        /* THEME TOGGLE */
         .theme-toggle-btn {
             background: var(--surface-glass);
             border: 1px solid var(--border);
-            width: 44px; height: 44px; border-radius: 50%;
+            width: 40px; height: 40px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            cursor: pointer; backdrop-filter: blur(10px);
-            font-size: 1.2rem; transition: transform 0.2s;
-            color: var(--text-main);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer; backdrop-filter: blur(12px);
+            font-size: 1.1rem; color: var(--text-main);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
         .theme-toggle-btn:active { transform: scale(0.9); }
-
-        /* Specific positioning for Login Page */
         .login-theme-pos { position: absolute; top: 20px; right: 20px; z-index: 1000; }
 
         /* --- LOGIN --- */
-        #login-view { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-        .login-card { background: var(--surface-glass); padding: 45px 30px; border-radius: 35px; width: 100%; max-width: 380px; box-shadow: var(--shadow-card); text-align: center; border: 1px solid var(--border); position: relative; overflow: hidden; backdrop-filter: blur(20px); }
-        .logo-circle { width: 80px; height: 80px; background: var(--primary-soft); border-radius: 50%; margin: 0 auto 25px; display: flex; align-items: center; justify-content: center; color: var(--primary); transition: transform 0.3s; }
-        .logo-circle:hover { transform: scale(1.1) rotate(10deg); }
-        .logo-circle svg { width: 40px; height: 40px; stroke-width: 2.5; }
-        .login-title { font-size: 26px; font-weight: 800; margin-bottom: 8px; color: var(--text-main); letter-spacing: -0.5px; }
-        .login-subtitle { color: var(--text-sub); font-size: 15px; margin-bottom: 35px; }
-        .styled-input { width: 100%; padding: 18px 22px; margin-bottom: 16px; border-radius: 16px; border: 1px solid var(--border); background: rgba(255,255,255,0.5); font-size: 16px; color: var(--text-main); outline: none; transition: 0.3s; }
-        .styled-input:focus { border-color: var(--primary); background: var(--surface); box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.1); }
-        .btn-primary { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 50px; font-size: 17px; font-weight: 700; cursor: pointer; box-shadow: 0 10px 25px rgba(233, 30, 99, 0.3); transition: transform 0.2s, box-shadow 0.2s; margin-top: 15px; }
-        .btn-primary:active { transform: scale(0.96); box-shadow: 0 5px 15px rgba(233, 30, 99, 0.2); }
+        #login-view { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-card { 
+            background: var(--surface-glass); padding: 45px 30px; border-radius: 32px; 
+            width: 100%; max-width: 360px; box-shadow: var(--shadow-card); 
+            text-align: center; border: 1px solid var(--border); 
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        }
+        .logo-circle { width: 70px; height: 70px; background: var(--primary-soft); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--primary); }
+        .logo-circle svg { width: 32px; height: 32px; stroke-width: 2.5; }
+        .login-title { font-size: 24px; font-weight: 800; margin-bottom: 5px; color: var(--text-main); }
+        .login-subtitle { color: var(--text-sub); font-size: 14px; margin-bottom: 30px; }
+        .styled-input { 
+            width: 100%; padding: 16px; margin-bottom: 12px; border-radius: 14px; 
+            border: 1px solid var(--border); background: rgba(255,255,255,0.4); 
+            font-size: 16px; color: var(--text-main); transition: 0.2s;
+        }
+        [data-theme="dark"] .styled-input { background: rgba(0,0,0,0.2); }
+        .styled-input:focus { border-color: var(--primary); background: var(--surface); }
+        .btn-primary { 
+            width: 100%; padding: 16px; background: var(--primary); color: white; 
+            border: none; border-radius: 50px; font-size: 16px; font-weight: 700; 
+            cursor: pointer; box-shadow: 0 8px 20px rgba(233, 30, 99, 0.25); 
+            transition: transform 0.2s; margin-top: 10px;
+        }
+        .btn-primary:active { transform: scale(0.96); }
         
         .exclusive-badge { 
-            margin-top: 30px; 
-            background: rgba(255,255,255,0.3); 
-            border: 1px dashed var(--primary); 
-            color: var(--primary); 
-            padding: 12px; 
-            border-radius: 12px; 
-            font-size: 11px; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-top: 25px; background: rgba(255,255,255,0.2); 
+            border: 1px dashed var(--primary); color: var(--primary); 
+            padding: 10px; border-radius: 10px; font-size: 10px; 
+            font-weight: 800; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
         }
 
         /* --- APP --- */
         #app-view { min-height: 100vh; display: none; padding-bottom: 40px; }
-        .app-nav { background: var(--surface-glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border); }
+        .app-nav { 
+            background: var(--surface-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; 
+            position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--border); 
+        }
         .nav-actions { display: flex; gap: 10px; }
-        .nav-btn { background: none; border: none; padding: 10px; border-radius: 50%; cursor: pointer; color: var(--text-main); display: flex; transition: background 0.2s; }
+        .nav-btn { background: none; border: none; padding: 8px; border-radius: 50%; cursor: pointer; color: var(--text-main); display: flex; }
         .nav-btn:active { background: rgba(0,0,0,0.05); }
         
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .hero-section { margin: 25px 0 35px; animation: slideUp 0.8s ease; }
-        .hero-title { font-size: 32px; font-weight: 800; margin-bottom: 8px; letter-spacing: -1px; }
-        .hero-sub { color: var(--text-sub); font-size: 16px; }
+        .hero-section { margin: 20px 0 30px; animation: fadeIn 0.8s ease; }
+        .hero-title { font-size: 28px; font-weight: 800; margin-bottom: 5px; }
+        .hero-sub { color: var(--text-sub); font-size: 15px; }
 
-        .search-bar { background: var(--surface-glass); backdrop-filter: blur(10px); border-radius: 20px; padding: 16px 24px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-soft); margin-bottom: 30px; border: 1px solid var(--border); transition: transform 0.2s; }
-        .search-bar:focus-within { transform: scale(1.02); border-color: var(--primary); }
-        .search-bar input { border: none; width: 100%; font-size: 16px; outline: none; background: transparent; color: var(--text-main); }
+        .search-bar { 
+            background: var(--surface-glass); backdrop-filter: blur(10px); border-radius: 18px; 
+            padding: 14px 20px; display: flex; align-items: center; gap: 12px; 
+            box-shadow: var(--shadow-soft); margin-bottom: 25px; border: 1px solid var(--border); 
+        }
+        .search-bar input { border: none; width: 100%; font-size: 16px; background: transparent; color: var(--text-main); }
         
         .card { 
-            background: var(--surface-glass); border-radius: 24px; padding: 22px; margin-bottom: 18px; 
-            box-shadow: var(--shadow-soft); cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
-            border: 1px solid var(--border); display: flex; align-items: center; gap: 18px; backdrop-filter: blur(10px);
+            background: var(--surface-glass); border-radius: 22px; padding: 20px; margin-bottom: 15px; 
+            box-shadow: var(--shadow-soft); cursor: pointer; transition: transform 0.2s; 
+            border: 1px solid var(--border); display: flex; align-items: center; gap: 15px; 
+            backdrop-filter: blur(10px);
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
-        .card:active { transform: scale(0.97); }
-        .list-icon { width: 55px; height: 55px; border-radius: 18px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .card:active { transform: scale(0.98); }
+        .list-icon { width: 50px; height: 50px; border-radius: 16px; background: var(--primary-soft); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
 
         /* --- READER --- */
-        #reader-view { position: fixed; inset: 0; background: var(--bg-body); z-index: 2000; transform: translateX(100%); transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.2, 1); display: flex; flex-direction: column; }
+        #reader-view { position: fixed; inset: 0; background: var(--bg-color); z-index: 2000; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; }
         #reader-view.open { transform: translateX(0); }
-        .reader-header { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; background: var(--surface-glass); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
-        .header-btn { background: none; border: none; cursor: pointer; color: var(--text-main); padding: 10px; border-radius: 50%; transition: background 0.2s; }
+        .reader-header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: var(--surface-glass); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+        .header-btn { background: none; border: none; cursor: pointer; color: var(--text-main); padding: 8px; border-radius: 50%; }
         .header-btn:active { background: rgba(0,0,0,0.05); }
-        .reader-scroll-area { flex: 1; overflow-y: auto; padding: 10px 20px 40px; display: flex; align-items: center; justify-content: center; }
         
+        .reader-scroll-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; align-items: center; justify-content: center; }
         .letter-card-display { 
-            background: var(--surface); border-radius: 40px; padding: 50px 30px; 
+            background: var(--surface); border-radius: 36px; padding: 40px 30px; 
             width: 100%; max-width: 450px; box-shadow: var(--shadow-card); 
             text-align: center; position: relative; border: 1px solid var(--border); 
-            opacity: 0; transform: translateY(30px); transition: 0.5s cubic-bezier(0.2, 0.9, 0.2, 1); 
+            opacity: 0; transform: translateY(30px); transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .letter-card-display.active { opacity: 1; transform: translateY(0); }
         
-        .card-icon-large { width: 90px; height: 90px; background: var(--primary-soft); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; border: 4px solid var(--surface); box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2); }
-        .letter-tag { display: inline-block; background: var(--primary-soft); color: var(--primary); padding: 8px 18px; border-radius: 30px; font-size: 12px; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
-        .letter-title-large { font-size: 26px; font-weight: 800; margin-bottom: 25px; line-height: 1.3; color: var(--text-main); letter-spacing: -0.5px; }
-        .letter-body-text { font-family: 'Lora', serif; font-size: 18px; line-height: 1.9; color: var(--text-sub); margin-bottom: 40px; text-align: left; }
-        .letter-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 20px 0; width: 100%; }
+        .card-icon-large { width: 80px; height: 80px; background: var(--primary-soft); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 25px; border: 4px solid var(--surface); box-shadow: 0 10px 25px rgba(233, 30, 99, 0.15); }
+        .letter-tag { display: inline-block; background: var(--primary-soft); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .letter-title-large { font-size: 24px; font-weight: 800; margin-bottom: 20px; line-height: 1.3; color: var(--text-main); }
+        .letter-body-text { font-family: 'Lora', serif; font-size: 17px; line-height: 1.8; color: var(--text-sub); margin-bottom: 30px; text-align: left; }
+        .letter-divider { height: 1px; background: var(--border); margin: 20px 0; width: 100%; }
         .letter-footer { font-size: 13px; font-weight: 600; color: var(--text-sub); opacity: 0.7; }
         
-        .reader-controls { padding: 25px 35px 50px; display: flex; align-items: center; justify-content: space-between; background: var(--surface-glass); border-top: 1px solid var(--border); backdrop-filter: blur(20px); }
-        .control-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 14px 28px; border-radius: 16px; font-weight: 700; font-size: 15px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 10px; min-width: 110px; justify-content: center; transition: 0.2s; }
+        .reader-controls { padding: 20px 30px 40px; display: flex; align-items: center; justify-content: space-between; background: var(--surface-glass); border-top: 1px solid var(--border); backdrop-filter: blur(16px); }
+        .control-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text-main); padding: 12px 24px; border-radius: 14px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 8px; min-width: 100px; justify-content: center; transition: 0.2s; }
         .control-btn:active { transform: scale(0.95); }
-        .pagination-dots { display: flex; gap: 10px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot-inactive); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .dot.active { background: var(--dot-active); transform: scale(1.5); }
+        .pagination-dots { display: flex; gap: 8px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--dot-inactive); transition: 0.3s; }
+        .dot.active { background: var(--dot-active); transform: scale(1.3); }
     </style>
 </head>
 <body>
@@ -196,10 +215,7 @@
     </div>
 
     <div id="login-view">
-        <button class="theme-toggle-btn login-theme-pos" onclick="app.toggleTheme()">
-            <span class="theme-icon-text">🌙</span>
-        </button>
-
+        <button class="theme-toggle-btn login-theme-pos" onclick="app.toggleTheme()"><span class="theme-icon-text">🌙</span></button>
         <div class="login-card slide-up">
             <div class="logo-circle pulse"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
             <h2 class="login-title">Welcome Back</h2>
@@ -209,9 +225,8 @@
                 <input type="password" id="password" class="styled-input" placeholder="Password">
                 <button type="submit" class="btn-primary">Sign In</button>
             </form>
-            
             <div class="exclusive-badge">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 Exclusive Only For My Baby
             </div>
         </div>
@@ -219,11 +234,9 @@
 
     <div id="app-view">
         <nav class="app-nav">
-            <span style="font-weight: 800; font-size: 20px; letter-spacing: -0.5px;">Nicole's Book</span>
+            <span style="font-weight: 800; font-size: 18px; letter-spacing: -0.5px;">Nicole's Book</span>
             <div class="nav-actions">
-                <button class="nav-btn theme-toggle-btn" style="width:38px;height:38px;border:none;box-shadow:none;" onclick="app.toggleTheme()">
-                    <span class="theme-icon-text">🌙</span>
-                </button>
+                <button class="theme-toggle-btn" style="width:36px;height:36px;" onclick="app.toggleTheme()"><span class="theme-icon-text">🌙</span></button>
                 <button class="nav-btn" onclick="app.logout()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></button>
             </div>
         </nav>
@@ -243,10 +256,8 @@
     <div id="reader-view">
         <div class="reader-header">
             <button class="header-btn" onclick="app.closeReader()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg></button>
-            <div style="text-align:center;"><span id="header-title" style="font-weight:700; font-size:15px;">Letter #1</span><br><span id="header-counter" style="font-size:12px; color:var(--text-sub); opacity: 0.8;">1 of 80</span></div>
-            <button class="header-btn theme-toggle-btn" style="width:38px;height:38px;border:none;box-shadow:none;background:transparent;" onclick="app.toggleTheme()">
-                <span class="theme-icon-text">🌙</span>
-            </button>
+            <div style="text-align:center;"><span id="header-title" style="font-weight:700; font-size:14px;">Letter #1</span><br><span id="header-counter" style="font-size:11px; color:var(--text-sub); opacity: 0.8;">1 of 80</span></div>
+            <button class="header-btn theme-toggle-btn" style="width:36px;height:36px;background:transparent;border:none;box-shadow:none;" onclick="app.toggleTheme()"><span class="theme-icon-text">🌙</span></button>
         </div>
         <div class="reader-scroll-area">
             <div id="reader-card-content" class="letter-card-display">
@@ -259,9 +270,9 @@
             </div>
         </div>
         <div class="reader-controls">
-            <button class="control-btn" id="btn-prev" onclick="app.prevLetter()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg> Prev</button>
+            <button class="control-btn" id="btn-prev" onclick="app.prevLetter()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg> Prev</button>
             <div class="pagination-dots" id="dots-container"></div>
-            <button class="control-btn" id="btn-next" onclick="app.nextLetter()">Next <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+            <button class="control-btn" id="btn-next" onclick="app.nextLetter()">Next <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
         </div>
     </div>
 
@@ -770,13 +781,9 @@
                 const app = {
             currentIndex: 0,
             init() {
-                // Initial Theme Load
                 const isDark = localStorage.getItem('theme') === 'dark';
-                if (isDark) {
-                    document.body.setAttribute('data-theme', 'dark');
-                }
+                if (isDark) document.body.setAttribute('data-theme', 'dark');
                 this.updateThemeIcons(isDark);
-
                 if (sessionStorage.getItem('isLoggedIn') === 'true') this.showApp();
             },
             login(e) {
@@ -795,7 +802,7 @@
             renderList(data) {
                 const list = document.getElementById('card-list'); if(!list) return; list.innerHTML = '';
                 data.forEach((item, index) => {
-                    const el = document.createElement('div'); el.className = 'card slide-up'; el.style.animationDelay = `${index * 0.05}s`;
+                    const el = document.createElement('div'); el.className = 'card slide-up'; el.style.animationDelay = `${index * 0.03}s`;
                     el.onclick = () => this.openReader(index);
                     el.innerHTML = `<div class="list-icon">${this.getIcon(item)}</div><div style="flex:1;"><div style="font-weight:700;margin-bottom:4px;">${item.title}</div><div style="font-size:13px;color:var(--text-sub);">${item.content.substring(0, 50)}...</div></div>`;
                     list.appendChild(el);
@@ -826,29 +833,19 @@
             },
             nextLetter() { if (this.currentIndex < letters.length - 1) { this.currentIndex++; this.updateReader(); } },
             prevLetter() { if (this.currentIndex > 0) { this.currentIndex--; this.updateReader(); } },
-            
             toggleTheme() {
                 const isDark = document.body.getAttribute('data-theme') === 'dark';
                 const newMode = !isDark;
-                
-                if (newMode) {
-                    document.body.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    document.body.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'light');
-                }
+                if (newMode) { document.body.setAttribute('data-theme', 'dark'); localStorage.setItem('theme', 'dark'); }
+                else { document.body.removeAttribute('data-theme'); localStorage.setItem('theme', 'light'); }
                 this.updateThemeIcons(newMode);
             },
-
             updateThemeIcons(isDark) {
                 const iconChar = isDark ? '☀️' : '🌙';
-                // Update ALL theme buttons
-                const buttons = document.querySelectorAll('.theme-icon-text');
-                buttons.forEach(btn => btn.innerText = iconChar);
+                document.querySelectorAll('.theme-icon-text').forEach(el => el.innerText = iconChar);
             }
         };
         app.init();
     </script>
 </body>
-</html>        
+</html>                
